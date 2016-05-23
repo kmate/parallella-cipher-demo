@@ -1,6 +1,6 @@
 name:                parallella-cipher-demo
 version:             0.1.0.0
-synopsis:            Demo application for encription on Parallella using RAW-Feldspar and Zeldspar
+synopsis:            Demo application for encryption on Parallella using RAW-Feldspar and Zeldspar
 license-file:        LICENSE
 -- author:              Máté Karácsony
 maintainer:          k_mate@inf.elte.hu

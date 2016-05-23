@@ -1,5 +1,5 @@
 # pparallella-cipher-demo
-Demo application for encription on Parallella using RAW-Feldspar and Zeldspar
+Demo application for encryption on Parallella using RAW-Feldspar and Zeldspar
 
 ## Instructions
 
