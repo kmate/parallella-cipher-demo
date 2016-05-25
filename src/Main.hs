@@ -37,6 +37,7 @@ mergeBlock = do
     r <- receive
     emit $ (i2n l :: Block) `shiftL` 32 .|. i2n r
 
+-- See: https://upload.wikimedia.org/wikipedia/commons/2/22/BlowfishFFunction.svg
 f :: LSbox -> HalfBlock -> HalfBlock
 f sbox x = ((sboxAt 0 a + sboxAt 1 b) ⊕ sboxAt 2 c) + sboxAt 3 d
   where
@@ -73,6 +74,7 @@ whitening pbox = do
 -- Parallel encryption and decryption on device cores
 --------------------------------------------------------------------------------
 
+-- See: https://upload.wikimedia.org/wikipedia/commons/5/5e/Blowfish_diagram.png
 -- TODO: allocate cores in an S-shape!
 encrypt :: RContext -> MulticoreZ (Data Word64) (Data Word64) ()
 encrypt rctx = (firstRound `on` 0)
