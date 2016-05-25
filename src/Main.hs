@@ -1,43 +1,52 @@
 module Main where
 
-import qualified Prelude as P
+import Prelude as P hiding ((>=), round)
 import qualified System.IO as S
 
-import Zeldspar.Multicore
+import Zeldspar.Multicore hiding ((++), foldl1, map, round)
 
 
-type Key = Dim1 (IArr Word32)
+type Key = Dim1 (IArr Word8)
+type Block = Data Word64
+type HalfBlock = Data Word32
 
+-- Blowfish context and boxes in core-local memory
 type LPbox = IArr Word32
 type LSbox = IArr Word32
 type LContext = (LPbox, LSbox)
 
+-- Blowfish context and boxes in remote shared memory
 type RPbox = SharedArr Word32
 type RSbox = SharedArr Word32
 type RContext = (RPbox, RSbox)
 
 
-fetch :: RContext -> CoreComp LContext
-fetch (rpbox,rsbox) = do
-    lpbox <- newArr 18
-    readArr rpbox (0,17) lpbox
-    lpbox <- unsafeFreezeArr lpbox
-    lsbox  <- newArr 1024
-    readArr rsbox (0,1023) lsbox
-    lsbox <- unsafeFreezeArr lsbox
-    return (lpbox, lsbox)
+--------------------------------------------------------------------------------
+-- Blowfish encryption and Feistel network building blocks
+--------------------------------------------------------------------------------
 
+splitBlock :: MonadComp m => Z Block HalfBlock m ()
+splitBlock = do
+    b <- receive
+    emit $ i2n $ b `shiftR` 32
+    emit $ i2n b
 
-f :: LSbox -> Data Word32 -> Data Word32
+mergeBlock :: MonadComp m => Z HalfBlock Block m ()
+mergeBlock = do
+    l <- receive
+    r <- receive
+    emit $ (i2n l :: Block) `shiftL` 32 + i2n r
+
+f :: LSbox -> HalfBlock -> HalfBlock
 f sbox x = ((sboxAt 0 a + sboxAt 1 b) ⊕ sboxAt 2 c) + sboxAt 3 d
   where
     sboxAt layer i = sbox ! (layer * 256 + i)
-    a = (x .&. 0xff000000) `shiftR` 24
-    b = (x .&. 0x00ff0000) `shiftR` 16
-    c = (x .&. 0x0000ff00) `shiftR` 8
-    d =  x .&. 0x000000ff
+    a =  x `shiftR` 24
+    b = (x `shiftR` 16) .&. 0xff
+    c = (x `shiftR` 8)  .&. 0xff
+    d =  x              .&. 0xff
 
-kernel :: MonadComp m => Index -> LContext -> Z (Data Word32) (Data Word32) m ()
+kernel :: MonadComp m => Index -> LContext -> Z HalfBlock HalfBlock m ()
 kernel i (pbox,sbox) = do
     l <- receive
     r <- receive
@@ -45,48 +54,85 @@ kernel i (pbox,sbox) = do
     emit $ l'
     emit $ (f sbox l') ⊕ r
 
-swap :: MonadComp m => Z (Data Word32) (Data Word32) m ()
+swap :: MonadComp m => Z HalfBlock HalfBlock m ()
 swap = do
     l <- receive
     r <- receive
     emit r
     emit l
 
-whitening :: Monad m => LPbox -> Z (Data Word32) (Data Word32) m ()
+whitening :: Monad m => LPbox -> Z HalfBlock HalfBlock m ()
 whitening pbox = do
     l <- receive
     r <- receive
-    emit $ l ⊕ (pbox ! 17)
-    emit $ r ⊕ (pbox ! 16)
+    emit $ l ⊕ (pbox ! value 17)
+    emit $ r ⊕ (pbox ! value 16)
+
+
+--------------------------------------------------------------------------------
+-- Parallel encryption and decryption on device cores
+--------------------------------------------------------------------------------
 
 -- TODO: allocate cores in an S-shape!
-encrypt :: RContext -> MulticoreZ (Data Word32) (Data Word32) ()
-encrypt rctx = P.foldl1 connect cores
+encrypt :: RContext -> MulticoreZ (Data Word64) (Data Word64) ()
+encrypt rctx = (firstRound `on` 0)
+         |>>>| (foldl1 (|>>>|) [ round rctx i `on` i | i <- [1..14] ])
+         |>>>| (lastRound `on` 15)
   where
-    cores = [(lift (fetch rctx) >>= \ctx -> loop (kernel i ctx >>> swap)) `on` i | i <- [0..14] ]
-       P.++ [(lift (fetch rctx) >>= \ctx@(pbox,_) -> loop (kernel 15 ctx >>> whitening pbox)) `on` 15]
-    connect a b = a |>>chanSize>>| b
+    firstRound = loop splitBlock >>> round rctx 0
+    lastRound = do
+        ctx@(pbox,_) <- lift $ fetch rctx
+        loop (kernel 15 ctx >>> whitening pbox >>> mergeBlock)
+
+round :: RContext -> Index -> CoreZ HalfBlock HalfBlock ()
+round rctx i = do
+    ctx <- lift $ fetch rctx
+    loop (kernel i ctx >>> swap)
+
+-- | Fetch a remote shared context to the core-local memory
+fetch :: RContext -> CoreComp LContext
+fetch (rpbox,rsbox) = do
+    -- local allocation
+    lpbox <- newArr 18
+    lsbox <- newArr 1024
+    -- fetch data from shared memory
+    readArr rpbox (0,17)   lpbox
+    readArr rsbox (0,1023) lsbox
+    -- treat boxes as immutable
+    lpbox <- unsafeFreezeArr lpbox
+    lsbox <- unsafeFreezeArr lsbox
+    return (lpbox, lsbox)
 
 
-fromPair :: Monad m => Z (Data Word32, Data Word32) (Data Word32) m ()
-fromPair = do
+--------------------------------------------------------------------------------
+-- Fused sequential encryption function for host
+--------------------------------------------------------------------------------
+
+encryptSeq :: LContext -> Ref Word32 -> Ref Word32 -> Host ()
+encryptSeq ctx@(pbox,_) lr rr = do
+    let round i = kernel i ctx >>> swap
+        lastRound = kernel 15 ctx >>> whitening pbox
+        rounds = map round [0..14] ++ [ lastRound ]
+        input = getRef lr >>= \l -> getRef rr >>= \r -> return (l, r)
+        output (l,r) = setRef lr l >> setRef rr r
+    translate (seqPair >>> (foldl1 (>>>) rounds) >>> unseqPair) input output
+
+seqPair :: Monad m => Z (HalfBlock, HalfBlock) HalfBlock m ()
+seqPair = do
     (a,b) <- receive
     emit a
     emit b
 
-toPair :: Monad m => Z (Data Word32) (Data Word32, Data Word32) m ()
-toPair = do
+unseqPair :: Monad m => Z HalfBlock (HalfBlock, HalfBlock) m ()
+unseqPair = do
     a <- receive
     b <- receive
     emit (a,b)
 
-encryptSeq :: LContext -> Ref Word32 -> Ref Word32 -> Host ()
-encryptSeq ctx@(pbox,_) lr rr = do
-    let parts = [kernel i  ctx >>> swap | i <- [0..14]]
-           P.++ [kernel 15 ctx >>> whitening pbox]
-        input = getRef lr >>= \l -> getRef rr >>= \r -> return (l, r)
-        output (l,r) = setRef lr l >> setRef rr r
-    translate (fromPair >>> (P.foldl1 (>>>) parts) >>> toPair) input output
+
+--------------------------------------------------------------------------------
+-- Blowfish context creation and initialization
+--------------------------------------------------------------------------------
 
 newContext :: Multicore RContext
 newContext = do
@@ -94,25 +140,25 @@ newContext = do
     sbox <- allocSArr 1024
     return (pbox,sbox)
 
-initialize :: RContext -> Key -> Host ()
-initialize rctx@(rpbox,rsbox) (Dim1 keyLen key) = do
+initContext :: RContext -> Key -> Host ()
+initContext rctx@(rpbox,rsbox) (Dim1 keyLen key) = do
     -- initialize S-box with original values
     lsbox <- initArr initSbox
     -- update initial P-box with (cycling) key data
     lpbox <- initArr initPbox
     jr <- initRef (0 :: Data Index)
     for (0, 1, Excl 18) $ \i -> do
+        dr <- initRef (0 :: Data Word32)
+        for (0 :: Data Index, 1, Excl 4) $ const $ do
+            j <- getRef jr
+            d <- getRef dr
+            let d' = (d `shiftL` 8) .|. i2n (key ! j)
+            setRef dr d'
+            let j' = (j + 1 >= keyLen) ? 0 $ (j + 1)
+            setRef jr j'
         p <- getArr i lpbox
-        j <- getRef jr
-        let j' = (j < keyLen) ? j $ 0
-        setRef jr j'
-        setArr i (p ⊕ (key ! j')) lpbox
-
-    for (0, 1, Excl 18) $ \i -> do
-        p :: Data Word32 <- getArr i lpbox
-        printf "P[%u]: %u\n" i p
-
-
+        d <- getRef dr
+        setArr i (p ⊕ d) lpbox
     -- create a host-local context
     lpbox' <- unsafeFreezeArr lpbox
     lsbox' <- unsafeFreezeArr lsbox
@@ -126,12 +172,6 @@ initialize rctx@(rpbox,rsbox) (Dim1 keyLen key) = do
         r :: Data Word32 <- getRef rr
         setArr i       l lpbox
         setArr (i + 1) r lpbox
-
-    for (0, 1, Excl 18) $ \i -> do
-        p :: Data Word32 <- getArr i lpbox
-        printf "P[%u]: %u\n" i p
-
-
     -- apply encryption on S-box
     for (0, 2, Excl 1024) $ \i -> do
         encryptSeq lctx lr rr
@@ -144,56 +184,59 @@ initialize rctx@(rpbox,rsbox) (Dim1 keyLen key) = do
     writeArr rsbox (0,1023) lsbox
 
 
+--------------------------------------------------------------------------------
+-- Main program and utilities
+--------------------------------------------------------------------------------
+
+chanSize :: SizeSpec (Data a)
+chanSize = 10
+
+a |>>>| b = a |>>chanSize>>| b
 
 readKey :: Host Key
 readKey = liftHost $ do
-    printf "Key length: "
     keyLen :: Data Length <- fget stdin
     key <- newArr keyLen
     for (0, 1, Excl keyLen) $ \i -> do
-        printf "Key [%d]: " i
         k <- fget stdin
         setArr i k key
     key <- unsafeFreezeArr key
     return $ Dim1 keyLen key
 
-chanSize :: SizeSpec (Data Word32)
-chanSize = 10
-
-
-
 mainProgram :: Multicore ()
 mainProgram = do
     ctx <- newContext
     onHost $ do
+        liftHost $ addInclude "\"io.h\""
         key <- readKey
-        initialize ctx key
+        initContext ctx key
+    let input = do
+            br :: Ref Word64 <- newRef
+            isOpen :: Data Bool <- liftHost $ callFun "read_block" [ refArg br ]
+            b :: Block <- getRef br
+            return (b, isOpen)
+        output block = liftHost $ callFun "write_block" [valArg (block :: Block)]
+    runZ (encrypt ctx) input chanSize output chanSize
+
 
 main = do
     let outFile = "gen/cipher.c"
     h <- S.openFile outFile WriteMode
     S.hPutStrLn h $ compile mainProgram
     S.hClose h
-    putStrLn $ "PThread source generated: " P.++ show outFile
+    putStrLn $ "PThread source generated: " ++ show outFile
 
     let modules = compileAll `onParallella` mainProgram
     outFiles <- forM modules $ \(name, contents) -> do
         let name' = if name P.== "main" then "host" else name
-            path  = "gen/" P.++ name' P.++ ".c"
+            path  = "gen/" ++ name' ++ ".c"
         writeFile path contents
         return path
-    putStrLn $ "Epiphany sources generated: " P.++ show outFiles
-
-runCompiled = runCompiled' opts mainProgram
-  where
-    opts = defaultExtCompilerOpts
-        { externalFlagsPre  = ["-I../raw-feldspar-mcs/include"]
-        , externalFlagsPost = ["-lpthread"]
-        }
+    putStrLn $ "Epiphany sources generated: " ++ show outFiles
 
 
 --------------------------------------------------------------------------------
--- Initial S and P-boxes from http://www.hcsw.org/haskell/blowfish.hs
+-- Initial Blowfish S- and P-boxes from http://www.hcsw.org/haskell/blowfish.hs
 --------------------------------------------------------------------------------
 
 type RawPbox = [Word32]
