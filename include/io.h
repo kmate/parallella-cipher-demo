@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include <pthread.h>
 
@@ -43,6 +45,17 @@ bool write_block(uint64_t b) {
   }
 
   return more;
+}
+
+void read_key(uint8_t *key, uint32_t *keyLen) {
+  char *buff = NULL;
+  size_t len = 0;
+  ssize_t read = getline(&buff, &len, stdin);
+  if (read > 0) {
+    *keyLen = strlen(buff) - 1; // drop newline character
+    memcpy(key, buff, *keyLen);
+  }
+  free(buff);
 }
 
 #endif // IO_H_

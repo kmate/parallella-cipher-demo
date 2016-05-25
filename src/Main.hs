@@ -35,7 +35,7 @@ mergeBlock :: MonadComp m => Z HalfBlock Block m ()
 mergeBlock = do
     l <- receive
     r <- receive
-    emit $ (i2n l :: Block) `shiftL` 32 + i2n r
+    emit $ (i2n l :: Block) `shiftL` 32 .|. i2n r
 
 f :: LSbox -> HalfBlock -> HalfBlock
 f sbox x = ((sboxAt 0 a + sboxAt 1 b) ⊕ sboxAt 2 c) + sboxAt 3 d
@@ -193,13 +193,15 @@ chanSize = 10
 
 a |>>>| b = a |>>chanSize>>| b
 
+maxKeyLen :: Length
+maxKeyLen = 72  -- specified in 8 bit characters, 576 bits
+
 readKey :: Host Key
 readKey = liftHost $ do
-    keyLen :: Data Length <- fget stdin
-    key <- newArr keyLen
-    for (0, 1, Excl keyLen) $ \i -> do
-        k <- fget stdin
-        setArr i k key
+    keyLenRef :: Ref Length <- newRef
+    key <- newArr (value maxKeyLen)
+    callProc "read_key" [ arrArg key, refArg keyLenRef ]
+    keyLen <- unsafeFreezeRef keyLenRef
     key <- unsafeFreezeArr key
     return $ Dim1 keyLen key
 
