@@ -1,2 +1,2 @@
-echo "$1" | cat - "$2" | ./cipher
+echo -n "$1" | md5sum | cat - "$2" | ./cipher
 

@@ -6,9 +6,9 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <unistd.h>
-void *thread_t160(void *unused);
+void *thread_t159(void *unused);
 e_epiphany_t group0;
-e_mem_t shm157;
+e_mem_t shm156;
 off_t sa0 = 16777216;
 off_t sa1 = 16777296;
 off_t la2 = 8192;
@@ -126,146 +126,146 @@ off_t la113 = 8288;
 off_t la114 = 8304;
 off_t la115 = 8320;
 off_t sa116 = 16781488;
-void *thread_t160(void *unused)
+void *thread_t159(void *unused)
 {
-    bool r161;
+    bool r160;
     
-    r161 = true;
+    r160 = true;
     while (1) {
-        bool v162;
-        uint64_t r163;
-        bool _a164[1];
-        bool *a164 = _a164;
-        bool v165;
-        bool _a166[1];
-        bool *a166 = _a166;
+        bool v161;
+        uint64_t r162;
+        bool _a163[1];
+        bool *a163 = _a163;
+        bool v164;
+        bool _a165[1];
+        bool *a165 = _a165;
         
-        v162 = r161;
-        if (!v162)
+        v161 = r160;
+        if (!v161)
             break;
-        host_read_local(&group0, 3, 3, la112, a164, 0, 0, 0);
-        v165 = a164[0];
-        a166[0] = v165;
-        host_write_local(&group0, 3, 3, la113, a166, 0, 0, 0);
-        if (v165) {
-            uint64_t _a167[1];
-            uint64_t *a167 = _a167;
-            uint32_t r168;
-            uint32_t _a190[1];
-            uint32_t *a190 = _a190;
-            uint32_t v191;
-            uint32_t _a192[1];
-            uint32_t *a192 = _a192;
-            uint32_t v193;
-            uint64_t v196;
+        host_read_local(&group0, 3, 3, la112, a163, 0, 0, 0);
+        v164 = a163[0];
+        a165[0] = v164;
+        host_write_local(&group0, 3, 3, la113, a165, 0, 0, 0);
+        if (v164) {
+            uint64_t _a166[1];
+            uint64_t *a166 = _a166;
+            uint32_t r167;
+            uint32_t _a189[1];
+            uint32_t *a189 = _a189;
+            uint32_t v190;
+            uint32_t _a191[1];
+            uint32_t *a191 = _a191;
+            uint32_t v192;
+            uint64_t v195;
             
-            r168 = 0;
+            r167 = 0;
             while (1) {
-                bool _a169[1];
-                bool *a169 = _a169;
-                bool v170;
+                bool _a168[1];
+                bool *a168 = _a168;
+                bool v169;
+                uint32_t v170;
                 uint32_t v171;
-                uint32_t v172;
-                uint32_t _a173[1];
-                uint32_t *a173 = _a173;
-                uint32_t v174;
-                uint32_t _a175[1];
-                uint32_t *a175 = _a175;
-                uint32_t v176;
-                uint32_t r177;
+                uint32_t _a172[1];
+                uint32_t *a172 = _a172;
+                uint32_t v173;
+                uint32_t _a174[1];
+                uint32_t *a174 = _a174;
+                uint32_t v175;
+                uint32_t r176;
+                uint32_t let177;
                 uint32_t let178;
-                uint32_t let179;
-                uint32_t r180;
-                uint32_t let181;
+                uint32_t r179;
+                uint32_t let180;
+                uint32_t r181;
                 uint32_t r182;
-                uint32_t r183;
                 
-                host_read_local(&group0, 3, 3, la112, a169, 0, 0, 0);
-                v170 = a169[0];
-                v171 = r168;
-                if (!(v170 && v171 < 1))
+                host_read_local(&group0, 3, 3, la112, a168, 0, 0, 0);
+                v169 = a168[0];
+                v170 = r167;
+                if (!(v169 && v170 < 1))
                     break;
-                v172 = r168;
-                host_read_local(&group0, 3, 3, la114, a173, 0, 0, 0);
-                v174 = a173[0];
-                host_read_local(&group0, 3, 3, la115, a175, 0, 0, 0);
-                v176 = a175[0];
-                r177 = 11;
-                let178 = r177 + v176 - v174;
-                let179 = r177;
-                r180 = let178 < let179 ? let178 : let178 - let179;
-                let181 = -v172 + 1;
-                r182 = let181 <= r180 ? let181 : r180;
-                if (r182 > 0) {
+                v171 = r167;
+                host_read_local(&group0, 3, 3, la114, a172, 0, 0, 0);
+                v173 = a172[0];
+                host_read_local(&group0, 3, 3, la115, a174, 0, 0, 0);
+                v175 = a174[0];
+                r176 = 11;
+                let177 = r176 + v175 - v173;
+                let178 = r176;
+                r179 = let177 < let178 ? let177 : let177 - let178;
+                let180 = -v171 + 1;
+                r181 = let180 <= r179 ? let180 : r179;
+                if (r181 > 0) {
+                    uint32_t let185;
                     uint32_t let186;
-                    uint32_t let187;
-                    uint32_t r188;
-                    uint32_t _a189[1];
-                    uint32_t *a189 = _a189;
+                    uint32_t r187;
+                    uint32_t _a188[1];
+                    uint32_t *a188 = _a188;
                     
-                    if (v174 + r182 <= r177) {
-                        host_read_shared(&shm157, a167, v174, v172, v172 +
-                                         r182 - 1);
+                    if (v173 + r181 <= r176) {
+                        host_read_shared(&shm156, a166, v173, v171, v171 +
+                                         r181 - 1);
                     } else {
+                        uint32_t r183;
                         uint32_t r184;
-                        uint32_t r185;
                         
-                        r184 = r177 - v174;
-                        host_read_shared(&shm157, a167, v174, v172, v172 +
-                                         r184 - 1);
-                        r185 = v172 + r184;
-                        host_read_shared(&shm157, a167, 0, r185, r185 + r182 -
-                                         r184 - 1);
+                        r183 = r176 - v173;
+                        host_read_shared(&shm156, a166, v173, v171, v171 +
+                                         r183 - 1);
+                        r184 = v171 + r183;
+                        host_read_shared(&shm156, a166, 0, r184, r184 + r181 -
+                                         r183 - 1);
                     }
-                    let186 = v174 + r182;
-                    let187 = r177;
-                    r188 = let186 < let187 ? let186 : let186 - let187;
-                    a189[0] = r188;
-                    host_write_local(&group0, 3, 3, la114, a189, 0, 0, 0);
-                    r183 = r182;
+                    let185 = v173 + r181;
+                    let186 = r176;
+                    r187 = let185 < let186 ? let185 : let185 - let186;
+                    a188[0] = r187;
+                    host_write_local(&group0, 3, 3, la114, a188, 0, 0, 0);
+                    r182 = r181;
                 } else {
-                    r183 = 0;
+                    r182 = 0;
                 }
-                if (0 == r183) {
+                if (0 == r182) {
                     usleep(100);
                 } else {
-                    r168 = v172 + r183;
+                    r167 = v171 + r182;
                 }
             }
-            host_read_local(&group0, 3, 3, la114, a190, 0, 0, 0);
-            v191 = a190[0];
-            host_read_local(&group0, 3, 3, la115, a192, 0, 0, 0);
-            v193 = a192[0];
-            if (v191 == v193 && v193 == 10) {
+            host_read_local(&group0, 3, 3, la114, a189, 0, 0, 0);
+            v190 = a189[0];
+            host_read_local(&group0, 3, 3, la115, a191, 0, 0, 0);
+            v192 = a191[0];
+            if (v190 == v192 && v192 == 10) {
+                uint32_t _a193[1];
+                uint32_t *a193 = _a193;
                 uint32_t _a194[1];
                 uint32_t *a194 = _a194;
-                uint32_t _a195[1];
-                uint32_t *a195 = _a195;
                 
+                a193[0] = 0;
+                host_write_local(&group0, 3, 3, la114, a193, 0, 0, 0);
                 a194[0] = 0;
-                host_write_local(&group0, 3, 3, la114, a194, 0, 0, 0);
-                a195[0] = 0;
-                host_write_local(&group0, 3, 3, la115, a195, 0, 0, 0);
+                host_write_local(&group0, 3, 3, la115, a194, 0, 0, 0);
             }
-            v196 = a167[0];
-            r163 = v196;
+            v195 = a166[0];
+            r162 = v195;
         }
-        if (v165) {
-            uint64_t v197;
-            bool v198;
+        if (v164) {
+            uint64_t v196;
+            bool v197;
             
-            v197 = r163;
-            v198 = write_block(v197);
-            r161 = v198;
-            if (!v198) {
-                bool _a199[1];
-                bool *a199 = _a199;
+            v196 = r162;
+            v197 = write_block(v196);
+            r160 = v197;
+            if (!v197) {
+                bool _a198[1];
+                bool *a198 = _a198;
                 
-                a199[0] = false;
-                host_write_local(&group0, 3, 3, la112, a199, 0, 0, 0);
+                a198[0] = false;
+                host_write_local(&group0, 3, 3, la112, a198, 0, 0, 0);
             }
         } else {
-            r161 = false;
+            r160 = false;
         }
     }
     return NULL;
@@ -274,10 +274,9 @@ int main()
 {
     e_mem_t shm1;
     e_mem_t shm2;
-    uint32_t r3;
-    uint8_t _a4[72];
-    uint8_t *a4 = _a4;
-    uint32_t _a5[] = {3509652390, 2564797868, 805139163, 3491422135, 3101798381,
+    uint8_t _a3[16];
+    uint8_t *a3 = _a3;
+    uint32_t _a4[] = {3509652390, 2564797868, 805139163, 3491422135, 3101798381,
                       1780907670, 3128725573, 4046225305, 614570311, 3012652279,
                       134345442, 2240740374, 1667834072, 1901547113, 2757295779,
                       4103290238, 227898511, 1921955416, 1904987480, 2182433518,
@@ -497,219 +496,219 @@ int main()
                       50039436, 29584100, 3605783033, 2429876329, 2791104160,
                       1057563949, 3255363231, 3075367218, 3463963227,
                       1469046755, 985887462};
-    uint32_t *a5 = _a5;
-    uint32_t _a6[] = {608135816, 2242054355, 320440878, 57701188, 2752067618,
+    uint32_t *a4 = _a4;
+    uint32_t _a5[] = {608135816, 2242054355, 320440878, 57701188, 2752067618,
                       698298832, 137296536, 3964562569, 1160258022, 953160567,
                       3193202383, 887688300, 3232508343, 3380367581, 1065670069,
                       3041331479, 2450970073, 2306472731};
-    uint32_t *a6 = _a6;
-    uint32_t r7;
-    uint32_t v8;
+    uint32_t *a5 = _a5;
+    uint32_t r6;
+    uint32_t v7;
+    uint32_t r15;
     uint32_t r16;
-    uint32_t r17;
-    uint32_t v18;
-    uint32_t v39;
+    uint32_t v17;
+    uint32_t v38;
+    bool _a59[1];
+    bool *a59 = _a59;
     bool _a60[1];
     bool *a60 = _a60;
-    bool _a61[1];
-    bool *a61 = _a61;
-    e_mem_t shm62;
+    e_mem_t shm61;
+    uint32_t _a62[1];
+    uint32_t *a62 = _a62;
     uint32_t _a63[1];
     uint32_t *a63 = _a63;
-    uint32_t _a64[1];
-    uint32_t *a64 = _a64;
+    bool _a64[1];
+    bool *a64 = _a64;
     bool _a65[1];
     bool *a65 = _a65;
-    bool _a66[1];
-    bool *a66 = _a66;
+    uint32_t _a66[1];
+    uint32_t *a66 = _a66;
     uint32_t _a67[1];
     uint32_t *a67 = _a67;
     uint32_t _a68[1];
     uint32_t *a68 = _a68;
     uint32_t _a69[1];
     uint32_t *a69 = _a69;
-    uint32_t _a70[1];
-    uint32_t *a70 = _a70;
+    bool _a70[1];
+    bool *a70 = _a70;
     bool _a71[1];
     bool *a71 = _a71;
-    bool _a72[1];
-    bool *a72 = _a72;
+    uint32_t _a72[1];
+    uint32_t *a72 = _a72;
     uint32_t _a73[1];
     uint32_t *a73 = _a73;
     uint32_t _a74[1];
     uint32_t *a74 = _a74;
     uint32_t _a75[1];
     uint32_t *a75 = _a75;
-    uint32_t _a76[1];
-    uint32_t *a76 = _a76;
+    bool _a76[1];
+    bool *a76 = _a76;
     bool _a77[1];
     bool *a77 = _a77;
-    bool _a78[1];
-    bool *a78 = _a78;
+    uint32_t _a78[1];
+    uint32_t *a78 = _a78;
     uint32_t _a79[1];
     uint32_t *a79 = _a79;
     uint32_t _a80[1];
     uint32_t *a80 = _a80;
     uint32_t _a81[1];
     uint32_t *a81 = _a81;
-    uint32_t _a82[1];
-    uint32_t *a82 = _a82;
+    bool _a82[1];
+    bool *a82 = _a82;
     bool _a83[1];
     bool *a83 = _a83;
-    bool _a84[1];
-    bool *a84 = _a84;
+    uint32_t _a84[1];
+    uint32_t *a84 = _a84;
     uint32_t _a85[1];
     uint32_t *a85 = _a85;
     uint32_t _a86[1];
     uint32_t *a86 = _a86;
     uint32_t _a87[1];
     uint32_t *a87 = _a87;
-    uint32_t _a88[1];
-    uint32_t *a88 = _a88;
+    bool _a88[1];
+    bool *a88 = _a88;
     bool _a89[1];
     bool *a89 = _a89;
-    bool _a90[1];
-    bool *a90 = _a90;
+    uint32_t _a90[1];
+    uint32_t *a90 = _a90;
     uint32_t _a91[1];
     uint32_t *a91 = _a91;
     uint32_t _a92[1];
     uint32_t *a92 = _a92;
     uint32_t _a93[1];
     uint32_t *a93 = _a93;
-    uint32_t _a94[1];
-    uint32_t *a94 = _a94;
+    bool _a94[1];
+    bool *a94 = _a94;
     bool _a95[1];
     bool *a95 = _a95;
-    bool _a96[1];
-    bool *a96 = _a96;
+    uint32_t _a96[1];
+    uint32_t *a96 = _a96;
     uint32_t _a97[1];
     uint32_t *a97 = _a97;
     uint32_t _a98[1];
     uint32_t *a98 = _a98;
     uint32_t _a99[1];
     uint32_t *a99 = _a99;
-    uint32_t _a100[1];
-    uint32_t *a100 = _a100;
+    bool _a100[1];
+    bool *a100 = _a100;
     bool _a101[1];
     bool *a101 = _a101;
-    bool _a102[1];
-    bool *a102 = _a102;
+    uint32_t _a102[1];
+    uint32_t *a102 = _a102;
     uint32_t _a103[1];
     uint32_t *a103 = _a103;
     uint32_t _a104[1];
     uint32_t *a104 = _a104;
     uint32_t _a105[1];
     uint32_t *a105 = _a105;
-    uint32_t _a106[1];
-    uint32_t *a106 = _a106;
+    bool _a106[1];
+    bool *a106 = _a106;
     bool _a107[1];
     bool *a107 = _a107;
-    bool _a108[1];
-    bool *a108 = _a108;
+    uint32_t _a108[1];
+    uint32_t *a108 = _a108;
     uint32_t _a109[1];
     uint32_t *a109 = _a109;
     uint32_t _a110[1];
     uint32_t *a110 = _a110;
     uint32_t _a111[1];
     uint32_t *a111 = _a111;
-    uint32_t _a112[1];
-    uint32_t *a112 = _a112;
+    bool _a112[1];
+    bool *a112 = _a112;
     bool _a113[1];
     bool *a113 = _a113;
-    bool _a114[1];
-    bool *a114 = _a114;
+    uint32_t _a114[1];
+    uint32_t *a114 = _a114;
     uint32_t _a115[1];
     uint32_t *a115 = _a115;
     uint32_t _a116[1];
     uint32_t *a116 = _a116;
     uint32_t _a117[1];
     uint32_t *a117 = _a117;
-    uint32_t _a118[1];
-    uint32_t *a118 = _a118;
+    bool _a118[1];
+    bool *a118 = _a118;
     bool _a119[1];
     bool *a119 = _a119;
-    bool _a120[1];
-    bool *a120 = _a120;
+    uint32_t _a120[1];
+    uint32_t *a120 = _a120;
     uint32_t _a121[1];
     uint32_t *a121 = _a121;
     uint32_t _a122[1];
     uint32_t *a122 = _a122;
     uint32_t _a123[1];
     uint32_t *a123 = _a123;
-    uint32_t _a124[1];
-    uint32_t *a124 = _a124;
+    bool _a124[1];
+    bool *a124 = _a124;
     bool _a125[1];
     bool *a125 = _a125;
-    bool _a126[1];
-    bool *a126 = _a126;
+    uint32_t _a126[1];
+    uint32_t *a126 = _a126;
     uint32_t _a127[1];
     uint32_t *a127 = _a127;
     uint32_t _a128[1];
     uint32_t *a128 = _a128;
     uint32_t _a129[1];
     uint32_t *a129 = _a129;
-    uint32_t _a130[1];
-    uint32_t *a130 = _a130;
+    bool _a130[1];
+    bool *a130 = _a130;
     bool _a131[1];
     bool *a131 = _a131;
-    bool _a132[1];
-    bool *a132 = _a132;
+    uint32_t _a132[1];
+    uint32_t *a132 = _a132;
     uint32_t _a133[1];
     uint32_t *a133 = _a133;
     uint32_t _a134[1];
     uint32_t *a134 = _a134;
     uint32_t _a135[1];
     uint32_t *a135 = _a135;
-    uint32_t _a136[1];
-    uint32_t *a136 = _a136;
+    bool _a136[1];
+    bool *a136 = _a136;
     bool _a137[1];
     bool *a137 = _a137;
-    bool _a138[1];
-    bool *a138 = _a138;
+    uint32_t _a138[1];
+    uint32_t *a138 = _a138;
     uint32_t _a139[1];
     uint32_t *a139 = _a139;
     uint32_t _a140[1];
     uint32_t *a140 = _a140;
     uint32_t _a141[1];
     uint32_t *a141 = _a141;
-    uint32_t _a142[1];
-    uint32_t *a142 = _a142;
+    bool _a142[1];
+    bool *a142 = _a142;
     bool _a143[1];
     bool *a143 = _a143;
-    bool _a144[1];
-    bool *a144 = _a144;
+    uint32_t _a144[1];
+    uint32_t *a144 = _a144;
     uint32_t _a145[1];
     uint32_t *a145 = _a145;
     uint32_t _a146[1];
     uint32_t *a146 = _a146;
     uint32_t _a147[1];
     uint32_t *a147 = _a147;
-    uint32_t _a148[1];
-    uint32_t *a148 = _a148;
+    bool _a148[1];
+    bool *a148 = _a148;
     bool _a149[1];
     bool *a149 = _a149;
-    bool _a150[1];
-    bool *a150 = _a150;
+    uint32_t _a150[1];
+    uint32_t *a150 = _a150;
     uint32_t _a151[1];
     uint32_t *a151 = _a151;
     uint32_t _a152[1];
     uint32_t *a152 = _a152;
     uint32_t _a153[1];
     uint32_t *a153 = _a153;
-    uint32_t _a154[1];
-    uint32_t *a154 = _a154;
+    bool _a154[1];
+    bool *a154 = _a154;
     bool _a155[1];
     bool *a155 = _a155;
-    bool _a156[1];
-    bool *a156 = _a156;
+    uint32_t _a157[1];
+    uint32_t *a157 = _a157;
     uint32_t _a158[1];
     uint32_t *a158 = _a158;
-    uint32_t _a159[1];
-    uint32_t *a159 = _a159;
-    pthread_t t160;
-    bool r200;
-    bool _a232[1];
-    bool *a232 = _a232;
+    pthread_t t159;
+    bool r199;
+    bool _a231[1];
+    bool *a231 = _a231;
     
     e_init(0);
     e_reset_system();
@@ -717,35 +716,36 @@ int main()
     e_reset_group(&group0);
     e_alloc(&shm1, sa0, 72);
     e_alloc(&shm2, sa1, 4096);
-    read_key(a4, &r3);
-    r7 = 0;
-    for (v8 = 0; v8 < 18; v8++) {
-        uint32_t r9;
-        uint32_t v10;
+    read_key(a3);
+    r6 = 0;
+    for (v7 = 0; v7 < 18; v7++) {
+        uint32_t r8;
+        uint32_t v9;
+        uint32_t v13;
         uint32_t v14;
-        uint32_t v15;
         
-        r9 = 0;
-        for (v10 = 0; v10 < 4; v10++) {
+        r8 = 0;
+        for (v9 = 0; v9 < 4; v9++) {
+            uint32_t v10;
             uint32_t v11;
-            uint32_t v12;
-            uint32_t let13;
+            uint32_t let12;
             
-            v11 = r7;
-            v12 = r9;
-            r9 = v12 << 8 | (uint32_t) a4[v11];
-            let13 = v11 + 1;
-            r7 = let13 >= r3 ? 0 : let13;
+            v10 = r6;
+            v11 = r8;
+            r8 = v11 << 8 | (uint32_t) a3[v10];
+            let12 = v10 + 1;
+            r6 = let12 >= 16 ? 0 : let12;
         }
-        v14 = a6[v8];
-        v15 = r9;
-        a6[v8] = v14 ^ v15;
+        v13 = a5[v7];
+        v14 = r8;
+        a5[v7] = v13 ^ v14;
     }
+    r15 = 0;
     r16 = 0;
-    r17 = 0;
-    for (v18 = 0; v18 < 18; v18 = v18 + 2) {
+    for (v17 = 0; v17 < 18; v17 = v17 + 2) {
+        uint32_t v18;
         uint32_t v19;
-        uint32_t v20;
+        uint32_t r20;
         uint32_t r21;
         uint32_t r22;
         uint32_t r23;
@@ -761,86 +761,86 @@ int main()
         uint32_t r33;
         uint32_t r34;
         uint32_t r35;
-        uint32_t r36;
+        uint32_t v36;
         uint32_t v37;
-        uint32_t v38;
         
+        v18 = r15;
         v19 = r16;
-        v20 = r17;
-        r21 = v19 ^ a6[0];
-        r22 = ((((a5[r21 >> 24] + a5[(r21 >> 16 & 255) + 256]) ^ a5[(r21 >> 8 &
+        r20 = v18 ^ a5[0];
+        r21 = ((((a4[r20 >> 24] + a4[(r20 >> 16 & 255) + 256]) ^ a4[(r20 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r21 & 255) + 768]) ^ v20) ^ a6[1];
-        r23 = ((((a5[r22 >> 24] + a5[(r22 >> 16 & 255) + 256]) ^ a5[(r22 >> 8 &
+                a4[(r20 & 255) + 768]) ^ v19) ^ a5[1];
+        r22 = ((((a4[r21 >> 24] + a4[(r21 >> 16 & 255) + 256]) ^ a4[(r21 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r22 & 255) + 768]) ^ r21) ^ a6[2];
-        r24 = ((((a5[r23 >> 24] + a5[(r23 >> 16 & 255) + 256]) ^ a5[(r23 >> 8 &
+                a4[(r21 & 255) + 768]) ^ r20) ^ a5[2];
+        r23 = ((((a4[r22 >> 24] + a4[(r22 >> 16 & 255) + 256]) ^ a4[(r22 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r23 & 255) + 768]) ^ r22) ^ a6[3];
-        r25 = ((((a5[r24 >> 24] + a5[(r24 >> 16 & 255) + 256]) ^ a5[(r24 >> 8 &
+                a4[(r22 & 255) + 768]) ^ r21) ^ a5[3];
+        r24 = ((((a4[r23 >> 24] + a4[(r23 >> 16 & 255) + 256]) ^ a4[(r23 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r24 & 255) + 768]) ^ r23) ^ a6[4];
-        r26 = ((((a5[r25 >> 24] + a5[(r25 >> 16 & 255) + 256]) ^ a5[(r25 >> 8 &
+                a4[(r23 & 255) + 768]) ^ r22) ^ a5[4];
+        r25 = ((((a4[r24 >> 24] + a4[(r24 >> 16 & 255) + 256]) ^ a4[(r24 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r25 & 255) + 768]) ^ r24) ^ a6[5];
-        r27 = ((((a5[r26 >> 24] + a5[(r26 >> 16 & 255) + 256]) ^ a5[(r26 >> 8 &
+                a4[(r24 & 255) + 768]) ^ r23) ^ a5[5];
+        r26 = ((((a4[r25 >> 24] + a4[(r25 >> 16 & 255) + 256]) ^ a4[(r25 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r26 & 255) + 768]) ^ r25) ^ a6[6];
-        r28 = ((((a5[r27 >> 24] + a5[(r27 >> 16 & 255) + 256]) ^ a5[(r27 >> 8 &
+                a4[(r25 & 255) + 768]) ^ r24) ^ a5[6];
+        r27 = ((((a4[r26 >> 24] + a4[(r26 >> 16 & 255) + 256]) ^ a4[(r26 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r27 & 255) + 768]) ^ r26) ^ a6[7];
-        r29 = ((((a5[r28 >> 24] + a5[(r28 >> 16 & 255) + 256]) ^ a5[(r28 >> 8 &
+                a4[(r26 & 255) + 768]) ^ r25) ^ a5[7];
+        r28 = ((((a4[r27 >> 24] + a4[(r27 >> 16 & 255) + 256]) ^ a4[(r27 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r28 & 255) + 768]) ^ r27) ^ a6[8];
-        r30 = ((((a5[r29 >> 24] + a5[(r29 >> 16 & 255) + 256]) ^ a5[(r29 >> 8 &
+                a4[(r27 & 255) + 768]) ^ r26) ^ a5[8];
+        r29 = ((((a4[r28 >> 24] + a4[(r28 >> 16 & 255) + 256]) ^ a4[(r28 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r29 & 255) + 768]) ^ r28) ^ a6[9];
-        r31 = ((((a5[r30 >> 24] + a5[(r30 >> 16 & 255) + 256]) ^ a5[(r30 >> 8 &
+                a4[(r28 & 255) + 768]) ^ r27) ^ a5[9];
+        r30 = ((((a4[r29 >> 24] + a4[(r29 >> 16 & 255) + 256]) ^ a4[(r29 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r30 & 255) + 768]) ^ r29) ^ a6[10];
-        r32 = ((((a5[r31 >> 24] + a5[(r31 >> 16 & 255) + 256]) ^ a5[(r31 >> 8 &
+                a4[(r29 & 255) + 768]) ^ r28) ^ a5[10];
+        r31 = ((((a4[r30 >> 24] + a4[(r30 >> 16 & 255) + 256]) ^ a4[(r30 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r31 & 255) + 768]) ^ r30) ^ a6[11];
-        r33 = ((((a5[r32 >> 24] + a5[(r32 >> 16 & 255) + 256]) ^ a5[(r32 >> 8 &
+                a4[(r30 & 255) + 768]) ^ r29) ^ a5[11];
+        r32 = ((((a4[r31 >> 24] + a4[(r31 >> 16 & 255) + 256]) ^ a4[(r31 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r32 & 255) + 768]) ^ r31) ^ a6[12];
-        r34 = ((((a5[r33 >> 24] + a5[(r33 >> 16 & 255) + 256]) ^ a5[(r33 >> 8 &
+                a4[(r31 & 255) + 768]) ^ r30) ^ a5[12];
+        r33 = ((((a4[r32 >> 24] + a4[(r32 >> 16 & 255) + 256]) ^ a4[(r32 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r33 & 255) + 768]) ^ r32) ^ a6[13];
-        r35 = ((((a5[r34 >> 24] + a5[(r34 >> 16 & 255) + 256]) ^ a5[(r34 >> 8 &
+                a4[(r32 & 255) + 768]) ^ r31) ^ a5[13];
+        r34 = ((((a4[r33 >> 24] + a4[(r33 >> 16 & 255) + 256]) ^ a4[(r33 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r34 & 255) + 768]) ^ r33) ^ a6[14];
-        r36 = ((((a5[r35 >> 24] + a5[(r35 >> 16 & 255) + 256]) ^ a5[(r35 >> 8 &
+                a4[(r33 & 255) + 768]) ^ r32) ^ a5[14];
+        r35 = ((((a4[r34 >> 24] + a4[(r34 >> 16 & 255) + 256]) ^ a4[(r34 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r35 & 255) + 768]) ^ r34) ^ a6[15];
-        r16 = r36 ^ a6[17];
-        r17 = ((((a5[r36 >> 24] + a5[(r36 >> 16 & 255) + 256]) ^ a5[(r36 >> 8 &
+                a4[(r34 & 255) + 768]) ^ r33) ^ a5[15];
+        r15 = r35 ^ a5[17];
+        r16 = ((((a4[r35 >> 24] + a4[(r35 >> 16 & 255) + 256]) ^ a4[(r35 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r36 & 255) + 768]) ^ r35) ^ a6[16];
+                a4[(r35 & 255) + 768]) ^ r34) ^ a5[16];
+        v36 = r15;
         v37 = r16;
-        v38 = r17;
-        a6[v18] = v37;
-        a6[v18 + 1] = v38;
+        a5[v17] = v36;
+        a5[v17 + 1] = v37;
     }
-    for (v39 = 0; v39 < 1024; v39 = v39 + 2) {
+    for (v38 = 0; v38 < 1024; v38 = v38 + 2) {
+        uint32_t v39;
         uint32_t v40;
-        uint32_t v41;
+        uint32_t r41;
         uint32_t r42;
         uint32_t r43;
         uint32_t r44;
@@ -856,417 +856,416 @@ int main()
         uint32_t r54;
         uint32_t r55;
         uint32_t r56;
-        uint32_t r57;
+        uint32_t v57;
         uint32_t v58;
-        uint32_t v59;
         
+        v39 = r15;
         v40 = r16;
-        v41 = r17;
-        r42 = v40 ^ a6[0];
-        r43 = ((((a5[r42 >> 24] + a5[(r42 >> 16 & 255) + 256]) ^ a5[(r42 >> 8 &
+        r41 = v39 ^ a5[0];
+        r42 = ((((a4[r41 >> 24] + a4[(r41 >> 16 & 255) + 256]) ^ a4[(r41 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r42 & 255) + 768]) ^ v41) ^ a6[1];
-        r44 = ((((a5[r43 >> 24] + a5[(r43 >> 16 & 255) + 256]) ^ a5[(r43 >> 8 &
+                a4[(r41 & 255) + 768]) ^ v40) ^ a5[1];
+        r43 = ((((a4[r42 >> 24] + a4[(r42 >> 16 & 255) + 256]) ^ a4[(r42 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r43 & 255) + 768]) ^ r42) ^ a6[2];
-        r45 = ((((a5[r44 >> 24] + a5[(r44 >> 16 & 255) + 256]) ^ a5[(r44 >> 8 &
+                a4[(r42 & 255) + 768]) ^ r41) ^ a5[2];
+        r44 = ((((a4[r43 >> 24] + a4[(r43 >> 16 & 255) + 256]) ^ a4[(r43 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r44 & 255) + 768]) ^ r43) ^ a6[3];
-        r46 = ((((a5[r45 >> 24] + a5[(r45 >> 16 & 255) + 256]) ^ a5[(r45 >> 8 &
+                a4[(r43 & 255) + 768]) ^ r42) ^ a5[3];
+        r45 = ((((a4[r44 >> 24] + a4[(r44 >> 16 & 255) + 256]) ^ a4[(r44 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r45 & 255) + 768]) ^ r44) ^ a6[4];
-        r47 = ((((a5[r46 >> 24] + a5[(r46 >> 16 & 255) + 256]) ^ a5[(r46 >> 8 &
+                a4[(r44 & 255) + 768]) ^ r43) ^ a5[4];
+        r46 = ((((a4[r45 >> 24] + a4[(r45 >> 16 & 255) + 256]) ^ a4[(r45 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r46 & 255) + 768]) ^ r45) ^ a6[5];
-        r48 = ((((a5[r47 >> 24] + a5[(r47 >> 16 & 255) + 256]) ^ a5[(r47 >> 8 &
+                a4[(r45 & 255) + 768]) ^ r44) ^ a5[5];
+        r47 = ((((a4[r46 >> 24] + a4[(r46 >> 16 & 255) + 256]) ^ a4[(r46 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r47 & 255) + 768]) ^ r46) ^ a6[6];
-        r49 = ((((a5[r48 >> 24] + a5[(r48 >> 16 & 255) + 256]) ^ a5[(r48 >> 8 &
+                a4[(r46 & 255) + 768]) ^ r45) ^ a5[6];
+        r48 = ((((a4[r47 >> 24] + a4[(r47 >> 16 & 255) + 256]) ^ a4[(r47 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r48 & 255) + 768]) ^ r47) ^ a6[7];
-        r50 = ((((a5[r49 >> 24] + a5[(r49 >> 16 & 255) + 256]) ^ a5[(r49 >> 8 &
+                a4[(r47 & 255) + 768]) ^ r46) ^ a5[7];
+        r49 = ((((a4[r48 >> 24] + a4[(r48 >> 16 & 255) + 256]) ^ a4[(r48 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r49 & 255) + 768]) ^ r48) ^ a6[8];
-        r51 = ((((a5[r50 >> 24] + a5[(r50 >> 16 & 255) + 256]) ^ a5[(r50 >> 8 &
+                a4[(r48 & 255) + 768]) ^ r47) ^ a5[8];
+        r50 = ((((a4[r49 >> 24] + a4[(r49 >> 16 & 255) + 256]) ^ a4[(r49 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r50 & 255) + 768]) ^ r49) ^ a6[9];
-        r52 = ((((a5[r51 >> 24] + a5[(r51 >> 16 & 255) + 256]) ^ a5[(r51 >> 8 &
+                a4[(r49 & 255) + 768]) ^ r48) ^ a5[9];
+        r51 = ((((a4[r50 >> 24] + a4[(r50 >> 16 & 255) + 256]) ^ a4[(r50 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r51 & 255) + 768]) ^ r50) ^ a6[10];
-        r53 = ((((a5[r52 >> 24] + a5[(r52 >> 16 & 255) + 256]) ^ a5[(r52 >> 8 &
+                a4[(r50 & 255) + 768]) ^ r49) ^ a5[10];
+        r52 = ((((a4[r51 >> 24] + a4[(r51 >> 16 & 255) + 256]) ^ a4[(r51 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r52 & 255) + 768]) ^ r51) ^ a6[11];
-        r54 = ((((a5[r53 >> 24] + a5[(r53 >> 16 & 255) + 256]) ^ a5[(r53 >> 8 &
+                a4[(r51 & 255) + 768]) ^ r50) ^ a5[11];
+        r53 = ((((a4[r52 >> 24] + a4[(r52 >> 16 & 255) + 256]) ^ a4[(r52 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r53 & 255) + 768]) ^ r52) ^ a6[12];
-        r55 = ((((a5[r54 >> 24] + a5[(r54 >> 16 & 255) + 256]) ^ a5[(r54 >> 8 &
+                a4[(r52 & 255) + 768]) ^ r51) ^ a5[12];
+        r54 = ((((a4[r53 >> 24] + a4[(r53 >> 16 & 255) + 256]) ^ a4[(r53 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r54 & 255) + 768]) ^ r53) ^ a6[13];
-        r56 = ((((a5[r55 >> 24] + a5[(r55 >> 16 & 255) + 256]) ^ a5[(r55 >> 8 &
+                a4[(r53 & 255) + 768]) ^ r52) ^ a5[13];
+        r55 = ((((a4[r54 >> 24] + a4[(r54 >> 16 & 255) + 256]) ^ a4[(r54 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r55 & 255) + 768]) ^ r54) ^ a6[14];
-        r57 = ((((a5[r56 >> 24] + a5[(r56 >> 16 & 255) + 256]) ^ a5[(r56 >> 8 &
+                a4[(r54 & 255) + 768]) ^ r53) ^ a5[14];
+        r56 = ((((a4[r55 >> 24] + a4[(r55 >> 16 & 255) + 256]) ^ a4[(r55 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r56 & 255) + 768]) ^ r55) ^ a6[15];
-        r16 = r57 ^ a6[17];
-        r17 = ((((a5[r57 >> 24] + a5[(r57 >> 16 & 255) + 256]) ^ a5[(r57 >> 8 &
+                a4[(r55 & 255) + 768]) ^ r54) ^ a5[15];
+        r15 = r56 ^ a5[17];
+        r16 = ((((a4[r56 >> 24] + a4[(r56 >> 16 & 255) + 256]) ^ a4[(r56 >> 8 &
                                                                      255) +
                                                                     512]) +
-                a5[(r57 & 255) + 768]) ^ r56) ^ a6[16];
+                a4[(r56 & 255) + 768]) ^ r55) ^ a5[16];
+        v57 = r15;
         v58 = r16;
-        v59 = r17;
-        a5[v39] = v58;
-        a5[v39 + 1] = v59;
+        a4[v38] = v57;
+        a4[v38 + 1] = v58;
     }
-    host_write_shared(&shm1, a6, 0, 0, 17);
-    host_write_shared(&shm2, a5, 0, 0, 1023);
+    host_write_shared(&shm1, a5, 0, 0, 17);
+    host_write_shared(&shm2, a4, 0, 0, 1023);
+    a59[0] = true;
+    host_write_local(&group0, 0, 0, la2, a59, 0, 0, 0);
     a60[0] = true;
-    host_write_local(&group0, 0, 0, la2, a60, 0, 0, 0);
-    a61[0] = true;
-    host_write_local(&group0, 0, 0, la3, a61, 0, 0, 0);
-    e_alloc(&shm62, sa6, 88);
+    host_write_local(&group0, 0, 0, la3, a60, 0, 0, 0);
+    e_alloc(&shm61, sa6, 88);
+    a62[0] = 0;
+    host_write_local(&group0, 0, 0, la4, a62, 0, 0, 0);
     a63[0] = 0;
-    host_write_local(&group0, 0, 0, la4, a63, 0, 0, 0);
-    a64[0] = 0;
-    host_write_local(&group0, 0, 0, la5, a64, 0, 0, 0);
+    host_write_local(&group0, 0, 0, la5, a63, 0, 0, 0);
+    a64[0] = true;
+    host_write_local(&group0, 0, 0, la7, a64, 0, 0, 0);
     a65[0] = true;
-    host_write_local(&group0, 0, 0, la7, a65, 0, 0, 0);
-    a66[0] = true;
-    host_write_local(&group0, 0, 0, la8, a66, 0, 0, 0);
+    host_write_local(&group0, 0, 0, la8, a65, 0, 0, 0);
+    a66[0] = 0;
+    host_write_local(&group0, 0, 1, la9, a66, 0, 0, 0);
     a67[0] = 0;
-    host_write_local(&group0, 0, 1, la9, a67, 0, 0, 0);
+    host_write_local(&group0, 0, 0, la10, a67, 0, 0, 0);
     a68[0] = 0;
-    host_write_local(&group0, 0, 0, la10, a68, 0, 0, 0);
+    host_write_local(&group0, 0, 0, la11, a68, 0, 0, 0);
     a69[0] = 0;
-    host_write_local(&group0, 0, 0, la11, a69, 0, 0, 0);
-    a70[0] = 0;
-    host_write_local(&group0, 0, 1, la12, a70, 0, 0, 0);
+    host_write_local(&group0, 0, 1, la12, a69, 0, 0, 0);
     e_load("core0.srec", &group0, 0, 0, 1);
+    a70[0] = true;
+    host_write_local(&group0, 0, 1, la14, a70, 0, 0, 0);
     a71[0] = true;
-    host_write_local(&group0, 0, 1, la14, a71, 0, 0, 0);
-    a72[0] = true;
-    host_write_local(&group0, 0, 1, la15, a72, 0, 0, 0);
+    host_write_local(&group0, 0, 1, la15, a71, 0, 0, 0);
+    a72[0] = 0;
+    host_write_local(&group0, 0, 2, la16, a72, 0, 0, 0);
     a73[0] = 0;
-    host_write_local(&group0, 0, 2, la16, a73, 0, 0, 0);
+    host_write_local(&group0, 0, 1, la17, a73, 0, 0, 0);
     a74[0] = 0;
-    host_write_local(&group0, 0, 1, la17, a74, 0, 0, 0);
+    host_write_local(&group0, 0, 1, la18, a74, 0, 0, 0);
     a75[0] = 0;
-    host_write_local(&group0, 0, 1, la18, a75, 0, 0, 0);
-    a76[0] = 0;
-    host_write_local(&group0, 0, 2, la19, a76, 0, 0, 0);
+    host_write_local(&group0, 0, 2, la19, a75, 0, 0, 0);
     e_load("core1.srec", &group0, 0, 1, 1);
+    a76[0] = true;
+    host_write_local(&group0, 0, 2, la21, a76, 0, 0, 0);
     a77[0] = true;
-    host_write_local(&group0, 0, 2, la21, a77, 0, 0, 0);
-    a78[0] = true;
-    host_write_local(&group0, 0, 2, la22, a78, 0, 0, 0);
+    host_write_local(&group0, 0, 2, la22, a77, 0, 0, 0);
+    a78[0] = 0;
+    host_write_local(&group0, 0, 3, la23, a78, 0, 0, 0);
     a79[0] = 0;
-    host_write_local(&group0, 0, 3, la23, a79, 0, 0, 0);
+    host_write_local(&group0, 0, 2, la24, a79, 0, 0, 0);
     a80[0] = 0;
-    host_write_local(&group0, 0, 2, la24, a80, 0, 0, 0);
+    host_write_local(&group0, 0, 2, la25, a80, 0, 0, 0);
     a81[0] = 0;
-    host_write_local(&group0, 0, 2, la25, a81, 0, 0, 0);
-    a82[0] = 0;
-    host_write_local(&group0, 0, 3, la26, a82, 0, 0, 0);
+    host_write_local(&group0, 0, 3, la26, a81, 0, 0, 0);
     e_load("core2.srec", &group0, 0, 2, 1);
+    a82[0] = true;
+    host_write_local(&group0, 0, 3, la28, a82, 0, 0, 0);
     a83[0] = true;
-    host_write_local(&group0, 0, 3, la28, a83, 0, 0, 0);
-    a84[0] = true;
-    host_write_local(&group0, 0, 3, la29, a84, 0, 0, 0);
+    host_write_local(&group0, 0, 3, la29, a83, 0, 0, 0);
+    a84[0] = 0;
+    host_write_local(&group0, 1, 0, la30, a84, 0, 0, 0);
     a85[0] = 0;
-    host_write_local(&group0, 1, 0, la30, a85, 0, 0, 0);
+    host_write_local(&group0, 0, 3, la31, a85, 0, 0, 0);
     a86[0] = 0;
-    host_write_local(&group0, 0, 3, la31, a86, 0, 0, 0);
+    host_write_local(&group0, 0, 3, la32, a86, 0, 0, 0);
     a87[0] = 0;
-    host_write_local(&group0, 0, 3, la32, a87, 0, 0, 0);
-    a88[0] = 0;
-    host_write_local(&group0, 1, 0, la33, a88, 0, 0, 0);
+    host_write_local(&group0, 1, 0, la33, a87, 0, 0, 0);
     e_load("core3.srec", &group0, 0, 3, 1);
+    a88[0] = true;
+    host_write_local(&group0, 1, 0, la35, a88, 0, 0, 0);
     a89[0] = true;
-    host_write_local(&group0, 1, 0, la35, a89, 0, 0, 0);
-    a90[0] = true;
-    host_write_local(&group0, 1, 0, la36, a90, 0, 0, 0);
+    host_write_local(&group0, 1, 0, la36, a89, 0, 0, 0);
+    a90[0] = 0;
+    host_write_local(&group0, 1, 1, la37, a90, 0, 0, 0);
     a91[0] = 0;
-    host_write_local(&group0, 1, 1, la37, a91, 0, 0, 0);
+    host_write_local(&group0, 1, 0, la38, a91, 0, 0, 0);
     a92[0] = 0;
-    host_write_local(&group0, 1, 0, la38, a92, 0, 0, 0);
+    host_write_local(&group0, 1, 0, la39, a92, 0, 0, 0);
     a93[0] = 0;
-    host_write_local(&group0, 1, 0, la39, a93, 0, 0, 0);
-    a94[0] = 0;
-    host_write_local(&group0, 1, 1, la40, a94, 0, 0, 0);
+    host_write_local(&group0, 1, 1, la40, a93, 0, 0, 0);
     e_load("core4.srec", &group0, 1, 0, 1);
+    a94[0] = true;
+    host_write_local(&group0, 1, 1, la42, a94, 0, 0, 0);
     a95[0] = true;
-    host_write_local(&group0, 1, 1, la42, a95, 0, 0, 0);
-    a96[0] = true;
-    host_write_local(&group0, 1, 1, la43, a96, 0, 0, 0);
+    host_write_local(&group0, 1, 1, la43, a95, 0, 0, 0);
+    a96[0] = 0;
+    host_write_local(&group0, 1, 2, la44, a96, 0, 0, 0);
     a97[0] = 0;
-    host_write_local(&group0, 1, 2, la44, a97, 0, 0, 0);
+    host_write_local(&group0, 1, 1, la45, a97, 0, 0, 0);
     a98[0] = 0;
-    host_write_local(&group0, 1, 1, la45, a98, 0, 0, 0);
+    host_write_local(&group0, 1, 1, la46, a98, 0, 0, 0);
     a99[0] = 0;
-    host_write_local(&group0, 1, 1, la46, a99, 0, 0, 0);
-    a100[0] = 0;
-    host_write_local(&group0, 1, 2, la47, a100, 0, 0, 0);
+    host_write_local(&group0, 1, 2, la47, a99, 0, 0, 0);
     e_load("core5.srec", &group0, 1, 1, 1);
+    a100[0] = true;
+    host_write_local(&group0, 1, 2, la49, a100, 0, 0, 0);
     a101[0] = true;
-    host_write_local(&group0, 1, 2, la49, a101, 0, 0, 0);
-    a102[0] = true;
-    host_write_local(&group0, 1, 2, la50, a102, 0, 0, 0);
+    host_write_local(&group0, 1, 2, la50, a101, 0, 0, 0);
+    a102[0] = 0;
+    host_write_local(&group0, 1, 3, la51, a102, 0, 0, 0);
     a103[0] = 0;
-    host_write_local(&group0, 1, 3, la51, a103, 0, 0, 0);
+    host_write_local(&group0, 1, 2, la52, a103, 0, 0, 0);
     a104[0] = 0;
-    host_write_local(&group0, 1, 2, la52, a104, 0, 0, 0);
+    host_write_local(&group0, 1, 2, la53, a104, 0, 0, 0);
     a105[0] = 0;
-    host_write_local(&group0, 1, 2, la53, a105, 0, 0, 0);
-    a106[0] = 0;
-    host_write_local(&group0, 1, 3, la54, a106, 0, 0, 0);
+    host_write_local(&group0, 1, 3, la54, a105, 0, 0, 0);
     e_load("core6.srec", &group0, 1, 2, 1);
+    a106[0] = true;
+    host_write_local(&group0, 1, 3, la56, a106, 0, 0, 0);
     a107[0] = true;
-    host_write_local(&group0, 1, 3, la56, a107, 0, 0, 0);
-    a108[0] = true;
-    host_write_local(&group0, 1, 3, la57, a108, 0, 0, 0);
+    host_write_local(&group0, 1, 3, la57, a107, 0, 0, 0);
+    a108[0] = 0;
+    host_write_local(&group0, 2, 0, la58, a108, 0, 0, 0);
     a109[0] = 0;
-    host_write_local(&group0, 2, 0, la58, a109, 0, 0, 0);
+    host_write_local(&group0, 1, 3, la59, a109, 0, 0, 0);
     a110[0] = 0;
-    host_write_local(&group0, 1, 3, la59, a110, 0, 0, 0);
+    host_write_local(&group0, 1, 3, la60, a110, 0, 0, 0);
     a111[0] = 0;
-    host_write_local(&group0, 1, 3, la60, a111, 0, 0, 0);
-    a112[0] = 0;
-    host_write_local(&group0, 2, 0, la61, a112, 0, 0, 0);
+    host_write_local(&group0, 2, 0, la61, a111, 0, 0, 0);
     e_load("core7.srec", &group0, 1, 3, 1);
+    a112[0] = true;
+    host_write_local(&group0, 2, 0, la63, a112, 0, 0, 0);
     a113[0] = true;
-    host_write_local(&group0, 2, 0, la63, a113, 0, 0, 0);
-    a114[0] = true;
-    host_write_local(&group0, 2, 0, la64, a114, 0, 0, 0);
+    host_write_local(&group0, 2, 0, la64, a113, 0, 0, 0);
+    a114[0] = 0;
+    host_write_local(&group0, 2, 1, la65, a114, 0, 0, 0);
     a115[0] = 0;
-    host_write_local(&group0, 2, 1, la65, a115, 0, 0, 0);
+    host_write_local(&group0, 2, 0, la66, a115, 0, 0, 0);
     a116[0] = 0;
-    host_write_local(&group0, 2, 0, la66, a116, 0, 0, 0);
+    host_write_local(&group0, 2, 0, la67, a116, 0, 0, 0);
     a117[0] = 0;
-    host_write_local(&group0, 2, 0, la67, a117, 0, 0, 0);
-    a118[0] = 0;
-    host_write_local(&group0, 2, 1, la68, a118, 0, 0, 0);
+    host_write_local(&group0, 2, 1, la68, a117, 0, 0, 0);
     e_load("core8.srec", &group0, 2, 0, 1);
+    a118[0] = true;
+    host_write_local(&group0, 2, 1, la70, a118, 0, 0, 0);
     a119[0] = true;
-    host_write_local(&group0, 2, 1, la70, a119, 0, 0, 0);
-    a120[0] = true;
-    host_write_local(&group0, 2, 1, la71, a120, 0, 0, 0);
+    host_write_local(&group0, 2, 1, la71, a119, 0, 0, 0);
+    a120[0] = 0;
+    host_write_local(&group0, 2, 2, la72, a120, 0, 0, 0);
     a121[0] = 0;
-    host_write_local(&group0, 2, 2, la72, a121, 0, 0, 0);
+    host_write_local(&group0, 2, 1, la73, a121, 0, 0, 0);
     a122[0] = 0;
-    host_write_local(&group0, 2, 1, la73, a122, 0, 0, 0);
+    host_write_local(&group0, 2, 1, la74, a122, 0, 0, 0);
     a123[0] = 0;
-    host_write_local(&group0, 2, 1, la74, a123, 0, 0, 0);
-    a124[0] = 0;
-    host_write_local(&group0, 2, 2, la75, a124, 0, 0, 0);
+    host_write_local(&group0, 2, 2, la75, a123, 0, 0, 0);
     e_load("core9.srec", &group0, 2, 1, 1);
+    a124[0] = true;
+    host_write_local(&group0, 2, 2, la77, a124, 0, 0, 0);
     a125[0] = true;
-    host_write_local(&group0, 2, 2, la77, a125, 0, 0, 0);
-    a126[0] = true;
-    host_write_local(&group0, 2, 2, la78, a126, 0, 0, 0);
+    host_write_local(&group0, 2, 2, la78, a125, 0, 0, 0);
+    a126[0] = 0;
+    host_write_local(&group0, 2, 3, la79, a126, 0, 0, 0);
     a127[0] = 0;
-    host_write_local(&group0, 2, 3, la79, a127, 0, 0, 0);
+    host_write_local(&group0, 2, 2, la80, a127, 0, 0, 0);
     a128[0] = 0;
-    host_write_local(&group0, 2, 2, la80, a128, 0, 0, 0);
+    host_write_local(&group0, 2, 2, la81, a128, 0, 0, 0);
     a129[0] = 0;
-    host_write_local(&group0, 2, 2, la81, a129, 0, 0, 0);
-    a130[0] = 0;
-    host_write_local(&group0, 2, 3, la82, a130, 0, 0, 0);
+    host_write_local(&group0, 2, 3, la82, a129, 0, 0, 0);
     e_load("core10.srec", &group0, 2, 2, 1);
+    a130[0] = true;
+    host_write_local(&group0, 2, 3, la84, a130, 0, 0, 0);
     a131[0] = true;
-    host_write_local(&group0, 2, 3, la84, a131, 0, 0, 0);
-    a132[0] = true;
-    host_write_local(&group0, 2, 3, la85, a132, 0, 0, 0);
+    host_write_local(&group0, 2, 3, la85, a131, 0, 0, 0);
+    a132[0] = 0;
+    host_write_local(&group0, 3, 0, la86, a132, 0, 0, 0);
     a133[0] = 0;
-    host_write_local(&group0, 3, 0, la86, a133, 0, 0, 0);
+    host_write_local(&group0, 2, 3, la87, a133, 0, 0, 0);
     a134[0] = 0;
-    host_write_local(&group0, 2, 3, la87, a134, 0, 0, 0);
+    host_write_local(&group0, 2, 3, la88, a134, 0, 0, 0);
     a135[0] = 0;
-    host_write_local(&group0, 2, 3, la88, a135, 0, 0, 0);
-    a136[0] = 0;
-    host_write_local(&group0, 3, 0, la89, a136, 0, 0, 0);
+    host_write_local(&group0, 3, 0, la89, a135, 0, 0, 0);
     e_load("core11.srec", &group0, 2, 3, 1);
+    a136[0] = true;
+    host_write_local(&group0, 3, 0, la91, a136, 0, 0, 0);
     a137[0] = true;
-    host_write_local(&group0, 3, 0, la91, a137, 0, 0, 0);
-    a138[0] = true;
-    host_write_local(&group0, 3, 0, la92, a138, 0, 0, 0);
+    host_write_local(&group0, 3, 0, la92, a137, 0, 0, 0);
+    a138[0] = 0;
+    host_write_local(&group0, 3, 1, la93, a138, 0, 0, 0);
     a139[0] = 0;
-    host_write_local(&group0, 3, 1, la93, a139, 0, 0, 0);
+    host_write_local(&group0, 3, 0, la94, a139, 0, 0, 0);
     a140[0] = 0;
-    host_write_local(&group0, 3, 0, la94, a140, 0, 0, 0);
+    host_write_local(&group0, 3, 0, la95, a140, 0, 0, 0);
     a141[0] = 0;
-    host_write_local(&group0, 3, 0, la95, a141, 0, 0, 0);
-    a142[0] = 0;
-    host_write_local(&group0, 3, 1, la96, a142, 0, 0, 0);
+    host_write_local(&group0, 3, 1, la96, a141, 0, 0, 0);
     e_load("core12.srec", &group0, 3, 0, 1);
+    a142[0] = true;
+    host_write_local(&group0, 3, 1, la98, a142, 0, 0, 0);
     a143[0] = true;
-    host_write_local(&group0, 3, 1, la98, a143, 0, 0, 0);
-    a144[0] = true;
-    host_write_local(&group0, 3, 1, la99, a144, 0, 0, 0);
+    host_write_local(&group0, 3, 1, la99, a143, 0, 0, 0);
+    a144[0] = 0;
+    host_write_local(&group0, 3, 2, la100, a144, 0, 0, 0);
     a145[0] = 0;
-    host_write_local(&group0, 3, 2, la100, a145, 0, 0, 0);
+    host_write_local(&group0, 3, 1, la101, a145, 0, 0, 0);
     a146[0] = 0;
-    host_write_local(&group0, 3, 1, la101, a146, 0, 0, 0);
+    host_write_local(&group0, 3, 1, la102, a146, 0, 0, 0);
     a147[0] = 0;
-    host_write_local(&group0, 3, 1, la102, a147, 0, 0, 0);
-    a148[0] = 0;
-    host_write_local(&group0, 3, 2, la103, a148, 0, 0, 0);
+    host_write_local(&group0, 3, 2, la103, a147, 0, 0, 0);
     e_load("core13.srec", &group0, 3, 1, 1);
+    a148[0] = true;
+    host_write_local(&group0, 3, 2, la105, a148, 0, 0, 0);
     a149[0] = true;
-    host_write_local(&group0, 3, 2, la105, a149, 0, 0, 0);
-    a150[0] = true;
-    host_write_local(&group0, 3, 2, la106, a150, 0, 0, 0);
+    host_write_local(&group0, 3, 2, la106, a149, 0, 0, 0);
+    a150[0] = 0;
+    host_write_local(&group0, 3, 3, la107, a150, 0, 0, 0);
     a151[0] = 0;
-    host_write_local(&group0, 3, 3, la107, a151, 0, 0, 0);
+    host_write_local(&group0, 3, 2, la108, a151, 0, 0, 0);
     a152[0] = 0;
-    host_write_local(&group0, 3, 2, la108, a152, 0, 0, 0);
+    host_write_local(&group0, 3, 2, la109, a152, 0, 0, 0);
     a153[0] = 0;
-    host_write_local(&group0, 3, 2, la109, a153, 0, 0, 0);
-    a154[0] = 0;
-    host_write_local(&group0, 3, 3, la110, a154, 0, 0, 0);
+    host_write_local(&group0, 3, 3, la110, a153, 0, 0, 0);
     e_load("core14.srec", &group0, 3, 2, 1);
+    a154[0] = true;
+    host_write_local(&group0, 3, 3, la112, a154, 0, 0, 0);
     a155[0] = true;
-    host_write_local(&group0, 3, 3, la112, a155, 0, 0, 0);
-    a156[0] = true;
-    host_write_local(&group0, 3, 3, la113, a156, 0, 0, 0);
-    e_alloc(&shm157, sa116, 88);
+    host_write_local(&group0, 3, 3, la113, a155, 0, 0, 0);
+    e_alloc(&shm156, sa116, 88);
+    a157[0] = 0;
+    host_write_local(&group0, 3, 3, la114, a157, 0, 0, 0);
     a158[0] = 0;
-    host_write_local(&group0, 3, 3, la114, a158, 0, 0, 0);
-    a159[0] = 0;
-    host_write_local(&group0, 3, 3, la115, a159, 0, 0, 0);
+    host_write_local(&group0, 3, 3, la115, a158, 0, 0, 0);
     e_load("core15.srec", &group0, 3, 3, 1);
-    pthread_create(&t160, NULL, thread_t160, NULL);
-    r200 = true;
+    pthread_create(&t159, NULL, thread_t159, NULL);
+    r199 = true;
     while (1) {
-        bool v201;
-        uint64_t r202;
-        bool v203;
-        uint64_t v204;
+        bool v200;
+        uint64_t r201;
+        bool v202;
+        uint64_t v203;
         
-        v201 = r200;
-        if (!v201)
+        v200 = r199;
+        if (!v200)
             break;
-        v203 = read_block(&r202);
-        v204 = r202;
-        if (v203) {
-            bool _a205[1];
-            bool *a205 = _a205;
-            bool v206;
-            bool r207;
+        v202 = read_block(&r201);
+        v203 = r201;
+        if (v202) {
+            bool _a204[1];
+            bool *a204 = _a204;
+            bool v205;
+            bool r206;
             
-            host_read_local(&group0, 0, 0, la2, a205, 0, 0, 0);
-            v206 = a205[0];
-            if (v206) {
-                uint64_t _a208[1];
-                uint64_t *a208 = _a208;
-                uint32_t r209;
+            host_read_local(&group0, 0, 0, la2, a204, 0, 0, 0);
+            v205 = a204[0];
+            if (v205) {
+                uint64_t _a207[1];
+                uint64_t *a207 = _a207;
+                uint32_t r208;
                 
-                a208[0] = v204;
-                r209 = 0;
+                a207[0] = v203;
+                r208 = 0;
                 while (1) {
-                    bool _a210[1];
-                    bool *a210 = _a210;
-                    bool v211;
+                    bool _a209[1];
+                    bool *a209 = _a209;
+                    bool v210;
+                    uint32_t v211;
                     uint32_t v212;
-                    uint32_t v213;
-                    uint32_t _a214[1];
-                    uint32_t *a214 = _a214;
-                    uint32_t v215;
-                    uint32_t _a216[1];
-                    uint32_t *a216 = _a216;
-                    uint32_t v217;
-                    uint32_t r218;
+                    uint32_t _a213[1];
+                    uint32_t *a213 = _a213;
+                    uint32_t v214;
+                    uint32_t _a215[1];
+                    uint32_t *a215 = _a215;
+                    uint32_t v216;
+                    uint32_t r217;
+                    uint32_t let218;
                     uint32_t let219;
-                    uint32_t let220;
+                    uint32_t r220;
                     uint32_t r221;
-                    uint32_t r222;
-                    uint32_t let223;
+                    uint32_t let222;
+                    uint32_t r223;
                     uint32_t r224;
-                    uint32_t r225;
                     
-                    host_read_local(&group0, 0, 0, la2, a210, 0, 0, 0);
-                    v211 = a210[0];
-                    v212 = r209;
-                    if (!(v211 && v212 < 1))
+                    host_read_local(&group0, 0, 0, la2, a209, 0, 0, 0);
+                    v210 = a209[0];
+                    v211 = r208;
+                    if (!(v210 && v211 < 1))
                         break;
-                    v213 = r209;
-                    host_read_local(&group0, 0, 0, la4, a214, 0, 0, 0);
-                    v215 = a214[0];
-                    host_read_local(&group0, 0, 0, la5, a216, 0, 0, 0);
-                    v217 = a216[0];
-                    r218 = 11;
-                    let219 = r218 + v217 - v215;
-                    let220 = r218;
-                    r221 = let219 < let220 ? let219 : let219 - let220;
-                    r222 = r218 - r221 - 1;
-                    let223 = -v213 + 1;
-                    r224 = let223 <= r222 ? let223 : r222;
-                    if (r224 > 0) {
+                    v212 = r208;
+                    host_read_local(&group0, 0, 0, la4, a213, 0, 0, 0);
+                    v214 = a213[0];
+                    host_read_local(&group0, 0, 0, la5, a215, 0, 0, 0);
+                    v216 = a215[0];
+                    r217 = 11;
+                    let218 = r217 + v216 - v214;
+                    let219 = r217;
+                    r220 = let218 < let219 ? let218 : let218 - let219;
+                    r221 = r217 - r220 - 1;
+                    let222 = -v212 + 1;
+                    r223 = let222 <= r221 ? let222 : r221;
+                    if (r223 > 0) {
+                        uint32_t let227;
                         uint32_t let228;
-                        uint32_t let229;
-                        uint32_t r230;
-                        uint32_t _a231[1];
-                        uint32_t *a231 = _a231;
+                        uint32_t r229;
+                        uint32_t _a230[1];
+                        uint32_t *a230 = _a230;
                         
-                        if (v217 + r224 <= r218) {
-                            host_write_shared(&shm62, a208, v217, v213, v213 +
-                                              r224 - 1);
+                        if (v216 + r223 <= r217) {
+                            host_write_shared(&shm61, a207, v216, v212, v212 +
+                                              r223 - 1);
                         } else {
+                            uint32_t r225;
                             uint32_t r226;
-                            uint32_t r227;
                             
-                            r226 = r218 - v217;
-                            host_write_shared(&shm62, a208, v217, v213, v213 +
-                                              r226 - 1);
-                            r227 = v213 + r226;
-                            host_write_shared(&shm62, a208, 0, r227, r227 +
-                                              (r224 - r226) - 1);
+                            r225 = r217 - v216;
+                            host_write_shared(&shm61, a207, v216, v212, v212 +
+                                              r225 - 1);
+                            r226 = v212 + r225;
+                            host_write_shared(&shm61, a207, 0, r226, r226 +
+                                              (r223 - r225) - 1);
                         }
-                        let228 = v217 + r224;
-                        let229 = r218;
-                        r230 = let228 < let229 ? let228 : let228 - let229;
-                        a231[0] = r230;
-                        host_write_local(&group0, 0, 0, la5, a231, 0, 0, 0);
-                        r225 = r224;
+                        let227 = v216 + r223;
+                        let228 = r217;
+                        r229 = let227 < let228 ? let227 : let227 - let228;
+                        a230[0] = r229;
+                        host_write_local(&group0, 0, 0, la5, a230, 0, 0, 0);
+                        r224 = r223;
                     } else {
-                        r225 = 0;
+                        r224 = 0;
                     }
-                    if (0 == r225) {
+                    if (0 == r224) {
                         usleep(100);
                     } else {
-                        r209 = v213 + r225;
+                        r208 = v212 + r224;
                     }
                 }
-                r207 = true;
+                r206 = true;
             } else {
-                r207 = false;
+                r206 = false;
             }
-            r200 = r207;
+            r199 = r206;
         } else {
-            r200 = false;
+            r199 = false;
         }
     }
-    a232[0] = false;
-    host_write_local(&group0, 0, 0, la2, a232, 0, 0, 0);
-    pthread_join(t160, NULL);
+    a231[0] = false;
+    host_write_local(&group0, 0, 0, la2, a231, 0, 0, 0);
+    pthread_join(t159, NULL);
     e_free(&shm1);
     e_free(&shm2);
-    e_free(&shm157);
-    e_free(&shm62);
+    e_free(&shm156);
+    e_free(&shm61);
     e_reset_group(&group0);
     e_close(&group0);
     e_finalize();

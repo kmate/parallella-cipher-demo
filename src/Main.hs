@@ -195,17 +195,13 @@ chanSize = 10
 
 a |>>>| b = a |>>chanSize>>| b
 
-maxKeyLen :: Length
-maxKeyLen = 72  -- specified in 8 bit characters, 576 bits
 
 readKey :: Host Key
 readKey = liftHost $ do
-    keyLenRef :: Ref Length <- newRef
-    key <- newArr (value maxKeyLen)
-    callProc "read_key" [ arrArg key, refArg keyLenRef ]
-    keyLen <- unsafeFreezeRef keyLenRef
+    key <- newArr 16 -- the key is an md5 hash which is 128 bits long always
+    callProc "read_key" [ arrArg key ]
     key <- unsafeFreezeArr key
-    return $ Dim1 keyLen key
+    return $ Dim1 16 key
 
 mainProgram :: Multicore ()
 mainProgram = do

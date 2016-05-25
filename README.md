@@ -30,13 +30,13 @@ or on a Parallella:
 
 Encrypt a file:
 
-    ./run this-is-my-key input-file.dat > encrypted-file.dat
+    ./run this-is-my-key input-file.dat > encrypted.dat
+
+The encrypted file could be restored like this:
+
+    openssl bf-ecb -d -nosalt -nopad -k this-is-my-key -in encrypted.dat -out decrypted.dat
 
 ## Known issues
 
 * The current implementation has a really bad performance as it does the processing wiht block-sized (64bit) chunk transfers
-* It should be compatible with `openssl`, but it is currently not. Hopefully the data encoded with the future versions could be decoded like:
 
-    ~~~
-    openssl bf-ecb -nosalt -nopad -d -k this-is-my-key -in encrypted-file.dat > decrypted-file.dat
-    ~~~
