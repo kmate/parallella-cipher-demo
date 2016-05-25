@@ -30,7 +30,7 @@ or on a Parallella:
 
 Encrypt a file:
 
-    ./run this-is-my-key input-file.dat > encrypted.dat
+    ./run.sh this-is-my-key input-file.dat > encrypted.dat
 
 The encrypted file could be restored like this:
 
