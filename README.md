@@ -1,4 +1,4 @@
-# pparallella-cipher-demo
+# parallella-cipher-demo
 Demo application for encryption on Parallella using RAW-Feldspar and Zeldspar
 
 ## Instructions
@@ -18,4 +18,25 @@ Demo application for encryption on Parallella using RAW-Feldspar and Zeldspar
     cabal sandbox add-source ../raw-feldspar-mcs
     cabal install --constraint="language-c-quote -full-haskell-antiquotes"
 
-### TODO
+### Usage
+
+To build, use
+
+    ./make.sh
+
+or on a Parallella:
+
+    ./make_epiphany.sh
+
+Encrypt a file:
+
+    ./run this-is-my-key input-file.dat > encrypted-file.dat
+
+## Known issues
+
+* The current implementation has a really bad performance as it does the processing wiht block-sized (64bit) chunk transfers
+* It should be compatible with `openssl`, but it is currently not. Hopefully the data encoded with the future versions could be decoded like:
+
+    ~~~
+    openssl bf-ecb -nosalt -nopad -d -k this-is-my-key -in encrypted-file.dat > decrypted-file.dat
+    ~~~
