@@ -29,25 +29,32 @@ bool read_block(uint64_t *b) {
   size_t bytesRead = 0;
   *b = 0;
 
-  while (bytesRead < sizeof(uint64_t) && !feof(stdin)) {
-    bytesRead += fread((uint8_t *)b + bytesRead, sizeof(uint8_t), 1, stdin);
-  }
-
+  bool readIt;
   pthread_mutex_lock(&m);
-  unprocessedBytes += bytesRead;
-  if (feof(stdin)) {
-    moreToRead = false;
-  }
+  readIt = moreToRead;
   pthread_mutex_unlock(&m);
 
-  // Conversion to big-endian
-  uint64_t t = *b;
-  uint8_t *in = (uint8_t *)&t;
-  uint32_t l;
-  n2l(in, l);
-  *(((uint32_t *)b) + 1) = l;
-  n2l(in, l);
-  *((uint32_t *)b) = l;
+  if (readIt) {
+    while (bytesRead < sizeof(uint64_t) && !feof(stdin)) {
+      bytesRead += fread((uint8_t *)b + bytesRead, sizeof(uint8_t), 1, stdin);
+    }
+
+    pthread_mutex_lock(&m);
+    unprocessedBytes += bytesRead;
+    if (feof(stdin)) {
+      moreToRead = false;
+    }
+    pthread_mutex_unlock(&m);
+
+    // Conversion to big-endian
+    uint64_t t = *b;
+    uint8_t *in = (uint8_t *)&t;
+    uint32_t l;
+    n2l(in, l);
+    *(((uint32_t *)b) + 1) = l;
+    n2l(in, l);
+    *((uint32_t *)b) = l;
+  }
 
   return true;
 }
@@ -70,20 +77,19 @@ bool write_block(uint64_t b) {
     l2n(l, out);
 
     fwrite(&t, sizeof(uint64_t), 1, stdout);
-    fflush(stdout);
   }
 
   return more;
 }
 
 void read_key(uint8_t *key) {
-  char *buff = NULL;
-  size_t len = 0;
+  char *buff = malloc(100 * sizeof(char));
+  size_t len = 100;
   ssize_t read = getline(&buff, &len, stdin);
 
   if (read > 0) {
     for (int i = 0; i < 16; ++i) {
-      sscanf(buff + i * 2, "%2x", (unsigned int *)&key[i]);
+      sscanf(buff + i * 2, "%2hhx", &key[i]);
     }
   }
   free(buff);
