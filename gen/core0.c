@@ -32,156 +32,164 @@ int main()
     while (1) {
         uint64_t r2;
         bool v3;
-        uint64_t v16;
-        uint32_t r17;
-        bool v18;
-        bool r19;
-        bool v32;
-        bool r33;
+        bool v16;
+        uint64_t v17;
+        uint32_t r18;
+        bool v19;
+        bool r20;
+        bool v33;
+        bool r34;
         
-        v3 = la2[0];
-        la3[0] = v3;
+        v3 = la3[0];
         if (v3) {
-            uint64_t r4;
+            bool r4;
             bool r5;
-            uint64_t v15;
+            bool v15;
             
+            r4 = true;
             r5 = true;
             while (1) {
                 bool v6;
-                bool v7;
+                uint32_t v7;
                 uint32_t v8;
-                uint32_t v9;
                 
-                v6 = la2[0];
-                v7 = r5;
-                if (!(v6 && v7))
+                v6 = r4;
+                if (!v6)
                     break;
-                v8 = la4[0];
-                v9 = la5[0];
-                if (!(v8 == v9)) {
-                    uint32_t v10;
-                    uint64_t _a11[1] __attribute__((aligned(16)));
-                    uint64_t *a11 = _a11;
-                    uint64_t v12;
+                v7 = la4[0];
+                v8 = la5[0];
+                if (!(v7 == v8)) {
+                    uint32_t v9;
+                    uint64_t _a10[1] __attribute__((aligned(16)));
+                    uint64_t *a10 = _a10;
+                    uint64_t v11;
+                    uint32_t let12;
                     uint32_t let13;
-                    uint32_t let14;
                     
-                    v10 = la4[0];
-                    core_read_shared(sa6, a11, v10, 0, 0);
-                    v12 = a11[0];
-                    let13 = v10 + 1;
-                    let14 = 11;
-                    la4[0] = let13 < let14 ? let13 : let13 - let14;
-                    r4 = v12;
-                    r5 = false;
+                    v9 = la4[0];
+                    core_read_shared(sa6, a10, v9, 0, 0);
+                    v11 = a10[0];
+                    let12 = v9 + 1;
+                    let13 = 11;
+                    la4[0] = let12 < let13 ? let12 : let12 - let13;
+                    r2 = v11;
+                    r4 = false;
+                } else {
+                    bool v14;
+                    
+                    v14 = la2[0];
+                    if (!v14) {
+                        r4 = false;
+                        r5 = false;
+                    }
                 }
             }
-            v15 = r4;
-            r2 = v15;
+            v15 = r5;
+            la3[0] = v15;
         }
-        if (!v3) {
+        v16 = la3[0];
+        if (!v16) {
             la7[0] = false;
             core_halt();
         }
-        v16 = r2;
-        r17 = (uint32_t) (v16 >> 32) ^ a0[0];
-        v18 = la7[0];
-        if (v18) {
+        v17 = r2;
+        r18 = (uint32_t) (v17 >> 32) ^ a0[0];
+        v19 = la7[0];
+        if (v19) {
             while (1) {
-                bool v20;
-                uint32_t v21;
+                bool v21;
                 uint32_t v22;
-                bool r23;
-                uint32_t let24;
+                uint32_t v23;
+                bool r24;
                 uint32_t let25;
-                bool v31;
+                uint32_t let26;
+                bool v32;
                 
-                v20 = la7[0];
-                v21 = la10[0];
-                v22 = la11[0];
-                r23 = false;
-                let24 = v22 + 1;
-                let25 = 11;
-                if ((let24 < let25 ? let24 : let24 - let25) == v21) {
-                    r23 = false;
+                v21 = la7[0];
+                v22 = la10[0];
+                v23 = la11[0];
+                r24 = false;
+                let25 = v23 + 1;
+                let26 = 11;
+                if ((let25 < let26 ? let25 : let25 - let26) == v22) {
+                    r24 = false;
                 } else {
-                    uint32_t v26;
-                    uint32_t let27;
+                    uint32_t v27;
                     uint32_t let28;
                     uint32_t let29;
                     uint32_t let30;
+                    uint32_t let31;
                     
-                    v26 = la11[0];
-                    la13[v26] = (((a1[r17 >> 24] + a1[(r17 >> 16 & 255) +
-                                                      256]) ^ a1[(r17 >> 8 &
+                    v27 = la11[0];
+                    la13[v27] = (((a1[r18 >> 24] + a1[(r18 >> 16 & 255) +
+                                                      256]) ^ a1[(r18 >> 8 &
                                                                   255) + 512]) +
-                                 a1[(r17 & 255) + 768]) ^ (uint32_t) v16;
-                    let27 = v22 + 1;
-                    let28 = 11;
-                    la11[0] = let27 < let28 ? let27 : let27 - let28;
-                    let29 = v22 + 1;
-                    let30 = 11;
-                    la12[0] = let29 < let30 ? let29 : let29 - let30;
-                    r23 = true;
+                                 a1[(r18 & 255) + 768]) ^ (uint32_t) v17;
+                    let28 = v23 + 1;
+                    let29 = 11;
+                    la11[0] = let28 < let29 ? let28 : let28 - let29;
+                    let30 = v23 + 1;
+                    let31 = 11;
+                    la12[0] = let30 < let31 ? let30 : let30 - let31;
+                    r24 = true;
                 }
-                v31 = r23;
-                if (!(v20 && !v31))
+                v32 = r24;
+                if (!(v21 && !v32))
                     break;
             }
-            r19 = true;
+            r20 = true;
         } else {
-            r19 = false;
+            r20 = false;
         }
-        if (!r19) {
+        if (!r20) {
             la2[0] = false;
             core_halt();
         }
-        v32 = la7[0];
-        if (v32) {
+        v33 = la7[0];
+        if (v33) {
             while (1) {
-                bool v34;
-                uint32_t v35;
+                bool v35;
                 uint32_t v36;
-                bool r37;
-                uint32_t let38;
+                uint32_t v37;
+                bool r38;
                 uint32_t let39;
-                bool v45;
+                uint32_t let40;
+                bool v46;
                 
-                v34 = la7[0];
-                v35 = la10[0];
-                v36 = la11[0];
-                r37 = false;
-                let38 = v36 + 1;
-                let39 = 11;
-                if ((let38 < let39 ? let38 : let38 - let39) == v35) {
-                    r37 = false;
+                v35 = la7[0];
+                v36 = la10[0];
+                v37 = la11[0];
+                r38 = false;
+                let39 = v37 + 1;
+                let40 = 11;
+                if ((let39 < let40 ? let39 : let39 - let40) == v36) {
+                    r38 = false;
                 } else {
-                    uint32_t v40;
-                    uint32_t let41;
+                    uint32_t v41;
                     uint32_t let42;
                     uint32_t let43;
                     uint32_t let44;
+                    uint32_t let45;
                     
-                    v40 = la11[0];
-                    la13[v40] = r17;
-                    let41 = v36 + 1;
-                    let42 = 11;
-                    la11[0] = let41 < let42 ? let41 : let41 - let42;
-                    let43 = v36 + 1;
-                    let44 = 11;
-                    la12[0] = let43 < let44 ? let43 : let43 - let44;
-                    r37 = true;
+                    v41 = la11[0];
+                    la13[v41] = r18;
+                    let42 = v37 + 1;
+                    let43 = 11;
+                    la11[0] = let42 < let43 ? let42 : let42 - let43;
+                    let44 = v37 + 1;
+                    let45 = 11;
+                    la12[0] = let44 < let45 ? let44 : let44 - let45;
+                    r38 = true;
                 }
-                v45 = r37;
-                if (!(v34 && !v45))
+                v46 = r38;
+                if (!(v35 && !v46))
                     break;
             }
-            r33 = true;
+            r34 = true;
         } else {
-            r33 = false;
+            r34 = false;
         }
-        if (!r33) {
+        if (!r34) {
             la2[0] = false;
             core_halt();
         }

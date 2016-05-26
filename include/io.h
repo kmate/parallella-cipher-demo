@@ -7,13 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <pthread.h>
-
-pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
-
-bool moreToRead = true;
-size_t unprocessedBytes = 0;
-
 // Endiannes conversion based on openssl: crypto/bf/bf_locl.h
 #define n2l(c,l) (l =((uint32_t)(*((c)++)))<<24L, \
                   l|=((uint32_t)(*((c)++)))<<16L, \
@@ -28,24 +21,15 @@ size_t unprocessedBytes = 0;
 bool read_block(uint64_t *b) {
   size_t bytesRead = 0;
   *b = 0;
+  bool readOk = true;
 
-  bool readIt;
-  pthread_mutex_lock(&m);
-  readIt = moreToRead;
-  pthread_mutex_unlock(&m);
+  while (bytesRead < sizeof(uint64_t) && !feof(stdin)) {
+    bytesRead += fread((uint8_t *)b + bytesRead, sizeof(uint8_t), 1, stdin);
+  }
 
-  if (readIt) {
-    while (bytesRead < sizeof(uint64_t) && !feof(stdin)) {
-      bytesRead += fread((uint8_t *)b + bytesRead, sizeof(uint8_t), 1, stdin);
-    }
-
-    pthread_mutex_lock(&m);
-    unprocessedBytes += bytesRead;
-    if (feof(stdin)) {
-      moreToRead = false;
-    }
-    pthread_mutex_unlock(&m);
-
+  if (bytesRead < sizeof(uint64_t)) {
+    readOk = false;
+  } else {
     // Conversion to big-endian
     uint64_t t = *b;
     uint8_t *in = (uint8_t *)&t;
@@ -56,30 +40,21 @@ bool read_block(uint64_t *b) {
     *((uint32_t *)b) = l;
   }
 
-  return true;
+  return readOk;
 }
 
 bool write_block(uint64_t b) {
-  pthread_mutex_lock(&m);
-  bool writeIt = unprocessedBytes > 0;
-  bool more = moreToRead || writeIt;
-  unprocessedBytes -= sizeof(uint64_t);
-  pthread_mutex_unlock(&m);
+  // Conversion to little-endian
+  uint64_t t = b;
+  uint8_t *out = (uint8_t *)&t;
+  uint32_t l;
+  l = b >> 32;
+  l2n(l, out);
+  l = b;
+  l2n(l, out);
 
-  if (writeIt) {
-    // Conversion to little-endian
-    uint64_t t = b;
-    uint8_t *out = (uint8_t *)&t;
-    uint32_t l;
-    l = b >> 32;
-    l2n(l, out);
-    l = b;
-    l2n(l, out);
-
-    fwrite(&t, sizeof(uint64_t), 1, stdout);
-  }
-
-  return more;
+  fwrite(&t, sizeof(uint64_t), 1, stdout);
+  return true;
 }
 
 void read_key(uint8_t *key) {
