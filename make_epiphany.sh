@@ -27,7 +27,7 @@ case $(uname -p) in
 esac
 
 # Build HOST side application
-${CROSS_PREFIX}gcc -std=gnu99 -D_BSD_SOURCE gen/host.c -o cipher -Iinclude -I ${EINCS} -L ${ELIBS} -le-hal -le-loader -lpthread
+${CROSS_PREFIX}gcc -std=gnu99 -D_BSD_SOURCE feldspar-parallella.c gen/host.c -o cipher -Iinclude -I ${EINCS} -L ${ELIBS} -le-hal -le-loader -lpthread
 
 cd gen
 for f in core*.c
@@ -36,7 +36,7 @@ do
     SREC=../${f%.*}.srec
 
     # Build DEVICE side programs
-    e-gcc -std=gnu99 -I../include -T ${ELDF} $f -o ${ELF} -le-lib -lm -Os
+    e-gcc -std=gnu99 -I../include -T ${ELDF} ../feldspar-parallella.c $f -o ${ELF} -le-lib -lm -Os
     # Convert ebinaries to SREC files
     e-objcopy --srec-forceS3 --output-target srec ${ELF} ${SREC}
 done
