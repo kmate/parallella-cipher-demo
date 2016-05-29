@@ -190,12 +190,6 @@ initContext rctx@(rpbox,rsbox) (Dim1 keyLen key) = do
 -- Main program and utilities
 --------------------------------------------------------------------------------
 
-chanSize :: SizeSpec (Data a)
-chanSize = 10
-
-a |>>>| b = a |>>chanSize>>| b
-
-
 readKey :: Host Key
 readKey = liftHost $ do
     key <- newArr 16 -- the key is an md5 hash which is 128 bits long always
@@ -216,7 +210,7 @@ mainProgram = do
             b :: Block <- getRef br
             return (b, isOpen)
         output block = liftHost $ callFun "write_block" [valArg (block :: Block)]
-    runZ (encrypt ctx) input chanSize output chanSize
+    runZ (encrypt ctx) input one output one
 
 
 main = do

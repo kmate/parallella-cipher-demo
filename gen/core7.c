@@ -1,18 +1,13 @@
-#include <e-feldspar.h>
 #include <e-lib.h>
+#include <feldspar-parallella.h>
 #include <stdbool.h>
 #include <stdint.h>
-volatile bool *const la49 = (bool *) 2225086544;
-volatile bool *const la50 = (bool *) 2225086560;
-volatile uint32_t *const la51 = (uint32_t *) 8192;
-volatile uint32_t *const la52 = (uint32_t *) 2225086576;
-volatile uint32_t *const la54 = (uint32_t *) 8208;
-volatile uint32_t *const la55 = (uint32_t *) 8224;
-volatile bool *const la56 = (bool *) 8272;
-volatile uint32_t *const la59 = (uint32_t *) 8304;
-volatile uint32_t *const la60 = (uint32_t *) 8320;
-volatile uint32_t *const la61 = (uint32_t *) 2290098192;
-volatile uint32_t *const la62 = (uint32_t *) 2290098208;
+volatile bool *const la23 = (bool *) 8192;
+volatile bool *const la24 = (bool *) 8208;
+volatile uint32_t *const la25 = (uint32_t *) 8224;
+volatile bool *const la26 = (bool *) 2290098176;
+volatile bool *const la27 = (bool *) 2290098192;
+volatile uint32_t *const la28 = (uint32_t *) 2290098208;
 volatile void *const sa0 = (void *) 16777216;
 volatile void *const sa1 = (void *) 16777296;
 extern int _CORE_ROW_;
@@ -31,228 +26,45 @@ int main()
     core_read_shared(sa0, a0, 0, 0, 17);
     core_read_shared(sa1, a1, 0, 0, 1023);
     while (1) {
-        uint32_t r2;
+        uint32_t _a2[1] __attribute__((aligned(16)));
+        uint32_t *a2 = _a2;
         bool v3;
-        bool v17;
-        uint32_t v18;
-        uint32_t r19;
-        bool v20;
-        bool v34;
-        uint32_t v35;
-        uint32_t r36;
-        bool v37;
-        bool r38;
-        bool v51;
-        bool r52;
+        uint32_t v4;
+        uint32_t _a5[1] __attribute__((aligned(16)));
+        uint32_t *a5 = _a5;
+        bool v6;
+        uint32_t v7;
+        uint32_t r8;
+        uint32_t r9;
+        bool v10;
+        uint32_t r11;
+        bool v12;
         
-        v3 = la50[0];
-        if (v3) {
-            bool r4;
-            bool r5;
-            bool v16;
-            
-            r4 = true;
-            r5 = true;
-            while (1) {
-                bool v6;
-                uint32_t v7;
-                uint32_t v8;
-                
-                v6 = r4;
-                if (!v6)
-                    break;
-                v7 = la51[0];
-                v8 = la54[0];
-                if (!(v7 == v8)) {
-                    uint32_t v9;
-                    uint32_t v10;
-                    uint32_t let11;
-                    uint32_t let12;
-                    uint32_t let13;
-                    uint32_t let14;
-                    
-                    v9 = la51[0];
-                    v10 = la55[v9];
-                    let11 = v9 + 1;
-                    let12 = 11;
-                    la51[0] = let11 < let12 ? let11 : let11 - let12;
-                    let13 = v9 + 1;
-                    let14 = 11;
-                    la52[0] = let13 < let14 ? let13 : let13 - let14;
-                    r2 = v10;
-                    r4 = false;
-                } else {
-                    bool v15;
-                    
-                    v15 = la49[0];
-                    if (!v15) {
-                        r4 = false;
-                        r5 = false;
-                    }
-                }
-            }
-            v16 = r5;
-            la50[0] = v16;
-        }
-        v17 = la50[0];
-        if (!v17) {
-            la56[0] = false;
+        v3 = core_read_c2c(la25, la23, la24, a2, 0, 1);
+        if (!v3) {
+            core_close_chan(la28, la26, la27);
             core_halt();
         }
-        v18 = r2;
-        v20 = la50[0];
-        if (v20) {
-            bool r21;
-            bool r22;
-            bool v33;
-            
-            r21 = true;
-            r22 = true;
-            while (1) {
-                bool v23;
-                uint32_t v24;
-                uint32_t v25;
-                
-                v23 = r21;
-                if (!v23)
-                    break;
-                v24 = la51[0];
-                v25 = la54[0];
-                if (!(v24 == v25)) {
-                    uint32_t v26;
-                    uint32_t v27;
-                    uint32_t let28;
-                    uint32_t let29;
-                    uint32_t let30;
-                    uint32_t let31;
-                    
-                    v26 = la51[0];
-                    v27 = la55[v26];
-                    let28 = v26 + 1;
-                    let29 = 11;
-                    la51[0] = let28 < let29 ? let28 : let28 - let29;
-                    let30 = v26 + 1;
-                    let31 = 11;
-                    la52[0] = let30 < let31 ? let30 : let30 - let31;
-                    r19 = v27;
-                    r21 = false;
-                } else {
-                    bool v32;
-                    
-                    v32 = la49[0];
-                    if (!v32) {
-                        r21 = false;
-                        r22 = false;
-                    }
-                }
-            }
-            v33 = r22;
-            la50[0] = v33;
-        }
-        v34 = la50[0];
-        if (!v34) {
-            la56[0] = false;
+        v4 = a2[0];
+        v6 = core_read_c2c(la25, la23, la24, a5, 0, 1);
+        if (!v6) {
+            core_close_chan(la28, la26, la27);
             core_halt();
         }
-        v35 = r19;
-        r36 = v18 ^ a0[7];
-        v37 = la56[0];
-        if (v37) {
-            while (1) {
-                bool v39;
-                uint32_t v40;
-                uint32_t v41;
-                bool r42;
-                uint32_t let43;
-                uint32_t let44;
-                bool v50;
-                
-                v39 = la56[0];
-                v40 = la59[0];
-                v41 = la60[0];
-                r42 = false;
-                let43 = v41 + 1;
-                let44 = 11;
-                if ((let43 < let44 ? let43 : let43 - let44) == v40) {
-                    r42 = false;
-                } else {
-                    uint32_t v45;
-                    uint32_t let46;
-                    uint32_t let47;
-                    uint32_t let48;
-                    uint32_t let49;
-                    
-                    v45 = la60[0];
-                    la62[v45] = (((a1[r36 >> 24] + a1[(r36 >> 16 & 255) +
-                                                      256]) ^ a1[(r36 >> 8 &
-                                                                  255) + 512]) +
-                                 a1[(r36 & 255) + 768]) ^ v35;
-                    let46 = v41 + 1;
-                    let47 = 11;
-                    la60[0] = let46 < let47 ? let46 : let46 - let47;
-                    let48 = v41 + 1;
-                    let49 = 11;
-                    la61[0] = let48 < let49 ? let48 : let48 - let49;
-                    r42 = true;
-                }
-                v50 = r42;
-                if (!(v39 && !v50))
-                    break;
-            }
-            r38 = true;
-        } else {
-            r38 = false;
-        }
-        if (!r38) {
-            la49[0] = false;
+        v7 = a5[0];
+        r8 = v4 ^ a0[7];
+        r9 = (((a1[r8 >> 24] + a1[(r8 >> 16 & 255) + 256]) ^ a1[(r8 >> 8 &
+                                                                 255) + 512]) +
+              a1[(r8 & 255) + 768]) ^ v7;
+        v10 = core_write_c2c(la28, la26, la27, &r9, 0, 1);
+        if (!v10) {
+            core_close_chan(la25, la23, la24);
             core_halt();
         }
-        v51 = la56[0];
-        if (v51) {
-            while (1) {
-                bool v53;
-                uint32_t v54;
-                uint32_t v55;
-                bool r56;
-                uint32_t let57;
-                uint32_t let58;
-                bool v64;
-                
-                v53 = la56[0];
-                v54 = la59[0];
-                v55 = la60[0];
-                r56 = false;
-                let57 = v55 + 1;
-                let58 = 11;
-                if ((let57 < let58 ? let57 : let57 - let58) == v54) {
-                    r56 = false;
-                } else {
-                    uint32_t v59;
-                    uint32_t let60;
-                    uint32_t let61;
-                    uint32_t let62;
-                    uint32_t let63;
-                    
-                    v59 = la60[0];
-                    la62[v59] = r36;
-                    let60 = v55 + 1;
-                    let61 = 11;
-                    la60[0] = let60 < let61 ? let60 : let60 - let61;
-                    let62 = v55 + 1;
-                    let63 = 11;
-                    la61[0] = let62 < let63 ? let62 : let62 - let63;
-                    r56 = true;
-                }
-                v64 = r56;
-                if (!(v53 && !v64))
-                    break;
-            }
-            r52 = true;
-        } else {
-            r52 = false;
-        }
-        if (!r52) {
-            la49[0] = false;
+        r11 = r8;
+        v12 = core_write_c2c(la28, la26, la27, &r11, 0, 1);
+        if (!v12) {
+            core_close_chan(la25, la23, la24);
             core_halt();
         }
     }

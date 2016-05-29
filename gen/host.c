@@ -1,261 +1,99 @@
 #include "io.h"
-#include <e-feldspar.h>
 #include <e-hal.h>
 #include <e-loader.h>
+#include <feldspar-parallella.h>
 #include <pthread.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <unistd.h>
-void *thread_t159(void *unused);
-e_epiphany_t group0;
-e_mem_t shm156;
+void *thread_t63(void *unused);
+host_chan_t chan62;
 off_t sa0 = 16777216;
 off_t sa1 = 16777296;
 off_t la2 = 8192;
 off_t la3 = 8208;
-off_t la4 = 8224;
-off_t la5 = 8240;
-off_t sa6 = 16781392;
-off_t la7 = 8256;
-off_t la8 = 8272;
-off_t la9 = 8192;
-off_t la10 = 8288;
-off_t la11 = 8304;
+off_t sa4 = 16781392;
+off_t la5 = 8192;
+off_t la6 = 8208;
+off_t la7 = 8224;
+off_t la8 = 8192;
+off_t la9 = 8208;
+off_t la10 = 8224;
+off_t la11 = 8192;
 off_t la12 = 8208;
 off_t la13 = 8224;
-off_t la14 = 8272;
-off_t la15 = 8288;
-off_t la16 = 8192;
-off_t la17 = 8304;
-off_t la18 = 8320;
-off_t la19 = 8208;
-off_t la20 = 8224;
-off_t la21 = 8272;
-off_t la22 = 8288;
+off_t la14 = 8192;
+off_t la15 = 8208;
+off_t la16 = 8224;
+off_t la17 = 8192;
+off_t la18 = 8208;
+off_t la19 = 8224;
+off_t la20 = 8192;
+off_t la21 = 8208;
+off_t la22 = 8224;
 off_t la23 = 8192;
-off_t la24 = 8304;
-off_t la25 = 8320;
-off_t la26 = 8208;
-off_t la27 = 8224;
-off_t la28 = 8272;
-off_t la29 = 8288;
-off_t la30 = 8192;
-off_t la31 = 8304;
-off_t la32 = 8320;
+off_t la24 = 8208;
+off_t la25 = 8224;
+off_t la26 = 8192;
+off_t la27 = 8208;
+off_t la28 = 8224;
+off_t la29 = 8192;
+off_t la30 = 8208;
+off_t la31 = 8224;
+off_t la32 = 8192;
 off_t la33 = 8208;
 off_t la34 = 8224;
-off_t la35 = 8272;
-off_t la36 = 8288;
-off_t la37 = 8192;
-off_t la38 = 8304;
-off_t la39 = 8320;
-off_t la40 = 8208;
-off_t la41 = 8224;
-off_t la42 = 8272;
-off_t la43 = 8288;
+off_t la35 = 8192;
+off_t la36 = 8208;
+off_t la37 = 8224;
+off_t la38 = 8192;
+off_t la39 = 8208;
+off_t la40 = 8224;
+off_t la41 = 8192;
+off_t la42 = 8208;
+off_t la43 = 8224;
 off_t la44 = 8192;
-off_t la45 = 8304;
-off_t la46 = 8320;
-off_t la47 = 8208;
-off_t la48 = 8224;
-off_t la49 = 8272;
-off_t la50 = 8288;
-off_t la51 = 8192;
-off_t la52 = 8304;
-off_t la53 = 8320;
-off_t la54 = 8208;
-off_t la55 = 8224;
-off_t la56 = 8272;
-off_t la57 = 8288;
-off_t la58 = 8192;
-off_t la59 = 8304;
-off_t la60 = 8320;
-off_t la61 = 8208;
-off_t la62 = 8224;
-off_t la63 = 8272;
-off_t la64 = 8288;
-off_t la65 = 8192;
-off_t la66 = 8304;
-off_t la67 = 8320;
-off_t la68 = 8208;
-off_t la69 = 8224;
-off_t la70 = 8272;
-off_t la71 = 8288;
-off_t la72 = 8192;
-off_t la73 = 8304;
-off_t la74 = 8320;
-off_t la75 = 8208;
-off_t la76 = 8224;
-off_t la77 = 8272;
-off_t la78 = 8288;
-off_t la79 = 8192;
-off_t la80 = 8304;
-off_t la81 = 8320;
-off_t la82 = 8208;
-off_t la83 = 8224;
-off_t la84 = 8272;
-off_t la85 = 8288;
-off_t la86 = 8192;
-off_t la87 = 8304;
-off_t la88 = 8320;
-off_t la89 = 8208;
-off_t la90 = 8224;
-off_t la91 = 8272;
-off_t la92 = 8288;
-off_t la93 = 8192;
-off_t la94 = 8304;
-off_t la95 = 8320;
-off_t la96 = 8208;
-off_t la97 = 8224;
-off_t la98 = 8272;
-off_t la99 = 8288;
-off_t la100 = 8192;
-off_t la101 = 8304;
-off_t la102 = 8320;
-off_t la103 = 8208;
-off_t la104 = 8224;
-off_t la105 = 8272;
-off_t la106 = 8288;
-off_t la107 = 8192;
-off_t la108 = 8304;
-off_t la109 = 8320;
-off_t la110 = 8208;
-off_t la111 = 8224;
-off_t la112 = 8272;
-off_t la113 = 8288;
-off_t la114 = 8304;
-off_t la115 = 8320;
-off_t sa116 = 16781488;
-void *thread_t159(void *unused)
+off_t la45 = 8208;
+off_t la46 = 8224;
+off_t la47 = 8192;
+off_t la48 = 8208;
+off_t la49 = 8224;
+off_t la50 = 8240;
+off_t la51 = 8256;
+off_t sa52 = 16781408;
+void *thread_t63(void *unused)
 {
-    bool r160;
+    bool r64;
     
-    r160 = true;
+    r64 = true;
     while (1) {
-        bool v161;
-        uint64_t r162;
-        bool _a163[1];
-        bool *a163 = _a163;
-        bool _a188[1];
-        bool *a188 = _a188;
+        bool v65;
+        uint64_t _a66[1];
+        uint64_t *a66 = _a66;
+        bool v67;
         
-        v161 = r160;
-        if (!v161)
+        v65 = r64;
+        if (!v65)
             break;
-        host_read_local(&group0, 3, 3, la113, a163, 0, 0, 0);
-        if (a163[0]) {
-            uint64_t _a164[1];
-            uint64_t *a164 = _a164;
-            uint32_t r165;
-            bool r166;
-            bool v185;
-            uint64_t v186;
-            bool _a187[1];
-            bool *a187 = _a187;
+        v67 = host_read_c2h(chan62, a66, 0, 1);
+        if (v67) {
+            uint64_t v68;
+            bool v69;
             
-            r165 = 0;
-            r166 = true;
-            while (1) {
-                uint32_t v167;
-                uint32_t v168;
-                uint32_t _a169[1];
-                uint32_t *a169 = _a169;
-                uint32_t _a170[1];
-                uint32_t *a170 = _a170;
-                uint32_t r171;
-                uint32_t let172;
-                uint32_t let173;
-                uint32_t r174;
-                uint32_t let175;
-                uint32_t r176;
-                uint32_t r177;
-                
-                v167 = r165;
-                if (!(v167 < 1))
-                    break;
-                v168 = r165;
-                host_read_local(&group0, 3, 3, la114, a169, 0, 0, 0);
-                host_read_local(&group0, 3, 3, la115, a170, 0, 0, 0);
-                r171 = 11;
-                let172 = r171 + a170[0] - a169[0];
-                let173 = r171;
-                r174 = let172 < let173 ? let172 : let172 - let173;
-                let175 = -v168 + 1;
-                r176 = let175 <= r174 ? let175 : r174;
-                if (r176 > 0) {
-                    uint32_t let180;
-                    uint32_t let181;
-                    uint32_t r182;
-                    uint32_t _a183[1];
-                    uint32_t *a183 = _a183;
-                    
-                    if (a169[0] + r176 <= r171) {
-                        host_read_shared(&shm156, a164, a169[0], v168, v168 +
-                                         r176 - 1);
-                    } else {
-                        uint32_t r178;
-                        uint32_t r179;
-                        
-                        r178 = r171 - a169[0];
-                        host_read_shared(&shm156, a164, a169[0], v168, v168 +
-                                         r178 - 1);
-                        r179 = v168 + r178;
-                        host_read_shared(&shm156, a164, 0, r179, r179 + r176 -
-                                         r178 - 1);
-                    }
-                    let180 = a169[0] + r176;
-                    let181 = r171;
-                    r182 = let180 < let181 ? let180 : let180 - let181;
-                    a183[0] = r182;
-                    host_write_local(&group0, 3, 3, la114, a183, 0, 0, 0);
-                    r177 = r176;
-                } else {
-                    r177 = 0;
-                }
-                if (0 == r177) {
-                    bool _a184[1];
-                    bool *a184 = _a184;
-                    
-                    host_read_local(&group0, 3, 3, la112, a184, 0, 0, 0);
-                    if (a184[0]) {
-                        usleep(100);
-                    } else {
-                        r165 = 1;
-                        r166 = false;
-                    }
-                } else {
-                    r165 = v168 + r177;
-                }
-            }
-            v185 = r166;
-            v186 = a164[0];
-            r162 = v186;
-            a187[0] = v185;
-            host_write_local(&group0, 3, 3, la113, a187, 0, 0, 0);
-        }
-        host_read_local(&group0, 3, 3, la113, a188, 0, 0, 0);
-        if (a188[0]) {
-            uint64_t v189;
-            bool v190;
-            
-            v189 = r162;
-            v190 = write_block(v189);
-            r160 = v190;
-            if (!v190) {
-                bool _a191[1];
-                bool *a191 = _a191;
-                
-                a191[0] = false;
-                host_write_local(&group0, 3, 3, la112, a191, 0, 0, 0);
+            v68 = a66[0];
+            v69 = write_block(v68);
+            r64 = v69;
+            if (!v69) {
+                host_close_chan(chan62);
             }
         } else {
-            r160 = false;
+            r64 = false;
         }
     }
     return NULL;
 }
 int main()
 {
+    e_epiphany_t group0;
     e_mem_t shm1;
     e_mem_t shm2;
     uint8_t _a3[16];
@@ -492,207 +330,11 @@ int main()
     uint32_t r16;
     uint32_t v17;
     uint32_t v38;
-    bool _a59[1];
-    bool *a59 = _a59;
-    bool _a60[1];
-    bool *a60 = _a60;
+    e_mem_t shm59;
+    host_chan_t chan60;
     e_mem_t shm61;
-    uint32_t _a62[1];
-    uint32_t *a62 = _a62;
-    uint32_t _a63[1];
-    uint32_t *a63 = _a63;
-    bool _a64[1];
-    bool *a64 = _a64;
-    bool _a65[1];
-    bool *a65 = _a65;
-    uint32_t _a66[1];
-    uint32_t *a66 = _a66;
-    uint32_t _a67[1];
-    uint32_t *a67 = _a67;
-    uint32_t _a68[1];
-    uint32_t *a68 = _a68;
-    uint32_t _a69[1];
-    uint32_t *a69 = _a69;
-    bool _a70[1];
-    bool *a70 = _a70;
-    bool _a71[1];
-    bool *a71 = _a71;
-    uint32_t _a72[1];
-    uint32_t *a72 = _a72;
-    uint32_t _a73[1];
-    uint32_t *a73 = _a73;
-    uint32_t _a74[1];
-    uint32_t *a74 = _a74;
-    uint32_t _a75[1];
-    uint32_t *a75 = _a75;
-    bool _a76[1];
-    bool *a76 = _a76;
-    bool _a77[1];
-    bool *a77 = _a77;
-    uint32_t _a78[1];
-    uint32_t *a78 = _a78;
-    uint32_t _a79[1];
-    uint32_t *a79 = _a79;
-    uint32_t _a80[1];
-    uint32_t *a80 = _a80;
-    uint32_t _a81[1];
-    uint32_t *a81 = _a81;
-    bool _a82[1];
-    bool *a82 = _a82;
-    bool _a83[1];
-    bool *a83 = _a83;
-    uint32_t _a84[1];
-    uint32_t *a84 = _a84;
-    uint32_t _a85[1];
-    uint32_t *a85 = _a85;
-    uint32_t _a86[1];
-    uint32_t *a86 = _a86;
-    uint32_t _a87[1];
-    uint32_t *a87 = _a87;
-    bool _a88[1];
-    bool *a88 = _a88;
-    bool _a89[1];
-    bool *a89 = _a89;
-    uint32_t _a90[1];
-    uint32_t *a90 = _a90;
-    uint32_t _a91[1];
-    uint32_t *a91 = _a91;
-    uint32_t _a92[1];
-    uint32_t *a92 = _a92;
-    uint32_t _a93[1];
-    uint32_t *a93 = _a93;
-    bool _a94[1];
-    bool *a94 = _a94;
-    bool _a95[1];
-    bool *a95 = _a95;
-    uint32_t _a96[1];
-    uint32_t *a96 = _a96;
-    uint32_t _a97[1];
-    uint32_t *a97 = _a97;
-    uint32_t _a98[1];
-    uint32_t *a98 = _a98;
-    uint32_t _a99[1];
-    uint32_t *a99 = _a99;
-    bool _a100[1];
-    bool *a100 = _a100;
-    bool _a101[1];
-    bool *a101 = _a101;
-    uint32_t _a102[1];
-    uint32_t *a102 = _a102;
-    uint32_t _a103[1];
-    uint32_t *a103 = _a103;
-    uint32_t _a104[1];
-    uint32_t *a104 = _a104;
-    uint32_t _a105[1];
-    uint32_t *a105 = _a105;
-    bool _a106[1];
-    bool *a106 = _a106;
-    bool _a107[1];
-    bool *a107 = _a107;
-    uint32_t _a108[1];
-    uint32_t *a108 = _a108;
-    uint32_t _a109[1];
-    uint32_t *a109 = _a109;
-    uint32_t _a110[1];
-    uint32_t *a110 = _a110;
-    uint32_t _a111[1];
-    uint32_t *a111 = _a111;
-    bool _a112[1];
-    bool *a112 = _a112;
-    bool _a113[1];
-    bool *a113 = _a113;
-    uint32_t _a114[1];
-    uint32_t *a114 = _a114;
-    uint32_t _a115[1];
-    uint32_t *a115 = _a115;
-    uint32_t _a116[1];
-    uint32_t *a116 = _a116;
-    uint32_t _a117[1];
-    uint32_t *a117 = _a117;
-    bool _a118[1];
-    bool *a118 = _a118;
-    bool _a119[1];
-    bool *a119 = _a119;
-    uint32_t _a120[1];
-    uint32_t *a120 = _a120;
-    uint32_t _a121[1];
-    uint32_t *a121 = _a121;
-    uint32_t _a122[1];
-    uint32_t *a122 = _a122;
-    uint32_t _a123[1];
-    uint32_t *a123 = _a123;
-    bool _a124[1];
-    bool *a124 = _a124;
-    bool _a125[1];
-    bool *a125 = _a125;
-    uint32_t _a126[1];
-    uint32_t *a126 = _a126;
-    uint32_t _a127[1];
-    uint32_t *a127 = _a127;
-    uint32_t _a128[1];
-    uint32_t *a128 = _a128;
-    uint32_t _a129[1];
-    uint32_t *a129 = _a129;
-    bool _a130[1];
-    bool *a130 = _a130;
-    bool _a131[1];
-    bool *a131 = _a131;
-    uint32_t _a132[1];
-    uint32_t *a132 = _a132;
-    uint32_t _a133[1];
-    uint32_t *a133 = _a133;
-    uint32_t _a134[1];
-    uint32_t *a134 = _a134;
-    uint32_t _a135[1];
-    uint32_t *a135 = _a135;
-    bool _a136[1];
-    bool *a136 = _a136;
-    bool _a137[1];
-    bool *a137 = _a137;
-    uint32_t _a138[1];
-    uint32_t *a138 = _a138;
-    uint32_t _a139[1];
-    uint32_t *a139 = _a139;
-    uint32_t _a140[1];
-    uint32_t *a140 = _a140;
-    uint32_t _a141[1];
-    uint32_t *a141 = _a141;
-    bool _a142[1];
-    bool *a142 = _a142;
-    bool _a143[1];
-    bool *a143 = _a143;
-    uint32_t _a144[1];
-    uint32_t *a144 = _a144;
-    uint32_t _a145[1];
-    uint32_t *a145 = _a145;
-    uint32_t _a146[1];
-    uint32_t *a146 = _a146;
-    uint32_t _a147[1];
-    uint32_t *a147 = _a147;
-    bool _a148[1];
-    bool *a148 = _a148;
-    bool _a149[1];
-    bool *a149 = _a149;
-    uint32_t _a150[1];
-    uint32_t *a150 = _a150;
-    uint32_t _a151[1];
-    uint32_t *a151 = _a151;
-    uint32_t _a152[1];
-    uint32_t *a152 = _a152;
-    uint32_t _a153[1];
-    uint32_t *a153 = _a153;
-    bool _a154[1];
-    bool *a154 = _a154;
-    bool _a155[1];
-    bool *a155 = _a155;
-    uint32_t _a157[1];
-    uint32_t *a157 = _a157;
-    uint32_t _a158[1];
-    uint32_t *a158 = _a158;
-    pthread_t t159;
-    bool r192;
-    bool _a220[1];
-    bool *a220 = _a220;
+    pthread_t t63;
+    bool r70;
     
     e_init(0);
     e_reset_system();
@@ -918,329 +560,70 @@ int main()
     }
     host_write_shared(&shm1, a5, 0, 0, 17);
     host_write_shared(&shm2, a4, 0, 0, 1023);
-    a59[0] = true;
-    host_write_local(&group0, 0, 0, la2, a59, 0, 0, 0);
-    a60[0] = true;
-    host_write_local(&group0, 0, 0, la3, a60, 0, 0, 0);
-    e_alloc(&shm61, sa6, 88);
-    a62[0] = 0;
-    host_write_local(&group0, 0, 0, la4, a62, 0, 0, 0);
-    a63[0] = 0;
-    host_write_local(&group0, 0, 0, la5, a63, 0, 0, 0);
-    a64[0] = true;
-    host_write_local(&group0, 0, 0, la7, a64, 0, 0, 0);
-    a65[0] = true;
-    host_write_local(&group0, 0, 0, la8, a65, 0, 0, 0);
-    a66[0] = 0;
-    host_write_local(&group0, 0, 1, la9, a66, 0, 0, 0);
-    a67[0] = 0;
-    host_write_local(&group0, 0, 0, la10, a67, 0, 0, 0);
-    a68[0] = 0;
-    host_write_local(&group0, 0, 0, la11, a68, 0, 0, 0);
-    a69[0] = 0;
-    host_write_local(&group0, 0, 1, la12, a69, 0, 0, 0);
+    e_alloc(&shm59, sa4, 8);
+    init_host_chan(&chan60, &group0, 0, 0, &shm59, la2, la3);
+    init_core_chan(&group0, 0, 1, la5, la6);
     e_load("core0.srec", &group0, 0, 0, 1);
-    a70[0] = true;
-    host_write_local(&group0, 0, 1, la14, a70, 0, 0, 0);
-    a71[0] = true;
-    host_write_local(&group0, 0, 1, la15, a71, 0, 0, 0);
-    a72[0] = 0;
-    host_write_local(&group0, 0, 2, la16, a72, 0, 0, 0);
-    a73[0] = 0;
-    host_write_local(&group0, 0, 1, la17, a73, 0, 0, 0);
-    a74[0] = 0;
-    host_write_local(&group0, 0, 1, la18, a74, 0, 0, 0);
-    a75[0] = 0;
-    host_write_local(&group0, 0, 2, la19, a75, 0, 0, 0);
+    init_core_chan(&group0, 0, 2, la8, la9);
     e_load("core1.srec", &group0, 0, 1, 1);
-    a76[0] = true;
-    host_write_local(&group0, 0, 2, la21, a76, 0, 0, 0);
-    a77[0] = true;
-    host_write_local(&group0, 0, 2, la22, a77, 0, 0, 0);
-    a78[0] = 0;
-    host_write_local(&group0, 0, 3, la23, a78, 0, 0, 0);
-    a79[0] = 0;
-    host_write_local(&group0, 0, 2, la24, a79, 0, 0, 0);
-    a80[0] = 0;
-    host_write_local(&group0, 0, 2, la25, a80, 0, 0, 0);
-    a81[0] = 0;
-    host_write_local(&group0, 0, 3, la26, a81, 0, 0, 0);
+    init_core_chan(&group0, 0, 3, la11, la12);
     e_load("core2.srec", &group0, 0, 2, 1);
-    a82[0] = true;
-    host_write_local(&group0, 0, 3, la28, a82, 0, 0, 0);
-    a83[0] = true;
-    host_write_local(&group0, 0, 3, la29, a83, 0, 0, 0);
-    a84[0] = 0;
-    host_write_local(&group0, 1, 0, la30, a84, 0, 0, 0);
-    a85[0] = 0;
-    host_write_local(&group0, 0, 3, la31, a85, 0, 0, 0);
-    a86[0] = 0;
-    host_write_local(&group0, 0, 3, la32, a86, 0, 0, 0);
-    a87[0] = 0;
-    host_write_local(&group0, 1, 0, la33, a87, 0, 0, 0);
+    init_core_chan(&group0, 1, 0, la14, la15);
     e_load("core3.srec", &group0, 0, 3, 1);
-    a88[0] = true;
-    host_write_local(&group0, 1, 0, la35, a88, 0, 0, 0);
-    a89[0] = true;
-    host_write_local(&group0, 1, 0, la36, a89, 0, 0, 0);
-    a90[0] = 0;
-    host_write_local(&group0, 1, 1, la37, a90, 0, 0, 0);
-    a91[0] = 0;
-    host_write_local(&group0, 1, 0, la38, a91, 0, 0, 0);
-    a92[0] = 0;
-    host_write_local(&group0, 1, 0, la39, a92, 0, 0, 0);
-    a93[0] = 0;
-    host_write_local(&group0, 1, 1, la40, a93, 0, 0, 0);
+    init_core_chan(&group0, 1, 1, la17, la18);
     e_load("core4.srec", &group0, 1, 0, 1);
-    a94[0] = true;
-    host_write_local(&group0, 1, 1, la42, a94, 0, 0, 0);
-    a95[0] = true;
-    host_write_local(&group0, 1, 1, la43, a95, 0, 0, 0);
-    a96[0] = 0;
-    host_write_local(&group0, 1, 2, la44, a96, 0, 0, 0);
-    a97[0] = 0;
-    host_write_local(&group0, 1, 1, la45, a97, 0, 0, 0);
-    a98[0] = 0;
-    host_write_local(&group0, 1, 1, la46, a98, 0, 0, 0);
-    a99[0] = 0;
-    host_write_local(&group0, 1, 2, la47, a99, 0, 0, 0);
+    init_core_chan(&group0, 1, 2, la20, la21);
     e_load("core5.srec", &group0, 1, 1, 1);
-    a100[0] = true;
-    host_write_local(&group0, 1, 2, la49, a100, 0, 0, 0);
-    a101[0] = true;
-    host_write_local(&group0, 1, 2, la50, a101, 0, 0, 0);
-    a102[0] = 0;
-    host_write_local(&group0, 1, 3, la51, a102, 0, 0, 0);
-    a103[0] = 0;
-    host_write_local(&group0, 1, 2, la52, a103, 0, 0, 0);
-    a104[0] = 0;
-    host_write_local(&group0, 1, 2, la53, a104, 0, 0, 0);
-    a105[0] = 0;
-    host_write_local(&group0, 1, 3, la54, a105, 0, 0, 0);
+    init_core_chan(&group0, 1, 3, la23, la24);
     e_load("core6.srec", &group0, 1, 2, 1);
-    a106[0] = true;
-    host_write_local(&group0, 1, 3, la56, a106, 0, 0, 0);
-    a107[0] = true;
-    host_write_local(&group0, 1, 3, la57, a107, 0, 0, 0);
-    a108[0] = 0;
-    host_write_local(&group0, 2, 0, la58, a108, 0, 0, 0);
-    a109[0] = 0;
-    host_write_local(&group0, 1, 3, la59, a109, 0, 0, 0);
-    a110[0] = 0;
-    host_write_local(&group0, 1, 3, la60, a110, 0, 0, 0);
-    a111[0] = 0;
-    host_write_local(&group0, 2, 0, la61, a111, 0, 0, 0);
+    init_core_chan(&group0, 2, 0, la26, la27);
     e_load("core7.srec", &group0, 1, 3, 1);
-    a112[0] = true;
-    host_write_local(&group0, 2, 0, la63, a112, 0, 0, 0);
-    a113[0] = true;
-    host_write_local(&group0, 2, 0, la64, a113, 0, 0, 0);
-    a114[0] = 0;
-    host_write_local(&group0, 2, 1, la65, a114, 0, 0, 0);
-    a115[0] = 0;
-    host_write_local(&group0, 2, 0, la66, a115, 0, 0, 0);
-    a116[0] = 0;
-    host_write_local(&group0, 2, 0, la67, a116, 0, 0, 0);
-    a117[0] = 0;
-    host_write_local(&group0, 2, 1, la68, a117, 0, 0, 0);
+    init_core_chan(&group0, 2, 1, la29, la30);
     e_load("core8.srec", &group0, 2, 0, 1);
-    a118[0] = true;
-    host_write_local(&group0, 2, 1, la70, a118, 0, 0, 0);
-    a119[0] = true;
-    host_write_local(&group0, 2, 1, la71, a119, 0, 0, 0);
-    a120[0] = 0;
-    host_write_local(&group0, 2, 2, la72, a120, 0, 0, 0);
-    a121[0] = 0;
-    host_write_local(&group0, 2, 1, la73, a121, 0, 0, 0);
-    a122[0] = 0;
-    host_write_local(&group0, 2, 1, la74, a122, 0, 0, 0);
-    a123[0] = 0;
-    host_write_local(&group0, 2, 2, la75, a123, 0, 0, 0);
+    init_core_chan(&group0, 2, 2, la32, la33);
     e_load("core9.srec", &group0, 2, 1, 1);
-    a124[0] = true;
-    host_write_local(&group0, 2, 2, la77, a124, 0, 0, 0);
-    a125[0] = true;
-    host_write_local(&group0, 2, 2, la78, a125, 0, 0, 0);
-    a126[0] = 0;
-    host_write_local(&group0, 2, 3, la79, a126, 0, 0, 0);
-    a127[0] = 0;
-    host_write_local(&group0, 2, 2, la80, a127, 0, 0, 0);
-    a128[0] = 0;
-    host_write_local(&group0, 2, 2, la81, a128, 0, 0, 0);
-    a129[0] = 0;
-    host_write_local(&group0, 2, 3, la82, a129, 0, 0, 0);
+    init_core_chan(&group0, 2, 3, la35, la36);
     e_load("core10.srec", &group0, 2, 2, 1);
-    a130[0] = true;
-    host_write_local(&group0, 2, 3, la84, a130, 0, 0, 0);
-    a131[0] = true;
-    host_write_local(&group0, 2, 3, la85, a131, 0, 0, 0);
-    a132[0] = 0;
-    host_write_local(&group0, 3, 0, la86, a132, 0, 0, 0);
-    a133[0] = 0;
-    host_write_local(&group0, 2, 3, la87, a133, 0, 0, 0);
-    a134[0] = 0;
-    host_write_local(&group0, 2, 3, la88, a134, 0, 0, 0);
-    a135[0] = 0;
-    host_write_local(&group0, 3, 0, la89, a135, 0, 0, 0);
+    init_core_chan(&group0, 3, 0, la38, la39);
     e_load("core11.srec", &group0, 2, 3, 1);
-    a136[0] = true;
-    host_write_local(&group0, 3, 0, la91, a136, 0, 0, 0);
-    a137[0] = true;
-    host_write_local(&group0, 3, 0, la92, a137, 0, 0, 0);
-    a138[0] = 0;
-    host_write_local(&group0, 3, 1, la93, a138, 0, 0, 0);
-    a139[0] = 0;
-    host_write_local(&group0, 3, 0, la94, a139, 0, 0, 0);
-    a140[0] = 0;
-    host_write_local(&group0, 3, 0, la95, a140, 0, 0, 0);
-    a141[0] = 0;
-    host_write_local(&group0, 3, 1, la96, a141, 0, 0, 0);
+    init_core_chan(&group0, 3, 1, la41, la42);
     e_load("core12.srec", &group0, 3, 0, 1);
-    a142[0] = true;
-    host_write_local(&group0, 3, 1, la98, a142, 0, 0, 0);
-    a143[0] = true;
-    host_write_local(&group0, 3, 1, la99, a143, 0, 0, 0);
-    a144[0] = 0;
-    host_write_local(&group0, 3, 2, la100, a144, 0, 0, 0);
-    a145[0] = 0;
-    host_write_local(&group0, 3, 1, la101, a145, 0, 0, 0);
-    a146[0] = 0;
-    host_write_local(&group0, 3, 1, la102, a146, 0, 0, 0);
-    a147[0] = 0;
-    host_write_local(&group0, 3, 2, la103, a147, 0, 0, 0);
+    init_core_chan(&group0, 3, 2, la44, la45);
     e_load("core13.srec", &group0, 3, 1, 1);
-    a148[0] = true;
-    host_write_local(&group0, 3, 2, la105, a148, 0, 0, 0);
-    a149[0] = true;
-    host_write_local(&group0, 3, 2, la106, a149, 0, 0, 0);
-    a150[0] = 0;
-    host_write_local(&group0, 3, 3, la107, a150, 0, 0, 0);
-    a151[0] = 0;
-    host_write_local(&group0, 3, 2, la108, a151, 0, 0, 0);
-    a152[0] = 0;
-    host_write_local(&group0, 3, 2, la109, a152, 0, 0, 0);
-    a153[0] = 0;
-    host_write_local(&group0, 3, 3, la110, a153, 0, 0, 0);
+    init_core_chan(&group0, 3, 3, la47, la48);
     e_load("core14.srec", &group0, 3, 2, 1);
-    a154[0] = true;
-    host_write_local(&group0, 3, 3, la112, a154, 0, 0, 0);
-    a155[0] = true;
-    host_write_local(&group0, 3, 3, la113, a155, 0, 0, 0);
-    e_alloc(&shm156, sa116, 88);
-    a157[0] = 0;
-    host_write_local(&group0, 3, 3, la114, a157, 0, 0, 0);
-    a158[0] = 0;
-    host_write_local(&group0, 3, 3, la115, a158, 0, 0, 0);
+    e_alloc(&shm61, sa52, 8);
+    init_host_chan(&chan62, &group0, 3, 3, &shm61, la50, la51);
     e_load("core15.srec", &group0, 3, 3, 1);
-    pthread_create(&t159, NULL, thread_t159, NULL);
-    r192 = true;
+    pthread_create(&t63, NULL, thread_t63, NULL);
+    r70 = true;
     while (1) {
-        bool v193;
-        uint64_t r194;
-        bool v195;
-        uint64_t v196;
+        bool v71;
+        uint64_t r72;
+        bool v73;
+        uint64_t v74;
         
-        v193 = r192;
-        if (!v193)
+        v71 = r70;
+        if (!v71)
             break;
-        v195 = read_block(&r194);
-        v196 = r194;
-        if (v195) {
-            bool _a197[1];
-            bool *a197 = _a197;
-            bool r198;
+        v73 = read_block(&r72);
+        v74 = r72;
+        if (v73) {
+            uint64_t r75;
+            bool v76;
             
-            host_read_local(&group0, 0, 0, la2, a197, 0, 0, 0);
-            if (a197[0]) {
-                uint64_t _a199[1];
-                uint64_t *a199 = _a199;
-                uint32_t r200;
-                
-                a199[0] = v196;
-                r200 = 0;
-                while (1) {
-                    bool _a201[1];
-                    bool *a201 = _a201;
-                    uint32_t v202;
-                    uint32_t v203;
-                    uint32_t _a204[1];
-                    uint32_t *a204 = _a204;
-                    uint32_t _a205[1];
-                    uint32_t *a205 = _a205;
-                    uint32_t r206;
-                    uint32_t let207;
-                    uint32_t let208;
-                    uint32_t r209;
-                    uint32_t r210;
-                    uint32_t let211;
-                    uint32_t r212;
-                    uint32_t r213;
-                    
-                    host_read_local(&group0, 0, 0, la2, a201, 0, 0, 0);
-                    v202 = r200;
-                    if (!(a201[0] && v202 < 1))
-                        break;
-                    v203 = r200;
-                    host_read_local(&group0, 0, 0, la4, a204, 0, 0, 0);
-                    host_read_local(&group0, 0, 0, la5, a205, 0, 0, 0);
-                    r206 = 11;
-                    let207 = r206 + a205[0] - a204[0];
-                    let208 = r206;
-                    r209 = let207 < let208 ? let207 : let207 - let208;
-                    r210 = r206 - r209 - 1;
-                    let211 = -v203 + 1;
-                    r212 = let211 <= r210 ? let211 : r210;
-                    if (r212 > 0) {
-                        uint32_t let216;
-                        uint32_t let217;
-                        uint32_t r218;
-                        uint32_t _a219[1];
-                        uint32_t *a219 = _a219;
-                        
-                        if (a205[0] + r212 <= r206) {
-                            host_write_shared(&shm61, a199, a205[0], v203,
-                                              v203 + r212 - 1);
-                        } else {
-                            uint32_t r214;
-                            uint32_t r215;
-                            
-                            r214 = r206 - a205[0];
-                            host_write_shared(&shm61, a199, a205[0], v203,
-                                              v203 + r214 - 1);
-                            r215 = v203 + r214;
-                            host_write_shared(&shm61, a199, 0, r215, r215 +
-                                              (r212 - r214) - 1);
-                        }
-                        let216 = a205[0] + r212;
-                        let217 = r206;
-                        r218 = let216 < let217 ? let216 : let216 - let217;
-                        a219[0] = r218;
-                        host_write_local(&group0, 0, 0, la5, a219, 0, 0, 0);
-                        r213 = r212;
-                    } else {
-                        r213 = 0;
-                    }
-                    if (0 == r213) {
-                        usleep(100);
-                    } else {
-                        r200 = v203 + r213;
-                    }
-                }
-                r198 = true;
-            } else {
-                r198 = false;
-            }
-            r192 = r198;
+            r75 = v74;
+            v76 = host_write_h2c(chan60, &r75, 0, 1);
+            r70 = v76;
         } else {
-            r192 = false;
+            r70 = false;
         }
     }
-    a220[0] = false;
-    host_write_local(&group0, 0, 0, la2, a220, 0, 0, 0);
-    pthread_join(t159, NULL);
+    host_close_chan(chan60);
+    pthread_join(t63, NULL);
     e_free(&shm1);
     e_free(&shm2);
-    e_free(&shm156);
+    e_free(&shm59);
     e_free(&shm61);
     e_reset_group(&group0);
     e_close(&group0);
