@@ -1,41 +1,41 @@
 #include "chan.h"
-#include "io.h"
+#include "io-vectorized.h"
 #include <pthread.h>
 #include <stdbool.h>
 #include <stdint.h>
 void *thread_t64(void *unused);
-void *thread_t82(void *unused);
-void *thread_t103(void *unused);
-void *thread_t124(void *unused);
-void *thread_t145(void *unused);
-void *thread_t166(void *unused);
-void *thread_t187(void *unused);
-void *thread_t208(void *unused);
-void *thread_t229(void *unused);
-void *thread_t250(void *unused);
-void *thread_t271(void *unused);
-void *thread_t292(void *unused);
-void *thread_t313(void *unused);
-void *thread_t334(void *unused);
-void *thread_t355(void *unused);
-void *thread_t376(void *unused);
-void *thread_t393(void *unused);
-pthread_t t103;
-pthread_t t124;
-pthread_t t145;
-pthread_t t166;
-pthread_t t187;
-pthread_t t208;
-pthread_t t229;
-pthread_t t250;
-pthread_t t271;
-pthread_t t292;
-pthread_t t313;
-pthread_t t334;
-pthread_t t355;
-pthread_t t376;
+void *thread_t86(void *unused);
+void *thread_t111(void *unused);
+void *thread_t136(void *unused);
+void *thread_t161(void *unused);
+void *thread_t186(void *unused);
+void *thread_t211(void *unused);
+void *thread_t236(void *unused);
+void *thread_t261(void *unused);
+void *thread_t286(void *unused);
+void *thread_t311(void *unused);
+void *thread_t336(void *unused);
+void *thread_t361(void *unused);
+void *thread_t386(void *unused);
+void *thread_t411(void *unused);
+void *thread_t436(void *unused);
+void *thread_t459(void *unused);
+pthread_t t111;
+pthread_t t136;
+pthread_t t161;
+pthread_t t186;
+pthread_t t211;
+pthread_t t236;
+pthread_t t261;
+pthread_t t286;
+pthread_t t311;
+pthread_t t336;
+pthread_t t361;
+pthread_t t386;
+pthread_t t411;
+pthread_t t436;
 pthread_t t64;
-pthread_t t82;
+pthread_t t86;
 uint32_t _a0[18];
 uint32_t _a1[1024];
 uint32_t *a0 = _a0;
@@ -64,1236 +64,1588 @@ void *thread_t64(void *unused)
         a66[v69] = v70;
     }
     while (1) {
-        uint64_t _a71[1];
-        uint64_t *a71 = _a71;
-        bool v72;
-        uint64_t v73;
-        uint32_t r74;
-        uint32_t r75;
-        uint32_t v76;
-        bool v77;
-        uint32_t r78;
-        uint32_t v79;
+        uint32_t r71;
+        uint64_t _a72[512];
+        uint64_t *a72 = _a72;
+        bool v73;
+        uint32_t v75;
+        uint32_t r76;
+        uint32_t v78;
         bool v80;
+        uint32_t r81;
+        uint32_t v83;
+        bool v84;
         
-        chan_read(chan62, sizeof(*a71) * (1 - 0), &a71[0]);
-        v72 = chan_last_read_ok(chan62);
-        if (!v72) {
+        r71 = 512;
+        chan_read(chan62, sizeof(*a72) * (r71 - 0), &a72[0]);
+        v73 = chan_last_read_ok(chan62);
+        if (!v73) {
             chan_close(chan63);
             pthread_cancel(t64);
             pthread_join(t64, NULL);
         }
-        v73 = a71[0];
-        r74 = (uint32_t) (v73 >> 32) ^ a65[0];
-        r75 = (((a66[r74 >> 24] + a66[(r74 >> 16 & 255) + 256]) ^ a66[(r74 >>
-                                                                       8 &
-                                                                       255) +
-                                                                      512]) +
-               a66[(r74 & 255) + 768]) ^ (uint32_t) v73;
-        v76 = r75;
-        v77 = chan_write(chan63, sizeof(v76), &v76);
-        if (!v77) {
-            chan_close(chan62);
-            pthread_cancel(t64);
-            pthread_join(t64, NULL);
+        
+        uint32_t _a74[r71];
+        uint32_t *a74 = _a74;
+        
+        for (v75 = 0; v75 < r71; v75++) {
+            a74[v75] = (uint32_t) (a72[v75] >> 32) ^ a65[0];
         }
-        r78 = r74;
-        v79 = r78;
-        v80 = chan_write(chan63, sizeof(v79), &v79);
+        r76 = r71;
+        
+        uint32_t _a77[r71];
+        uint32_t *a77 = _a77;
+        
+        for (v78 = 0; v78 < r71; v78++) {
+            uint32_t let79;
+            
+            let79 = a74[v78];
+            a77[v78] = (((a66[let79 >> 24] + a66[(let79 >> 16 & 255) + 256]) ^
+                         a66[(let79 >> 8 & 255) + 512]) + a66[(let79 & 255) +
+                                                              768]) ^
+                (uint32_t) a72[v78];
+        }
+        v80 = chan_write(chan63, sizeof(*a77) * (r76 - 0), &a77[0]);
         if (!v80) {
             chan_close(chan62);
             pthread_cancel(t64);
             pthread_join(t64, NULL);
         }
+        r81 = r71;
+        
+        uint32_t _a82[r71];
+        uint32_t *a82 = _a82;
+        
+        for (v83 = 0; v83 < r71; v83++) {
+            a82[v83] = a74[v83];
+        }
+        v84 = chan_write(chan63, sizeof(*a82) * (r81 - 0), &a82[0]);
+        if (!v84) {
+            chan_close(chan62);
+            pthread_cancel(t64);
+            pthread_join(t64, NULL);
+        }
     }
     return NULL;
 }
-chan_t chan81;
-void *thread_t82(void *unused)
+chan_t chan85;
+void *thread_t86(void *unused)
 {
-    uint32_t _a83[18];
-    uint32_t *a83 = _a83;
-    uint32_t _a84[1024];
-    uint32_t *a84 = _a84;
-    uint32_t v85;
-    uint32_t v87;
+    uint32_t _a87[18];
+    uint32_t *a87 = _a87;
+    uint32_t _a88[1024];
+    uint32_t *a88 = _a88;
+    uint32_t v89;
+    uint32_t v91;
     
-    for (v85 = 0; v85 <= 17; v85++) {
-        uint32_t v86;
+    for (v89 = 0; v89 <= 17; v89++) {
+        uint32_t v90;
         
-        v86 = a0[v85];
-        a83[v85] = v86;
+        v90 = a0[v89];
+        a87[v89] = v90;
     }
-    for (v87 = 0; v87 <= 1023; v87++) {
-        uint32_t v88;
+    for (v91 = 0; v91 <= 1023; v91++) {
+        uint32_t v92;
         
-        v88 = a1[v87];
-        a84[v87] = v88;
+        v92 = a1[v91];
+        a88[v91] = v92;
     }
     while (1) {
-        uint32_t _a89[1];
-        uint32_t *a89 = _a89;
-        bool v90;
-        uint32_t v91;
-        uint32_t _a92[1];
-        uint32_t *a92 = _a92;
-        bool v93;
-        uint32_t v94;
-        uint32_t r95;
+        uint32_t r93;
+        uint32_t _a94[512];
+        uint32_t *a94 = _a94;
+        bool v95;
         uint32_t r96;
-        uint32_t v97;
+        uint32_t _a97[512];
+        uint32_t *a97 = _a97;
         bool v98;
-        uint32_t r99;
         uint32_t v100;
-        bool v101;
+        uint32_t r101;
+        uint32_t v103;
+        bool v105;
+        uint32_t r106;
+        uint32_t v108;
+        bool v109;
         
-        chan_read(chan63, sizeof(*a89) * (1 - 0), &a89[0]);
-        v90 = chan_last_read_ok(chan63);
-        if (!v90) {
-            chan_close(chan81);
-            pthread_cancel(t82);
-            pthread_join(t82, NULL);
+        r93 = 512;
+        chan_read(chan63, sizeof(*a94) * (r93 - 0), &a94[0]);
+        v95 = chan_last_read_ok(chan63);
+        if (!v95) {
+            chan_close(chan85);
+            pthread_cancel(t86);
+            pthread_join(t86, NULL);
         }
-        v91 = a89[0];
-        chan_read(chan63, sizeof(*a92) * (1 - 0), &a92[0]);
-        v93 = chan_last_read_ok(chan63);
-        if (!v93) {
-            chan_close(chan81);
-            pthread_cancel(t82);
-            pthread_join(t82, NULL);
-        }
-        v94 = a92[0];
-        r95 = v91 ^ a83[1];
-        r96 = (((a84[r95 >> 24] + a84[(r95 >> 16 & 255) + 256]) ^ a84[(r95 >>
-                                                                       8 &
-                                                                       255) +
-                                                                      512]) +
-               a84[(r95 & 255) + 768]) ^ v94;
-        v97 = r96;
-        v98 = chan_write(chan81, sizeof(v97), &v97);
+        r96 = 512;
+        chan_read(chan63, sizeof(*a97) * (r96 - 0), &a97[0]);
+        v98 = chan_last_read_ok(chan63);
         if (!v98) {
-            chan_close(chan63);
-            pthread_cancel(t82);
-            pthread_join(t82, NULL);
+            chan_close(chan85);
+            pthread_cancel(t86);
+            pthread_join(t86, NULL);
         }
-        r99 = r95;
-        v100 = r99;
-        v101 = chan_write(chan81, sizeof(v100), &v100);
-        if (!v101) {
+        
+        uint32_t _a99[r93];
+        uint32_t *a99 = _a99;
+        
+        for (v100 = 0; v100 < r93; v100++) {
+            a99[v100] = a94[v100] ^ a87[1];
+        }
+        r101 = r93 <= r96 ? r93 : r96;
+        
+        uint32_t _a102[r93 <= r96 ? r93 : r96];
+        uint32_t *a102 = _a102;
+        
+        for (v103 = 0; v103 < (r93 <= r96 ? r93 : r96); v103++) {
+            uint32_t let104;
+            
+            let104 = a99[v103];
+            a102[v103] = (((a88[let104 >> 24] + a88[(let104 >> 16 & 255) +
+                                                    256]) ^ a88[(let104 >> 8 &
+                                                                 255) + 512]) +
+                          a88[(let104 & 255) + 768]) ^ a97[v103];
+        }
+        v105 = chan_write(chan85, sizeof(*a102) * (r101 - 0), &a102[0]);
+        if (!v105) {
             chan_close(chan63);
-            pthread_cancel(t82);
-            pthread_join(t82, NULL);
+            pthread_cancel(t86);
+            pthread_join(t86, NULL);
+        }
+        r106 = r93;
+        
+        uint32_t _a107[r93];
+        uint32_t *a107 = _a107;
+        
+        for (v108 = 0; v108 < r93; v108++) {
+            a107[v108] = a99[v108];
+        }
+        v109 = chan_write(chan85, sizeof(*a107) * (r106 - 0), &a107[0]);
+        if (!v109) {
+            chan_close(chan63);
+            pthread_cancel(t86);
+            pthread_join(t86, NULL);
         }
     }
     return NULL;
 }
-chan_t chan102;
-void *thread_t103(void *unused)
+chan_t chan110;
+void *thread_t111(void *unused)
 {
-    uint32_t _a104[18];
-    uint32_t *a104 = _a104;
-    uint32_t _a105[1024];
-    uint32_t *a105 = _a105;
-    uint32_t v106;
-    uint32_t v108;
+    uint32_t _a112[18];
+    uint32_t *a112 = _a112;
+    uint32_t _a113[1024];
+    uint32_t *a113 = _a113;
+    uint32_t v114;
+    uint32_t v116;
     
-    for (v106 = 0; v106 <= 17; v106++) {
-        uint32_t v107;
-        
-        v107 = a0[v106];
-        a104[v106] = v107;
-    }
-    for (v108 = 0; v108 <= 1023; v108++) {
-        uint32_t v109;
-        
-        v109 = a1[v108];
-        a105[v108] = v109;
-    }
-    while (1) {
-        uint32_t _a110[1];
-        uint32_t *a110 = _a110;
-        bool v111;
-        uint32_t v112;
-        uint32_t _a113[1];
-        uint32_t *a113 = _a113;
-        bool v114;
+    for (v114 = 0; v114 <= 17; v114++) {
         uint32_t v115;
-        uint32_t r116;
-        uint32_t r117;
-        uint32_t v118;
-        bool v119;
-        uint32_t r120;
-        uint32_t v121;
-        bool v122;
         
-        chan_read(chan81, sizeof(*a110) * (1 - 0), &a110[0]);
-        v111 = chan_last_read_ok(chan81);
-        if (!v111) {
-            chan_close(chan102);
-            pthread_cancel(t103);
-            pthread_join(t103, NULL);
-        }
-        v112 = a110[0];
-        chan_read(chan81, sizeof(*a113) * (1 - 0), &a113[0]);
-        v114 = chan_last_read_ok(chan81);
-        if (!v114) {
-            chan_close(chan102);
-            pthread_cancel(t103);
-            pthread_join(t103, NULL);
-        }
-        v115 = a113[0];
-        r116 = v112 ^ a104[2];
-        r117 = (((a105[r116 >> 24] + a105[(r116 >> 16 & 255) + 256]) ^
-                 a105[(r116 >> 8 & 255) + 512]) + a105[(r116 & 255) + 768]) ^
-            v115;
-        v118 = r117;
-        v119 = chan_write(chan102, sizeof(v118), &v118);
-        if (!v119) {
-            chan_close(chan81);
-            pthread_cancel(t103);
-            pthread_join(t103, NULL);
-        }
-        r120 = r116;
-        v121 = r120;
-        v122 = chan_write(chan102, sizeof(v121), &v121);
-        if (!v122) {
-            chan_close(chan81);
-            pthread_cancel(t103);
-            pthread_join(t103, NULL);
-        }
+        v115 = a0[v114];
+        a112[v114] = v115;
     }
-    return NULL;
-}
-chan_t chan123;
-void *thread_t124(void *unused)
-{
-    uint32_t _a125[18];
-    uint32_t *a125 = _a125;
-    uint32_t _a126[1024];
-    uint32_t *a126 = _a126;
-    uint32_t v127;
-    uint32_t v129;
-    
-    for (v127 = 0; v127 <= 17; v127++) {
+    for (v116 = 0; v116 <= 1023; v116++) {
+        uint32_t v117;
+        
+        v117 = a1[v116];
+        a113[v116] = v117;
+    }
+    while (1) {
+        uint32_t r118;
+        uint32_t _a119[512];
+        uint32_t *a119 = _a119;
+        bool v120;
+        uint32_t r121;
+        uint32_t _a122[512];
+        uint32_t *a122 = _a122;
+        bool v123;
+        uint32_t v125;
+        uint32_t r126;
         uint32_t v128;
-        
-        v128 = a0[v127];
-        a125[v127] = v128;
-    }
-    for (v129 = 0; v129 <= 1023; v129++) {
-        uint32_t v130;
-        
-        v130 = a1[v129];
-        a126[v129] = v130;
-    }
-    while (1) {
-        uint32_t _a131[1];
-        uint32_t *a131 = _a131;
-        bool v132;
+        bool v130;
+        uint32_t r131;
         uint32_t v133;
-        uint32_t _a134[1];
-        uint32_t *a134 = _a134;
-        bool v135;
-        uint32_t v136;
-        uint32_t r137;
-        uint32_t r138;
-        uint32_t v139;
-        bool v140;
-        uint32_t r141;
+        bool v134;
+        
+        r118 = 512;
+        chan_read(chan85, sizeof(*a119) * (r118 - 0), &a119[0]);
+        v120 = chan_last_read_ok(chan85);
+        if (!v120) {
+            chan_close(chan110);
+            pthread_cancel(t111);
+            pthread_join(t111, NULL);
+        }
+        r121 = 512;
+        chan_read(chan85, sizeof(*a122) * (r121 - 0), &a122[0]);
+        v123 = chan_last_read_ok(chan85);
+        if (!v123) {
+            chan_close(chan110);
+            pthread_cancel(t111);
+            pthread_join(t111, NULL);
+        }
+        
+        uint32_t _a124[r118];
+        uint32_t *a124 = _a124;
+        
+        for (v125 = 0; v125 < r118; v125++) {
+            a124[v125] = a119[v125] ^ a112[2];
+        }
+        r126 = r118 <= r121 ? r118 : r121;
+        
+        uint32_t _a127[r118 <= r121 ? r118 : r121];
+        uint32_t *a127 = _a127;
+        
+        for (v128 = 0; v128 < (r118 <= r121 ? r118 : r121); v128++) {
+            uint32_t let129;
+            
+            let129 = a124[v128];
+            a127[v128] = (((a113[let129 >> 24] + a113[(let129 >> 16 & 255) +
+                                                      256]) ^ a113[(let129 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a113[(let129 & 255) + 768]) ^ a122[v128];
+        }
+        v130 = chan_write(chan110, sizeof(*a127) * (r126 - 0), &a127[0]);
+        if (!v130) {
+            chan_close(chan85);
+            pthread_cancel(t111);
+            pthread_join(t111, NULL);
+        }
+        r131 = r118;
+        
+        uint32_t _a132[r118];
+        uint32_t *a132 = _a132;
+        
+        for (v133 = 0; v133 < r118; v133++) {
+            a132[v133] = a124[v133];
+        }
+        v134 = chan_write(chan110, sizeof(*a132) * (r131 - 0), &a132[0]);
+        if (!v134) {
+            chan_close(chan85);
+            pthread_cancel(t111);
+            pthread_join(t111, NULL);
+        }
+    }
+    return NULL;
+}
+chan_t chan135;
+void *thread_t136(void *unused)
+{
+    uint32_t _a137[18];
+    uint32_t *a137 = _a137;
+    uint32_t _a138[1024];
+    uint32_t *a138 = _a138;
+    uint32_t v139;
+    uint32_t v141;
+    
+    for (v139 = 0; v139 <= 17; v139++) {
+        uint32_t v140;
+        
+        v140 = a0[v139];
+        a137[v139] = v140;
+    }
+    for (v141 = 0; v141 <= 1023; v141++) {
         uint32_t v142;
-        bool v143;
         
-        chan_read(chan102, sizeof(*a131) * (1 - 0), &a131[0]);
-        v132 = chan_last_read_ok(chan102);
-        if (!v132) {
-            chan_close(chan123);
-            pthread_cancel(t124);
-            pthread_join(t124, NULL);
-        }
-        v133 = a131[0];
-        chan_read(chan102, sizeof(*a134) * (1 - 0), &a134[0]);
-        v135 = chan_last_read_ok(chan102);
-        if (!v135) {
-            chan_close(chan123);
-            pthread_cancel(t124);
-            pthread_join(t124, NULL);
-        }
-        v136 = a134[0];
-        r137 = v133 ^ a125[3];
-        r138 = (((a126[r137 >> 24] + a126[(r137 >> 16 & 255) + 256]) ^
-                 a126[(r137 >> 8 & 255) + 512]) + a126[(r137 & 255) + 768]) ^
-            v136;
-        v139 = r138;
-        v140 = chan_write(chan123, sizeof(v139), &v139);
-        if (!v140) {
-            chan_close(chan102);
-            pthread_cancel(t124);
-            pthread_join(t124, NULL);
-        }
-        r141 = r137;
-        v142 = r141;
-        v143 = chan_write(chan123, sizeof(v142), &v142);
-        if (!v143) {
-            chan_close(chan102);
-            pthread_cancel(t124);
-            pthread_join(t124, NULL);
-        }
-    }
-    return NULL;
-}
-chan_t chan144;
-void *thread_t145(void *unused)
-{
-    uint32_t _a146[18];
-    uint32_t *a146 = _a146;
-    uint32_t _a147[1024];
-    uint32_t *a147 = _a147;
-    uint32_t v148;
-    uint32_t v150;
-    
-    for (v148 = 0; v148 <= 17; v148++) {
-        uint32_t v149;
-        
-        v149 = a0[v148];
-        a146[v148] = v149;
-    }
-    for (v150 = 0; v150 <= 1023; v150++) {
-        uint32_t v151;
-        
-        v151 = a1[v150];
-        a147[v150] = v151;
+        v142 = a1[v141];
+        a138[v141] = v142;
     }
     while (1) {
-        uint32_t _a152[1];
+        uint32_t r143;
+        uint32_t _a144[512];
+        uint32_t *a144 = _a144;
+        bool v145;
+        uint32_t r146;
+        uint32_t _a147[512];
+        uint32_t *a147 = _a147;
+        bool v148;
+        uint32_t v150;
+        uint32_t r151;
+        uint32_t v153;
+        bool v155;
+        uint32_t r156;
+        uint32_t v158;
+        bool v159;
+        
+        r143 = 512;
+        chan_read(chan110, sizeof(*a144) * (r143 - 0), &a144[0]);
+        v145 = chan_last_read_ok(chan110);
+        if (!v145) {
+            chan_close(chan135);
+            pthread_cancel(t136);
+            pthread_join(t136, NULL);
+        }
+        r146 = 512;
+        chan_read(chan110, sizeof(*a147) * (r146 - 0), &a147[0]);
+        v148 = chan_last_read_ok(chan110);
+        if (!v148) {
+            chan_close(chan135);
+            pthread_cancel(t136);
+            pthread_join(t136, NULL);
+        }
+        
+        uint32_t _a149[r143];
+        uint32_t *a149 = _a149;
+        
+        for (v150 = 0; v150 < r143; v150++) {
+            a149[v150] = a144[v150] ^ a137[3];
+        }
+        r151 = r143 <= r146 ? r143 : r146;
+        
+        uint32_t _a152[r143 <= r146 ? r143 : r146];
         uint32_t *a152 = _a152;
-        bool v153;
-        uint32_t v154;
-        uint32_t _a155[1];
-        uint32_t *a155 = _a155;
-        bool v156;
-        uint32_t v157;
-        uint32_t r158;
-        uint32_t r159;
-        uint32_t v160;
-        bool v161;
-        uint32_t r162;
-        uint32_t v163;
-        bool v164;
         
-        chan_read(chan123, sizeof(*a152) * (1 - 0), &a152[0]);
-        v153 = chan_last_read_ok(chan123);
-        if (!v153) {
-            chan_close(chan144);
-            pthread_cancel(t145);
-            pthread_join(t145, NULL);
+        for (v153 = 0; v153 < (r143 <= r146 ? r143 : r146); v153++) {
+            uint32_t let154;
+            
+            let154 = a149[v153];
+            a152[v153] = (((a138[let154 >> 24] + a138[(let154 >> 16 & 255) +
+                                                      256]) ^ a138[(let154 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a138[(let154 & 255) + 768]) ^ a147[v153];
         }
-        v154 = a152[0];
-        chan_read(chan123, sizeof(*a155) * (1 - 0), &a155[0]);
-        v156 = chan_last_read_ok(chan123);
-        if (!v156) {
-            chan_close(chan144);
-            pthread_cancel(t145);
-            pthread_join(t145, NULL);
+        v155 = chan_write(chan135, sizeof(*a152) * (r151 - 0), &a152[0]);
+        if (!v155) {
+            chan_close(chan110);
+            pthread_cancel(t136);
+            pthread_join(t136, NULL);
         }
-        v157 = a155[0];
-        r158 = v154 ^ a146[4];
-        r159 = (((a147[r158 >> 24] + a147[(r158 >> 16 & 255) + 256]) ^
-                 a147[(r158 >> 8 & 255) + 512]) + a147[(r158 & 255) + 768]) ^
-            v157;
-        v160 = r159;
-        v161 = chan_write(chan144, sizeof(v160), &v160);
-        if (!v161) {
-            chan_close(chan123);
-            pthread_cancel(t145);
-            pthread_join(t145, NULL);
+        r156 = r143;
+        
+        uint32_t _a157[r143];
+        uint32_t *a157 = _a157;
+        
+        for (v158 = 0; v158 < r143; v158++) {
+            a157[v158] = a149[v158];
         }
-        r162 = r158;
-        v163 = r162;
-        v164 = chan_write(chan144, sizeof(v163), &v163);
-        if (!v164) {
-            chan_close(chan123);
-            pthread_cancel(t145);
-            pthread_join(t145, NULL);
+        v159 = chan_write(chan135, sizeof(*a157) * (r156 - 0), &a157[0]);
+        if (!v159) {
+            chan_close(chan110);
+            pthread_cancel(t136);
+            pthread_join(t136, NULL);
         }
     }
     return NULL;
 }
-chan_t chan165;
-void *thread_t166(void *unused)
+chan_t chan160;
+void *thread_t161(void *unused)
 {
-    uint32_t _a167[18];
-    uint32_t *a167 = _a167;
-    uint32_t _a168[1024];
-    uint32_t *a168 = _a168;
-    uint32_t v169;
-    uint32_t v171;
+    uint32_t _a162[18];
+    uint32_t *a162 = _a162;
+    uint32_t _a163[1024];
+    uint32_t *a163 = _a163;
+    uint32_t v164;
+    uint32_t v166;
     
-    for (v169 = 0; v169 <= 17; v169++) {
-        uint32_t v170;
+    for (v164 = 0; v164 <= 17; v164++) {
+        uint32_t v165;
         
-        v170 = a0[v169];
-        a167[v169] = v170;
+        v165 = a0[v164];
+        a162[v164] = v165;
     }
-    for (v171 = 0; v171 <= 1023; v171++) {
-        uint32_t v172;
+    for (v166 = 0; v166 <= 1023; v166++) {
+        uint32_t v167;
         
-        v172 = a1[v171];
-        a168[v171] = v172;
+        v167 = a1[v166];
+        a163[v166] = v167;
     }
     while (1) {
-        uint32_t _a173[1];
-        uint32_t *a173 = _a173;
-        bool v174;
+        uint32_t r168;
+        uint32_t _a169[512];
+        uint32_t *a169 = _a169;
+        bool v170;
+        uint32_t r171;
+        uint32_t _a172[512];
+        uint32_t *a172 = _a172;
+        bool v173;
         uint32_t v175;
-        uint32_t _a176[1];
-        uint32_t *a176 = _a176;
-        bool v177;
+        uint32_t r176;
         uint32_t v178;
-        uint32_t r179;
-        uint32_t r180;
-        uint32_t v181;
-        bool v182;
-        uint32_t r183;
-        uint32_t v184;
-        bool v185;
+        bool v180;
+        uint32_t r181;
+        uint32_t v183;
+        bool v184;
         
-        chan_read(chan144, sizeof(*a173) * (1 - 0), &a173[0]);
-        v174 = chan_last_read_ok(chan144);
-        if (!v174) {
-            chan_close(chan165);
-            pthread_cancel(t166);
-            pthread_join(t166, NULL);
+        r168 = 512;
+        chan_read(chan135, sizeof(*a169) * (r168 - 0), &a169[0]);
+        v170 = chan_last_read_ok(chan135);
+        if (!v170) {
+            chan_close(chan160);
+            pthread_cancel(t161);
+            pthread_join(t161, NULL);
         }
-        v175 = a173[0];
-        chan_read(chan144, sizeof(*a176) * (1 - 0), &a176[0]);
-        v177 = chan_last_read_ok(chan144);
-        if (!v177) {
-            chan_close(chan165);
-            pthread_cancel(t166);
-            pthread_join(t166, NULL);
+        r171 = 512;
+        chan_read(chan135, sizeof(*a172) * (r171 - 0), &a172[0]);
+        v173 = chan_last_read_ok(chan135);
+        if (!v173) {
+            chan_close(chan160);
+            pthread_cancel(t161);
+            pthread_join(t161, NULL);
         }
-        v178 = a176[0];
-        r179 = v175 ^ a167[5];
-        r180 = (((a168[r179 >> 24] + a168[(r179 >> 16 & 255) + 256]) ^
-                 a168[(r179 >> 8 & 255) + 512]) + a168[(r179 & 255) + 768]) ^
-            v178;
-        v181 = r180;
-        v182 = chan_write(chan165, sizeof(v181), &v181);
-        if (!v182) {
-            chan_close(chan144);
-            pthread_cancel(t166);
-            pthread_join(t166, NULL);
+        
+        uint32_t _a174[r168];
+        uint32_t *a174 = _a174;
+        
+        for (v175 = 0; v175 < r168; v175++) {
+            a174[v175] = a169[v175] ^ a162[4];
         }
-        r183 = r179;
-        v184 = r183;
-        v185 = chan_write(chan165, sizeof(v184), &v184);
-        if (!v185) {
-            chan_close(chan144);
-            pthread_cancel(t166);
-            pthread_join(t166, NULL);
+        r176 = r168 <= r171 ? r168 : r171;
+        
+        uint32_t _a177[r168 <= r171 ? r168 : r171];
+        uint32_t *a177 = _a177;
+        
+        for (v178 = 0; v178 < (r168 <= r171 ? r168 : r171); v178++) {
+            uint32_t let179;
+            
+            let179 = a174[v178];
+            a177[v178] = (((a163[let179 >> 24] + a163[(let179 >> 16 & 255) +
+                                                      256]) ^ a163[(let179 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a163[(let179 & 255) + 768]) ^ a172[v178];
+        }
+        v180 = chan_write(chan160, sizeof(*a177) * (r176 - 0), &a177[0]);
+        if (!v180) {
+            chan_close(chan135);
+            pthread_cancel(t161);
+            pthread_join(t161, NULL);
+        }
+        r181 = r168;
+        
+        uint32_t _a182[r168];
+        uint32_t *a182 = _a182;
+        
+        for (v183 = 0; v183 < r168; v183++) {
+            a182[v183] = a174[v183];
+        }
+        v184 = chan_write(chan160, sizeof(*a182) * (r181 - 0), &a182[0]);
+        if (!v184) {
+            chan_close(chan135);
+            pthread_cancel(t161);
+            pthread_join(t161, NULL);
         }
     }
     return NULL;
 }
-chan_t chan186;
-void *thread_t187(void *unused)
+chan_t chan185;
+void *thread_t186(void *unused)
 {
-    uint32_t _a188[18];
+    uint32_t _a187[18];
+    uint32_t *a187 = _a187;
+    uint32_t _a188[1024];
     uint32_t *a188 = _a188;
-    uint32_t _a189[1024];
-    uint32_t *a189 = _a189;
-    uint32_t v190;
-    uint32_t v192;
+    uint32_t v189;
+    uint32_t v191;
     
-    for (v190 = 0; v190 <= 17; v190++) {
-        uint32_t v191;
+    for (v189 = 0; v189 <= 17; v189++) {
+        uint32_t v190;
         
-        v191 = a0[v190];
-        a188[v190] = v191;
+        v190 = a0[v189];
+        a187[v189] = v190;
     }
-    for (v192 = 0; v192 <= 1023; v192++) {
-        uint32_t v193;
+    for (v191 = 0; v191 <= 1023; v191++) {
+        uint32_t v192;
         
-        v193 = a1[v192];
-        a189[v192] = v193;
+        v192 = a1[v191];
+        a188[v191] = v192;
     }
     while (1) {
-        uint32_t _a194[1];
+        uint32_t r193;
+        uint32_t _a194[512];
         uint32_t *a194 = _a194;
         bool v195;
-        uint32_t v196;
-        uint32_t _a197[1];
+        uint32_t r196;
+        uint32_t _a197[512];
         uint32_t *a197 = _a197;
         bool v198;
-        uint32_t v199;
-        uint32_t r200;
+        uint32_t v200;
         uint32_t r201;
-        uint32_t v202;
-        bool v203;
-        uint32_t r204;
-        uint32_t v205;
-        bool v206;
+        uint32_t v203;
+        bool v205;
+        uint32_t r206;
+        uint32_t v208;
+        bool v209;
         
-        chan_read(chan165, sizeof(*a194) * (1 - 0), &a194[0]);
-        v195 = chan_last_read_ok(chan165);
+        r193 = 512;
+        chan_read(chan160, sizeof(*a194) * (r193 - 0), &a194[0]);
+        v195 = chan_last_read_ok(chan160);
         if (!v195) {
-            chan_close(chan186);
-            pthread_cancel(t187);
-            pthread_join(t187, NULL);
+            chan_close(chan185);
+            pthread_cancel(t186);
+            pthread_join(t186, NULL);
         }
-        v196 = a194[0];
-        chan_read(chan165, sizeof(*a197) * (1 - 0), &a197[0]);
-        v198 = chan_last_read_ok(chan165);
+        r196 = 512;
+        chan_read(chan160, sizeof(*a197) * (r196 - 0), &a197[0]);
+        v198 = chan_last_read_ok(chan160);
         if (!v198) {
-            chan_close(chan186);
-            pthread_cancel(t187);
-            pthread_join(t187, NULL);
+            chan_close(chan185);
+            pthread_cancel(t186);
+            pthread_join(t186, NULL);
         }
-        v199 = a197[0];
-        r200 = v196 ^ a188[6];
-        r201 = (((a189[r200 >> 24] + a189[(r200 >> 16 & 255) + 256]) ^
-                 a189[(r200 >> 8 & 255) + 512]) + a189[(r200 & 255) + 768]) ^
-            v199;
-        v202 = r201;
-        v203 = chan_write(chan186, sizeof(v202), &v202);
-        if (!v203) {
-            chan_close(chan165);
-            pthread_cancel(t187);
-            pthread_join(t187, NULL);
+        
+        uint32_t _a199[r193];
+        uint32_t *a199 = _a199;
+        
+        for (v200 = 0; v200 < r193; v200++) {
+            a199[v200] = a194[v200] ^ a187[5];
         }
-        r204 = r200;
-        v205 = r204;
-        v206 = chan_write(chan186, sizeof(v205), &v205);
-        if (!v206) {
-            chan_close(chan165);
-            pthread_cancel(t187);
-            pthread_join(t187, NULL);
+        r201 = r193 <= r196 ? r193 : r196;
+        
+        uint32_t _a202[r193 <= r196 ? r193 : r196];
+        uint32_t *a202 = _a202;
+        
+        for (v203 = 0; v203 < (r193 <= r196 ? r193 : r196); v203++) {
+            uint32_t let204;
+            
+            let204 = a199[v203];
+            a202[v203] = (((a188[let204 >> 24] + a188[(let204 >> 16 & 255) +
+                                                      256]) ^ a188[(let204 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a188[(let204 & 255) + 768]) ^ a197[v203];
+        }
+        v205 = chan_write(chan185, sizeof(*a202) * (r201 - 0), &a202[0]);
+        if (!v205) {
+            chan_close(chan160);
+            pthread_cancel(t186);
+            pthread_join(t186, NULL);
+        }
+        r206 = r193;
+        
+        uint32_t _a207[r193];
+        uint32_t *a207 = _a207;
+        
+        for (v208 = 0; v208 < r193; v208++) {
+            a207[v208] = a199[v208];
+        }
+        v209 = chan_write(chan185, sizeof(*a207) * (r206 - 0), &a207[0]);
+        if (!v209) {
+            chan_close(chan160);
+            pthread_cancel(t186);
+            pthread_join(t186, NULL);
         }
     }
     return NULL;
 }
-chan_t chan207;
-void *thread_t208(void *unused)
+chan_t chan210;
+void *thread_t211(void *unused)
 {
-    uint32_t _a209[18];
-    uint32_t *a209 = _a209;
-    uint32_t _a210[1024];
-    uint32_t *a210 = _a210;
-    uint32_t v211;
-    uint32_t v213;
+    uint32_t _a212[18];
+    uint32_t *a212 = _a212;
+    uint32_t _a213[1024];
+    uint32_t *a213 = _a213;
+    uint32_t v214;
+    uint32_t v216;
     
-    for (v211 = 0; v211 <= 17; v211++) {
-        uint32_t v212;
+    for (v214 = 0; v214 <= 17; v214++) {
+        uint32_t v215;
         
-        v212 = a0[v211];
-        a209[v211] = v212;
+        v215 = a0[v214];
+        a212[v214] = v215;
     }
-    for (v213 = 0; v213 <= 1023; v213++) {
-        uint32_t v214;
-        
-        v214 = a1[v213];
-        a210[v213] = v214;
-    }
-    while (1) {
-        uint32_t _a215[1];
-        uint32_t *a215 = _a215;
-        bool v216;
+    for (v216 = 0; v216 <= 1023; v216++) {
         uint32_t v217;
-        uint32_t _a218[1];
-        uint32_t *a218 = _a218;
-        bool v219;
-        uint32_t v220;
-        uint32_t r221;
-        uint32_t r222;
-        uint32_t v223;
-        bool v224;
-        uint32_t r225;
-        uint32_t v226;
-        bool v227;
         
-        chan_read(chan186, sizeof(*a215) * (1 - 0), &a215[0]);
-        v216 = chan_last_read_ok(chan186);
-        if (!v216) {
-            chan_close(chan207);
-            pthread_cancel(t208);
-            pthread_join(t208, NULL);
+        v217 = a1[v216];
+        a213[v216] = v217;
+    }
+    while (1) {
+        uint32_t r218;
+        uint32_t _a219[512];
+        uint32_t *a219 = _a219;
+        bool v220;
+        uint32_t r221;
+        uint32_t _a222[512];
+        uint32_t *a222 = _a222;
+        bool v223;
+        uint32_t v225;
+        uint32_t r226;
+        uint32_t v228;
+        bool v230;
+        uint32_t r231;
+        uint32_t v233;
+        bool v234;
+        
+        r218 = 512;
+        chan_read(chan185, sizeof(*a219) * (r218 - 0), &a219[0]);
+        v220 = chan_last_read_ok(chan185);
+        if (!v220) {
+            chan_close(chan210);
+            pthread_cancel(t211);
+            pthread_join(t211, NULL);
         }
-        v217 = a215[0];
-        chan_read(chan186, sizeof(*a218) * (1 - 0), &a218[0]);
-        v219 = chan_last_read_ok(chan186);
-        if (!v219) {
-            chan_close(chan207);
-            pthread_cancel(t208);
-            pthread_join(t208, NULL);
+        r221 = 512;
+        chan_read(chan185, sizeof(*a222) * (r221 - 0), &a222[0]);
+        v223 = chan_last_read_ok(chan185);
+        if (!v223) {
+            chan_close(chan210);
+            pthread_cancel(t211);
+            pthread_join(t211, NULL);
         }
-        v220 = a218[0];
-        r221 = v217 ^ a209[7];
-        r222 = (((a210[r221 >> 24] + a210[(r221 >> 16 & 255) + 256]) ^
-                 a210[(r221 >> 8 & 255) + 512]) + a210[(r221 & 255) + 768]) ^
-            v220;
-        v223 = r222;
-        v224 = chan_write(chan207, sizeof(v223), &v223);
-        if (!v224) {
-            chan_close(chan186);
-            pthread_cancel(t208);
-            pthread_join(t208, NULL);
+        
+        uint32_t _a224[r218];
+        uint32_t *a224 = _a224;
+        
+        for (v225 = 0; v225 < r218; v225++) {
+            a224[v225] = a219[v225] ^ a212[6];
         }
-        r225 = r221;
-        v226 = r225;
-        v227 = chan_write(chan207, sizeof(v226), &v226);
-        if (!v227) {
-            chan_close(chan186);
-            pthread_cancel(t208);
-            pthread_join(t208, NULL);
+        r226 = r218 <= r221 ? r218 : r221;
+        
+        uint32_t _a227[r218 <= r221 ? r218 : r221];
+        uint32_t *a227 = _a227;
+        
+        for (v228 = 0; v228 < (r218 <= r221 ? r218 : r221); v228++) {
+            uint32_t let229;
+            
+            let229 = a224[v228];
+            a227[v228] = (((a213[let229 >> 24] + a213[(let229 >> 16 & 255) +
+                                                      256]) ^ a213[(let229 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a213[(let229 & 255) + 768]) ^ a222[v228];
+        }
+        v230 = chan_write(chan210, sizeof(*a227) * (r226 - 0), &a227[0]);
+        if (!v230) {
+            chan_close(chan185);
+            pthread_cancel(t211);
+            pthread_join(t211, NULL);
+        }
+        r231 = r218;
+        
+        uint32_t _a232[r218];
+        uint32_t *a232 = _a232;
+        
+        for (v233 = 0; v233 < r218; v233++) {
+            a232[v233] = a224[v233];
+        }
+        v234 = chan_write(chan210, sizeof(*a232) * (r231 - 0), &a232[0]);
+        if (!v234) {
+            chan_close(chan185);
+            pthread_cancel(t211);
+            pthread_join(t211, NULL);
         }
     }
     return NULL;
 }
-chan_t chan228;
-void *thread_t229(void *unused)
+chan_t chan235;
+void *thread_t236(void *unused)
 {
-    uint32_t _a230[18];
-    uint32_t *a230 = _a230;
-    uint32_t _a231[1024];
-    uint32_t *a231 = _a231;
-    uint32_t v232;
-    uint32_t v234;
+    uint32_t _a237[18];
+    uint32_t *a237 = _a237;
+    uint32_t _a238[1024];
+    uint32_t *a238 = _a238;
+    uint32_t v239;
+    uint32_t v241;
     
-    for (v232 = 0; v232 <= 17; v232++) {
-        uint32_t v233;
+    for (v239 = 0; v239 <= 17; v239++) {
+        uint32_t v240;
         
-        v233 = a0[v232];
-        a230[v232] = v233;
+        v240 = a0[v239];
+        a237[v239] = v240;
     }
-    for (v234 = 0; v234 <= 1023; v234++) {
-        uint32_t v235;
+    for (v241 = 0; v241 <= 1023; v241++) {
+        uint32_t v242;
         
-        v235 = a1[v234];
-        a231[v234] = v235;
+        v242 = a1[v241];
+        a238[v241] = v242;
     }
     while (1) {
-        uint32_t _a236[1];
-        uint32_t *a236 = _a236;
-        bool v237;
-        uint32_t v238;
-        uint32_t _a239[1];
-        uint32_t *a239 = _a239;
-        bool v240;
-        uint32_t v241;
-        uint32_t r242;
         uint32_t r243;
-        uint32_t v244;
+        uint32_t _a244[512];
+        uint32_t *a244 = _a244;
         bool v245;
         uint32_t r246;
-        uint32_t v247;
+        uint32_t _a247[512];
+        uint32_t *a247 = _a247;
         bool v248;
+        uint32_t v250;
+        uint32_t r251;
+        uint32_t v253;
+        bool v255;
+        uint32_t r256;
+        uint32_t v258;
+        bool v259;
         
-        chan_read(chan207, sizeof(*a236) * (1 - 0), &a236[0]);
-        v237 = chan_last_read_ok(chan207);
-        if (!v237) {
-            chan_close(chan228);
-            pthread_cancel(t229);
-            pthread_join(t229, NULL);
-        }
-        v238 = a236[0];
-        chan_read(chan207, sizeof(*a239) * (1 - 0), &a239[0]);
-        v240 = chan_last_read_ok(chan207);
-        if (!v240) {
-            chan_close(chan228);
-            pthread_cancel(t229);
-            pthread_join(t229, NULL);
-        }
-        v241 = a239[0];
-        r242 = v238 ^ a230[8];
-        r243 = (((a231[r242 >> 24] + a231[(r242 >> 16 & 255) + 256]) ^
-                 a231[(r242 >> 8 & 255) + 512]) + a231[(r242 & 255) + 768]) ^
-            v241;
-        v244 = r243;
-        v245 = chan_write(chan228, sizeof(v244), &v244);
+        r243 = 512;
+        chan_read(chan210, sizeof(*a244) * (r243 - 0), &a244[0]);
+        v245 = chan_last_read_ok(chan210);
         if (!v245) {
-            chan_close(chan207);
-            pthread_cancel(t229);
-            pthread_join(t229, NULL);
+            chan_close(chan235);
+            pthread_cancel(t236);
+            pthread_join(t236, NULL);
         }
-        r246 = r242;
-        v247 = r246;
-        v248 = chan_write(chan228, sizeof(v247), &v247);
+        r246 = 512;
+        chan_read(chan210, sizeof(*a247) * (r246 - 0), &a247[0]);
+        v248 = chan_last_read_ok(chan210);
         if (!v248) {
-            chan_close(chan207);
-            pthread_cancel(t229);
-            pthread_join(t229, NULL);
+            chan_close(chan235);
+            pthread_cancel(t236);
+            pthread_join(t236, NULL);
         }
-    }
-    return NULL;
-}
-chan_t chan249;
-void *thread_t250(void *unused)
-{
-    uint32_t _a251[18];
-    uint32_t *a251 = _a251;
-    uint32_t _a252[1024];
-    uint32_t *a252 = _a252;
-    uint32_t v253;
-    uint32_t v255;
-    
-    for (v253 = 0; v253 <= 17; v253++) {
-        uint32_t v254;
         
-        v254 = a0[v253];
-        a251[v253] = v254;
-    }
-    for (v255 = 0; v255 <= 1023; v255++) {
-        uint32_t v256;
+        uint32_t _a249[r243];
+        uint32_t *a249 = _a249;
         
-        v256 = a1[v255];
-        a252[v255] = v256;
-    }
-    while (1) {
-        uint32_t _a257[1];
+        for (v250 = 0; v250 < r243; v250++) {
+            a249[v250] = a244[v250] ^ a237[7];
+        }
+        r251 = r243 <= r246 ? r243 : r246;
+        
+        uint32_t _a252[r243 <= r246 ? r243 : r246];
+        uint32_t *a252 = _a252;
+        
+        for (v253 = 0; v253 < (r243 <= r246 ? r243 : r246); v253++) {
+            uint32_t let254;
+            
+            let254 = a249[v253];
+            a252[v253] = (((a238[let254 >> 24] + a238[(let254 >> 16 & 255) +
+                                                      256]) ^ a238[(let254 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a238[(let254 & 255) + 768]) ^ a247[v253];
+        }
+        v255 = chan_write(chan235, sizeof(*a252) * (r251 - 0), &a252[0]);
+        if (!v255) {
+            chan_close(chan210);
+            pthread_cancel(t236);
+            pthread_join(t236, NULL);
+        }
+        r256 = r243;
+        
+        uint32_t _a257[r243];
         uint32_t *a257 = _a257;
-        bool v258;
-        uint32_t v259;
-        uint32_t _a260[1];
-        uint32_t *a260 = _a260;
-        bool v261;
-        uint32_t v262;
-        uint32_t r263;
-        uint32_t r264;
+        
+        for (v258 = 0; v258 < r243; v258++) {
+            a257[v258] = a249[v258];
+        }
+        v259 = chan_write(chan235, sizeof(*a257) * (r256 - 0), &a257[0]);
+        if (!v259) {
+            chan_close(chan210);
+            pthread_cancel(t236);
+            pthread_join(t236, NULL);
+        }
+    }
+    return NULL;
+}
+chan_t chan260;
+void *thread_t261(void *unused)
+{
+    uint32_t _a262[18];
+    uint32_t *a262 = _a262;
+    uint32_t _a263[1024];
+    uint32_t *a263 = _a263;
+    uint32_t v264;
+    uint32_t v266;
+    
+    for (v264 = 0; v264 <= 17; v264++) {
         uint32_t v265;
-        bool v266;
-        uint32_t r267;
-        uint32_t v268;
-        bool v269;
         
-        chan_read(chan228, sizeof(*a257) * (1 - 0), &a257[0]);
-        v258 = chan_last_read_ok(chan228);
-        if (!v258) {
-            chan_close(chan249);
-            pthread_cancel(t250);
-            pthread_join(t250, NULL);
-        }
-        v259 = a257[0];
-        chan_read(chan228, sizeof(*a260) * (1 - 0), &a260[0]);
-        v261 = chan_last_read_ok(chan228);
-        if (!v261) {
-            chan_close(chan249);
-            pthread_cancel(t250);
-            pthread_join(t250, NULL);
-        }
-        v262 = a260[0];
-        r263 = v259 ^ a251[9];
-        r264 = (((a252[r263 >> 24] + a252[(r263 >> 16 & 255) + 256]) ^
-                 a252[(r263 >> 8 & 255) + 512]) + a252[(r263 & 255) + 768]) ^
-            v262;
-        v265 = r264;
-        v266 = chan_write(chan249, sizeof(v265), &v265);
-        if (!v266) {
-            chan_close(chan228);
-            pthread_cancel(t250);
-            pthread_join(t250, NULL);
-        }
-        r267 = r263;
-        v268 = r267;
-        v269 = chan_write(chan249, sizeof(v268), &v268);
-        if (!v269) {
-            chan_close(chan228);
-            pthread_cancel(t250);
-            pthread_join(t250, NULL);
-        }
+        v265 = a0[v264];
+        a262[v264] = v265;
     }
-    return NULL;
-}
-chan_t chan270;
-void *thread_t271(void *unused)
-{
-    uint32_t _a272[18];
-    uint32_t *a272 = _a272;
-    uint32_t _a273[1024];
-    uint32_t *a273 = _a273;
-    uint32_t v274;
-    uint32_t v276;
-    
-    for (v274 = 0; v274 <= 17; v274++) {
+    for (v266 = 0; v266 <= 1023; v266++) {
+        uint32_t v267;
+        
+        v267 = a1[v266];
+        a263[v266] = v267;
+    }
+    while (1) {
+        uint32_t r268;
+        uint32_t _a269[512];
+        uint32_t *a269 = _a269;
+        bool v270;
+        uint32_t r271;
+        uint32_t _a272[512];
+        uint32_t *a272 = _a272;
+        bool v273;
         uint32_t v275;
-        
-        v275 = a0[v274];
-        a272[v274] = v275;
-    }
-    for (v276 = 0; v276 <= 1023; v276++) {
-        uint32_t v277;
-        
-        v277 = a1[v276];
-        a273[v276] = v277;
-    }
-    while (1) {
-        uint32_t _a278[1];
-        uint32_t *a278 = _a278;
-        bool v279;
-        uint32_t v280;
-        uint32_t _a281[1];
-        uint32_t *a281 = _a281;
-        bool v282;
+        uint32_t r276;
+        uint32_t v278;
+        bool v280;
+        uint32_t r281;
         uint32_t v283;
-        uint32_t r284;
-        uint32_t r285;
-        uint32_t v286;
-        bool v287;
-        uint32_t r288;
-        uint32_t v289;
-        bool v290;
+        bool v284;
         
-        chan_read(chan249, sizeof(*a278) * (1 - 0), &a278[0]);
-        v279 = chan_last_read_ok(chan249);
-        if (!v279) {
-            chan_close(chan270);
-            pthread_cancel(t271);
-            pthread_join(t271, NULL);
+        r268 = 512;
+        chan_read(chan235, sizeof(*a269) * (r268 - 0), &a269[0]);
+        v270 = chan_last_read_ok(chan235);
+        if (!v270) {
+            chan_close(chan260);
+            pthread_cancel(t261);
+            pthread_join(t261, NULL);
         }
-        v280 = a278[0];
-        chan_read(chan249, sizeof(*a281) * (1 - 0), &a281[0]);
-        v282 = chan_last_read_ok(chan249);
-        if (!v282) {
-            chan_close(chan270);
-            pthread_cancel(t271);
-            pthread_join(t271, NULL);
+        r271 = 512;
+        chan_read(chan235, sizeof(*a272) * (r271 - 0), &a272[0]);
+        v273 = chan_last_read_ok(chan235);
+        if (!v273) {
+            chan_close(chan260);
+            pthread_cancel(t261);
+            pthread_join(t261, NULL);
         }
-        v283 = a281[0];
-        r284 = v280 ^ a272[10];
-        r285 = (((a273[r284 >> 24] + a273[(r284 >> 16 & 255) + 256]) ^
-                 a273[(r284 >> 8 & 255) + 512]) + a273[(r284 & 255) + 768]) ^
-            v283;
-        v286 = r285;
-        v287 = chan_write(chan270, sizeof(v286), &v286);
-        if (!v287) {
-            chan_close(chan249);
-            pthread_cancel(t271);
-            pthread_join(t271, NULL);
+        
+        uint32_t _a274[r268];
+        uint32_t *a274 = _a274;
+        
+        for (v275 = 0; v275 < r268; v275++) {
+            a274[v275] = a269[v275] ^ a262[8];
         }
-        r288 = r284;
-        v289 = r288;
-        v290 = chan_write(chan270, sizeof(v289), &v289);
-        if (!v290) {
-            chan_close(chan249);
-            pthread_cancel(t271);
-            pthread_join(t271, NULL);
+        r276 = r268 <= r271 ? r268 : r271;
+        
+        uint32_t _a277[r268 <= r271 ? r268 : r271];
+        uint32_t *a277 = _a277;
+        
+        for (v278 = 0; v278 < (r268 <= r271 ? r268 : r271); v278++) {
+            uint32_t let279;
+            
+            let279 = a274[v278];
+            a277[v278] = (((a263[let279 >> 24] + a263[(let279 >> 16 & 255) +
+                                                      256]) ^ a263[(let279 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a263[(let279 & 255) + 768]) ^ a272[v278];
+        }
+        v280 = chan_write(chan260, sizeof(*a277) * (r276 - 0), &a277[0]);
+        if (!v280) {
+            chan_close(chan235);
+            pthread_cancel(t261);
+            pthread_join(t261, NULL);
+        }
+        r281 = r268;
+        
+        uint32_t _a282[r268];
+        uint32_t *a282 = _a282;
+        
+        for (v283 = 0; v283 < r268; v283++) {
+            a282[v283] = a274[v283];
+        }
+        v284 = chan_write(chan260, sizeof(*a282) * (r281 - 0), &a282[0]);
+        if (!v284) {
+            chan_close(chan235);
+            pthread_cancel(t261);
+            pthread_join(t261, NULL);
         }
     }
     return NULL;
 }
-chan_t chan291;
-void *thread_t292(void *unused)
+chan_t chan285;
+void *thread_t286(void *unused)
 {
-    uint32_t _a293[18];
-    uint32_t *a293 = _a293;
-    uint32_t _a294[1024];
-    uint32_t *a294 = _a294;
-    uint32_t v295;
-    uint32_t v297;
+    uint32_t _a287[18];
+    uint32_t *a287 = _a287;
+    uint32_t _a288[1024];
+    uint32_t *a288 = _a288;
+    uint32_t v289;
+    uint32_t v291;
     
-    for (v295 = 0; v295 <= 17; v295++) {
-        uint32_t v296;
+    for (v289 = 0; v289 <= 17; v289++) {
+        uint32_t v290;
         
-        v296 = a0[v295];
-        a293[v295] = v296;
+        v290 = a0[v289];
+        a287[v289] = v290;
     }
-    for (v297 = 0; v297 <= 1023; v297++) {
-        uint32_t v298;
+    for (v291 = 0; v291 <= 1023; v291++) {
+        uint32_t v292;
         
-        v298 = a1[v297];
-        a294[v297] = v298;
+        v292 = a1[v291];
+        a288[v291] = v292;
     }
     while (1) {
-        uint32_t _a299[1];
-        uint32_t *a299 = _a299;
-        bool v300;
-        uint32_t v301;
-        uint32_t _a302[1];
-        uint32_t *a302 = _a302;
-        bool v303;
-        uint32_t v304;
-        uint32_t r305;
+        uint32_t r293;
+        uint32_t _a294[512];
+        uint32_t *a294 = _a294;
+        bool v295;
+        uint32_t r296;
+        uint32_t _a297[512];
+        uint32_t *a297 = _a297;
+        bool v298;
+        uint32_t v300;
+        uint32_t r301;
+        uint32_t v303;
+        bool v305;
         uint32_t r306;
-        uint32_t v307;
-        bool v308;
-        uint32_t r309;
-        uint32_t v310;
-        bool v311;
+        uint32_t v308;
+        bool v309;
         
-        chan_read(chan270, sizeof(*a299) * (1 - 0), &a299[0]);
-        v300 = chan_last_read_ok(chan270);
-        if (!v300) {
-            chan_close(chan291);
-            pthread_cancel(t292);
-            pthread_join(t292, NULL);
+        r293 = 512;
+        chan_read(chan260, sizeof(*a294) * (r293 - 0), &a294[0]);
+        v295 = chan_last_read_ok(chan260);
+        if (!v295) {
+            chan_close(chan285);
+            pthread_cancel(t286);
+            pthread_join(t286, NULL);
         }
-        v301 = a299[0];
-        chan_read(chan270, sizeof(*a302) * (1 - 0), &a302[0]);
-        v303 = chan_last_read_ok(chan270);
-        if (!v303) {
-            chan_close(chan291);
-            pthread_cancel(t292);
-            pthread_join(t292, NULL);
+        r296 = 512;
+        chan_read(chan260, sizeof(*a297) * (r296 - 0), &a297[0]);
+        v298 = chan_last_read_ok(chan260);
+        if (!v298) {
+            chan_close(chan285);
+            pthread_cancel(t286);
+            pthread_join(t286, NULL);
         }
-        v304 = a302[0];
-        r305 = v301 ^ a293[11];
-        r306 = (((a294[r305 >> 24] + a294[(r305 >> 16 & 255) + 256]) ^
-                 a294[(r305 >> 8 & 255) + 512]) + a294[(r305 & 255) + 768]) ^
-            v304;
-        v307 = r306;
-        v308 = chan_write(chan291, sizeof(v307), &v307);
-        if (!v308) {
-            chan_close(chan270);
-            pthread_cancel(t292);
-            pthread_join(t292, NULL);
+        
+        uint32_t _a299[r293];
+        uint32_t *a299 = _a299;
+        
+        for (v300 = 0; v300 < r293; v300++) {
+            a299[v300] = a294[v300] ^ a287[9];
         }
-        r309 = r305;
-        v310 = r309;
-        v311 = chan_write(chan291, sizeof(v310), &v310);
-        if (!v311) {
-            chan_close(chan270);
-            pthread_cancel(t292);
-            pthread_join(t292, NULL);
+        r301 = r293 <= r296 ? r293 : r296;
+        
+        uint32_t _a302[r293 <= r296 ? r293 : r296];
+        uint32_t *a302 = _a302;
+        
+        for (v303 = 0; v303 < (r293 <= r296 ? r293 : r296); v303++) {
+            uint32_t let304;
+            
+            let304 = a299[v303];
+            a302[v303] = (((a288[let304 >> 24] + a288[(let304 >> 16 & 255) +
+                                                      256]) ^ a288[(let304 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a288[(let304 & 255) + 768]) ^ a297[v303];
+        }
+        v305 = chan_write(chan285, sizeof(*a302) * (r301 - 0), &a302[0]);
+        if (!v305) {
+            chan_close(chan260);
+            pthread_cancel(t286);
+            pthread_join(t286, NULL);
+        }
+        r306 = r293;
+        
+        uint32_t _a307[r293];
+        uint32_t *a307 = _a307;
+        
+        for (v308 = 0; v308 < r293; v308++) {
+            a307[v308] = a299[v308];
+        }
+        v309 = chan_write(chan285, sizeof(*a307) * (r306 - 0), &a307[0]);
+        if (!v309) {
+            chan_close(chan260);
+            pthread_cancel(t286);
+            pthread_join(t286, NULL);
         }
     }
     return NULL;
 }
-chan_t chan312;
-void *thread_t313(void *unused)
+chan_t chan310;
+void *thread_t311(void *unused)
 {
-    uint32_t _a314[18];
-    uint32_t *a314 = _a314;
-    uint32_t _a315[1024];
-    uint32_t *a315 = _a315;
+    uint32_t _a312[18];
+    uint32_t *a312 = _a312;
+    uint32_t _a313[1024];
+    uint32_t *a313 = _a313;
+    uint32_t v314;
     uint32_t v316;
-    uint32_t v318;
     
-    for (v316 = 0; v316 <= 17; v316++) {
+    for (v314 = 0; v314 <= 17; v314++) {
+        uint32_t v315;
+        
+        v315 = a0[v314];
+        a312[v314] = v315;
+    }
+    for (v316 = 0; v316 <= 1023; v316++) {
         uint32_t v317;
         
-        v317 = a0[v316];
-        a314[v316] = v317;
-    }
-    for (v318 = 0; v318 <= 1023; v318++) {
-        uint32_t v319;
-        
-        v319 = a1[v318];
-        a315[v318] = v319;
+        v317 = a1[v316];
+        a313[v316] = v317;
     }
     while (1) {
-        uint32_t _a320[1];
-        uint32_t *a320 = _a320;
-        bool v321;
-        uint32_t v322;
-        uint32_t _a323[1];
-        uint32_t *a323 = _a323;
-        bool v324;
+        uint32_t r318;
+        uint32_t _a319[512];
+        uint32_t *a319 = _a319;
+        bool v320;
+        uint32_t r321;
+        uint32_t _a322[512];
+        uint32_t *a322 = _a322;
+        bool v323;
         uint32_t v325;
         uint32_t r326;
-        uint32_t r327;
         uint32_t v328;
-        bool v329;
-        uint32_t r330;
-        uint32_t v331;
-        bool v332;
+        bool v330;
+        uint32_t r331;
+        uint32_t v333;
+        bool v334;
         
-        chan_read(chan291, sizeof(*a320) * (1 - 0), &a320[0]);
-        v321 = chan_last_read_ok(chan291);
-        if (!v321) {
-            chan_close(chan312);
-            pthread_cancel(t313);
-            pthread_join(t313, NULL);
+        r318 = 512;
+        chan_read(chan285, sizeof(*a319) * (r318 - 0), &a319[0]);
+        v320 = chan_last_read_ok(chan285);
+        if (!v320) {
+            chan_close(chan310);
+            pthread_cancel(t311);
+            pthread_join(t311, NULL);
         }
-        v322 = a320[0];
-        chan_read(chan291, sizeof(*a323) * (1 - 0), &a323[0]);
-        v324 = chan_last_read_ok(chan291);
-        if (!v324) {
-            chan_close(chan312);
-            pthread_cancel(t313);
-            pthread_join(t313, NULL);
+        r321 = 512;
+        chan_read(chan285, sizeof(*a322) * (r321 - 0), &a322[0]);
+        v323 = chan_last_read_ok(chan285);
+        if (!v323) {
+            chan_close(chan310);
+            pthread_cancel(t311);
+            pthread_join(t311, NULL);
         }
-        v325 = a323[0];
-        r326 = v322 ^ a314[12];
-        r327 = (((a315[r326 >> 24] + a315[(r326 >> 16 & 255) + 256]) ^
-                 a315[(r326 >> 8 & 255) + 512]) + a315[(r326 & 255) + 768]) ^
-            v325;
-        v328 = r327;
-        v329 = chan_write(chan312, sizeof(v328), &v328);
-        if (!v329) {
-            chan_close(chan291);
-            pthread_cancel(t313);
-            pthread_join(t313, NULL);
+        
+        uint32_t _a324[r318];
+        uint32_t *a324 = _a324;
+        
+        for (v325 = 0; v325 < r318; v325++) {
+            a324[v325] = a319[v325] ^ a312[10];
         }
-        r330 = r326;
-        v331 = r330;
-        v332 = chan_write(chan312, sizeof(v331), &v331);
-        if (!v332) {
-            chan_close(chan291);
-            pthread_cancel(t313);
-            pthread_join(t313, NULL);
+        r326 = r318 <= r321 ? r318 : r321;
+        
+        uint32_t _a327[r318 <= r321 ? r318 : r321];
+        uint32_t *a327 = _a327;
+        
+        for (v328 = 0; v328 < (r318 <= r321 ? r318 : r321); v328++) {
+            uint32_t let329;
+            
+            let329 = a324[v328];
+            a327[v328] = (((a313[let329 >> 24] + a313[(let329 >> 16 & 255) +
+                                                      256]) ^ a313[(let329 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a313[(let329 & 255) + 768]) ^ a322[v328];
+        }
+        v330 = chan_write(chan310, sizeof(*a327) * (r326 - 0), &a327[0]);
+        if (!v330) {
+            chan_close(chan285);
+            pthread_cancel(t311);
+            pthread_join(t311, NULL);
+        }
+        r331 = r318;
+        
+        uint32_t _a332[r318];
+        uint32_t *a332 = _a332;
+        
+        for (v333 = 0; v333 < r318; v333++) {
+            a332[v333] = a324[v333];
+        }
+        v334 = chan_write(chan310, sizeof(*a332) * (r331 - 0), &a332[0]);
+        if (!v334) {
+            chan_close(chan285);
+            pthread_cancel(t311);
+            pthread_join(t311, NULL);
         }
     }
     return NULL;
 }
-chan_t chan333;
-void *thread_t334(void *unused)
+chan_t chan335;
+void *thread_t336(void *unused)
 {
-    uint32_t _a335[18];
-    uint32_t *a335 = _a335;
-    uint32_t _a336[1024];
-    uint32_t *a336 = _a336;
-    uint32_t v337;
+    uint32_t _a337[18];
+    uint32_t *a337 = _a337;
+    uint32_t _a338[1024];
+    uint32_t *a338 = _a338;
     uint32_t v339;
+    uint32_t v341;
     
-    for (v337 = 0; v337 <= 17; v337++) {
-        uint32_t v338;
-        
-        v338 = a0[v337];
-        a335[v337] = v338;
-    }
-    for (v339 = 0; v339 <= 1023; v339++) {
+    for (v339 = 0; v339 <= 17; v339++) {
         uint32_t v340;
         
-        v340 = a1[v339];
-        a336[v339] = v340;
+        v340 = a0[v339];
+        a337[v339] = v340;
+    }
+    for (v341 = 0; v341 <= 1023; v341++) {
+        uint32_t v342;
+        
+        v342 = a1[v341];
+        a338[v341] = v342;
     }
     while (1) {
-        uint32_t _a341[1];
-        uint32_t *a341 = _a341;
-        bool v342;
-        uint32_t v343;
-        uint32_t _a344[1];
+        uint32_t r343;
+        uint32_t _a344[512];
         uint32_t *a344 = _a344;
         bool v345;
-        uint32_t v346;
-        uint32_t r347;
-        uint32_t r348;
-        uint32_t v349;
-        bool v350;
+        uint32_t r346;
+        uint32_t _a347[512];
+        uint32_t *a347 = _a347;
+        bool v348;
+        uint32_t v350;
         uint32_t r351;
-        uint32_t v352;
-        bool v353;
+        uint32_t v353;
+        bool v355;
+        uint32_t r356;
+        uint32_t v358;
+        bool v359;
         
-        chan_read(chan312, sizeof(*a341) * (1 - 0), &a341[0]);
-        v342 = chan_last_read_ok(chan312);
-        if (!v342) {
-            chan_close(chan333);
-            pthread_cancel(t334);
-            pthread_join(t334, NULL);
-        }
-        v343 = a341[0];
-        chan_read(chan312, sizeof(*a344) * (1 - 0), &a344[0]);
-        v345 = chan_last_read_ok(chan312);
+        r343 = 512;
+        chan_read(chan310, sizeof(*a344) * (r343 - 0), &a344[0]);
+        v345 = chan_last_read_ok(chan310);
         if (!v345) {
-            chan_close(chan333);
-            pthread_cancel(t334);
-            pthread_join(t334, NULL);
+            chan_close(chan335);
+            pthread_cancel(t336);
+            pthread_join(t336, NULL);
         }
-        v346 = a344[0];
-        r347 = v343 ^ a335[13];
-        r348 = (((a336[r347 >> 24] + a336[(r347 >> 16 & 255) + 256]) ^
-                 a336[(r347 >> 8 & 255) + 512]) + a336[(r347 & 255) + 768]) ^
-            v346;
-        v349 = r348;
-        v350 = chan_write(chan333, sizeof(v349), &v349);
-        if (!v350) {
-            chan_close(chan312);
-            pthread_cancel(t334);
-            pthread_join(t334, NULL);
+        r346 = 512;
+        chan_read(chan310, sizeof(*a347) * (r346 - 0), &a347[0]);
+        v348 = chan_last_read_ok(chan310);
+        if (!v348) {
+            chan_close(chan335);
+            pthread_cancel(t336);
+            pthread_join(t336, NULL);
         }
-        r351 = r347;
-        v352 = r351;
-        v353 = chan_write(chan333, sizeof(v352), &v352);
-        if (!v353) {
-            chan_close(chan312);
-            pthread_cancel(t334);
-            pthread_join(t334, NULL);
+        
+        uint32_t _a349[r343];
+        uint32_t *a349 = _a349;
+        
+        for (v350 = 0; v350 < r343; v350++) {
+            a349[v350] = a344[v350] ^ a337[11];
+        }
+        r351 = r343 <= r346 ? r343 : r346;
+        
+        uint32_t _a352[r343 <= r346 ? r343 : r346];
+        uint32_t *a352 = _a352;
+        
+        for (v353 = 0; v353 < (r343 <= r346 ? r343 : r346); v353++) {
+            uint32_t let354;
+            
+            let354 = a349[v353];
+            a352[v353] = (((a338[let354 >> 24] + a338[(let354 >> 16 & 255) +
+                                                      256]) ^ a338[(let354 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a338[(let354 & 255) + 768]) ^ a347[v353];
+        }
+        v355 = chan_write(chan335, sizeof(*a352) * (r351 - 0), &a352[0]);
+        if (!v355) {
+            chan_close(chan310);
+            pthread_cancel(t336);
+            pthread_join(t336, NULL);
+        }
+        r356 = r343;
+        
+        uint32_t _a357[r343];
+        uint32_t *a357 = _a357;
+        
+        for (v358 = 0; v358 < r343; v358++) {
+            a357[v358] = a349[v358];
+        }
+        v359 = chan_write(chan335, sizeof(*a357) * (r356 - 0), &a357[0]);
+        if (!v359) {
+            chan_close(chan310);
+            pthread_cancel(t336);
+            pthread_join(t336, NULL);
         }
     }
     return NULL;
 }
-chan_t chan354;
-void *thread_t355(void *unused)
+chan_t chan360;
+void *thread_t361(void *unused)
 {
-    uint32_t _a356[18];
-    uint32_t *a356 = _a356;
-    uint32_t _a357[1024];
-    uint32_t *a357 = _a357;
-    uint32_t v358;
-    uint32_t v360;
+    uint32_t _a362[18];
+    uint32_t *a362 = _a362;
+    uint32_t _a363[1024];
+    uint32_t *a363 = _a363;
+    uint32_t v364;
+    uint32_t v366;
     
-    for (v358 = 0; v358 <= 17; v358++) {
-        uint32_t v359;
+    for (v364 = 0; v364 <= 17; v364++) {
+        uint32_t v365;
         
-        v359 = a0[v358];
-        a356[v358] = v359;
+        v365 = a0[v364];
+        a362[v364] = v365;
     }
-    for (v360 = 0; v360 <= 1023; v360++) {
-        uint32_t v361;
-        
-        v361 = a1[v360];
-        a357[v360] = v361;
-    }
-    while (1) {
-        uint32_t _a362[1];
-        uint32_t *a362 = _a362;
-        bool v363;
-        uint32_t v364;
-        uint32_t _a365[1];
-        uint32_t *a365 = _a365;
-        bool v366;
+    for (v366 = 0; v366 <= 1023; v366++) {
         uint32_t v367;
-        uint32_t r368;
-        uint32_t r369;
-        uint32_t v370;
-        bool v371;
-        uint32_t r372;
-        uint32_t v373;
-        bool v374;
         
-        chan_read(chan333, sizeof(*a362) * (1 - 0), &a362[0]);
-        v363 = chan_last_read_ok(chan333);
-        if (!v363) {
-            chan_close(chan354);
-            pthread_cancel(t355);
-            pthread_join(t355, NULL);
+        v367 = a1[v366];
+        a363[v366] = v367;
+    }
+    while (1) {
+        uint32_t r368;
+        uint32_t _a369[512];
+        uint32_t *a369 = _a369;
+        bool v370;
+        uint32_t r371;
+        uint32_t _a372[512];
+        uint32_t *a372 = _a372;
+        bool v373;
+        uint32_t v375;
+        uint32_t r376;
+        uint32_t v378;
+        bool v380;
+        uint32_t r381;
+        uint32_t v383;
+        bool v384;
+        
+        r368 = 512;
+        chan_read(chan335, sizeof(*a369) * (r368 - 0), &a369[0]);
+        v370 = chan_last_read_ok(chan335);
+        if (!v370) {
+            chan_close(chan360);
+            pthread_cancel(t361);
+            pthread_join(t361, NULL);
         }
-        v364 = a362[0];
-        chan_read(chan333, sizeof(*a365) * (1 - 0), &a365[0]);
-        v366 = chan_last_read_ok(chan333);
-        if (!v366) {
-            chan_close(chan354);
-            pthread_cancel(t355);
-            pthread_join(t355, NULL);
+        r371 = 512;
+        chan_read(chan335, sizeof(*a372) * (r371 - 0), &a372[0]);
+        v373 = chan_last_read_ok(chan335);
+        if (!v373) {
+            chan_close(chan360);
+            pthread_cancel(t361);
+            pthread_join(t361, NULL);
         }
-        v367 = a365[0];
-        r368 = v364 ^ a356[14];
-        r369 = (((a357[r368 >> 24] + a357[(r368 >> 16 & 255) + 256]) ^
-                 a357[(r368 >> 8 & 255) + 512]) + a357[(r368 & 255) + 768]) ^
-            v367;
-        v370 = r369;
-        v371 = chan_write(chan354, sizeof(v370), &v370);
-        if (!v371) {
-            chan_close(chan333);
-            pthread_cancel(t355);
-            pthread_join(t355, NULL);
+        
+        uint32_t _a374[r368];
+        uint32_t *a374 = _a374;
+        
+        for (v375 = 0; v375 < r368; v375++) {
+            a374[v375] = a369[v375] ^ a362[12];
         }
-        r372 = r368;
-        v373 = r372;
-        v374 = chan_write(chan354, sizeof(v373), &v373);
-        if (!v374) {
-            chan_close(chan333);
-            pthread_cancel(t355);
-            pthread_join(t355, NULL);
+        r376 = r368 <= r371 ? r368 : r371;
+        
+        uint32_t _a377[r368 <= r371 ? r368 : r371];
+        uint32_t *a377 = _a377;
+        
+        for (v378 = 0; v378 < (r368 <= r371 ? r368 : r371); v378++) {
+            uint32_t let379;
+            
+            let379 = a374[v378];
+            a377[v378] = (((a363[let379 >> 24] + a363[(let379 >> 16 & 255) +
+                                                      256]) ^ a363[(let379 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a363[(let379 & 255) + 768]) ^ a372[v378];
+        }
+        v380 = chan_write(chan360, sizeof(*a377) * (r376 - 0), &a377[0]);
+        if (!v380) {
+            chan_close(chan335);
+            pthread_cancel(t361);
+            pthread_join(t361, NULL);
+        }
+        r381 = r368;
+        
+        uint32_t _a382[r368];
+        uint32_t *a382 = _a382;
+        
+        for (v383 = 0; v383 < r368; v383++) {
+            a382[v383] = a374[v383];
+        }
+        v384 = chan_write(chan360, sizeof(*a382) * (r381 - 0), &a382[0]);
+        if (!v384) {
+            chan_close(chan335);
+            pthread_cancel(t361);
+            pthread_join(t361, NULL);
         }
     }
     return NULL;
 }
-chan_t chan375;
-void *thread_t376(void *unused)
+chan_t chan385;
+void *thread_t386(void *unused)
 {
-    uint32_t _a377[18];
-    uint32_t *a377 = _a377;
-    uint32_t _a378[1024];
-    uint32_t *a378 = _a378;
-    uint32_t v379;
-    uint32_t v381;
+    uint32_t _a387[18];
+    uint32_t *a387 = _a387;
+    uint32_t _a388[1024];
+    uint32_t *a388 = _a388;
+    uint32_t v389;
+    uint32_t v391;
     
-    for (v379 = 0; v379 <= 17; v379++) {
-        uint32_t v380;
+    for (v389 = 0; v389 <= 17; v389++) {
+        uint32_t v390;
         
-        v380 = a0[v379];
-        a377[v379] = v380;
+        v390 = a0[v389];
+        a387[v389] = v390;
     }
-    for (v381 = 0; v381 <= 1023; v381++) {
-        uint32_t v382;
+    for (v391 = 0; v391 <= 1023; v391++) {
+        uint32_t v392;
         
-        v382 = a1[v381];
-        a378[v381] = v382;
+        v392 = a1[v391];
+        a388[v391] = v392;
     }
     while (1) {
-        uint32_t _a383[1];
-        uint32_t *a383 = _a383;
-        bool v384;
-        uint32_t v385;
-        uint32_t _a386[1];
-        uint32_t *a386 = _a386;
-        bool v387;
-        uint32_t v388;
-        uint32_t r389;
-        uint64_t r390;
-        uint64_t v391;
-        bool v392;
+        uint32_t r393;
+        uint32_t _a394[512];
+        uint32_t *a394 = _a394;
+        bool v395;
+        uint32_t r396;
+        uint32_t _a397[512];
+        uint32_t *a397 = _a397;
+        bool v398;
+        uint32_t v400;
+        uint32_t r401;
+        uint32_t v403;
+        bool v405;
+        uint32_t r406;
+        uint32_t v408;
+        bool v409;
         
-        chan_read(chan354, sizeof(*a383) * (1 - 0), &a383[0]);
-        v384 = chan_last_read_ok(chan354);
-        if (!v384) {
-            chan_close(chan375);
-            pthread_cancel(t376);
-            pthread_join(t376, NULL);
+        r393 = 512;
+        chan_read(chan360, sizeof(*a394) * (r393 - 0), &a394[0]);
+        v395 = chan_last_read_ok(chan360);
+        if (!v395) {
+            chan_close(chan385);
+            pthread_cancel(t386);
+            pthread_join(t386, NULL);
         }
-        v385 = a383[0];
-        chan_read(chan354, sizeof(*a386) * (1 - 0), &a386[0]);
-        v387 = chan_last_read_ok(chan354);
-        if (!v387) {
-            chan_close(chan375);
-            pthread_cancel(t376);
-            pthread_join(t376, NULL);
+        r396 = 512;
+        chan_read(chan360, sizeof(*a397) * (r396 - 0), &a397[0]);
+        v398 = chan_last_read_ok(chan360);
+        if (!v398) {
+            chan_close(chan385);
+            pthread_cancel(t386);
+            pthread_join(t386, NULL);
         }
-        v388 = a386[0];
-        r389 = v385 ^ a377[15];
-        r390 = (uint64_t) (r389 ^ a377[17]) << 32 | (uint64_t) (((((a378[r389 >>
-                                                                         24] +
-                                                                    a378[(r389 >>
-                                                                          16 &
-                                                                          255) +
-                                                                         256]) ^
-                                                                   a378[(r389 >>
-                                                                         8 &
-                                                                         255) +
-                                                                        512]) +
-                                                                  a378[(r389 &
+        
+        uint32_t _a399[r393];
+        uint32_t *a399 = _a399;
+        
+        for (v400 = 0; v400 < r393; v400++) {
+            a399[v400] = a394[v400] ^ a387[13];
+        }
+        r401 = r393 <= r396 ? r393 : r396;
+        
+        uint32_t _a402[r393 <= r396 ? r393 : r396];
+        uint32_t *a402 = _a402;
+        
+        for (v403 = 0; v403 < (r393 <= r396 ? r393 : r396); v403++) {
+            uint32_t let404;
+            
+            let404 = a399[v403];
+            a402[v403] = (((a388[let404 >> 24] + a388[(let404 >> 16 & 255) +
+                                                      256]) ^ a388[(let404 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a388[(let404 & 255) + 768]) ^ a397[v403];
+        }
+        v405 = chan_write(chan385, sizeof(*a402) * (r401 - 0), &a402[0]);
+        if (!v405) {
+            chan_close(chan360);
+            pthread_cancel(t386);
+            pthread_join(t386, NULL);
+        }
+        r406 = r393;
+        
+        uint32_t _a407[r393];
+        uint32_t *a407 = _a407;
+        
+        for (v408 = 0; v408 < r393; v408++) {
+            a407[v408] = a399[v408];
+        }
+        v409 = chan_write(chan385, sizeof(*a407) * (r406 - 0), &a407[0]);
+        if (!v409) {
+            chan_close(chan360);
+            pthread_cancel(t386);
+            pthread_join(t386, NULL);
+        }
+    }
+    return NULL;
+}
+chan_t chan410;
+void *thread_t411(void *unused)
+{
+    uint32_t _a412[18];
+    uint32_t *a412 = _a412;
+    uint32_t _a413[1024];
+    uint32_t *a413 = _a413;
+    uint32_t v414;
+    uint32_t v416;
+    
+    for (v414 = 0; v414 <= 17; v414++) {
+        uint32_t v415;
+        
+        v415 = a0[v414];
+        a412[v414] = v415;
+    }
+    for (v416 = 0; v416 <= 1023; v416++) {
+        uint32_t v417;
+        
+        v417 = a1[v416];
+        a413[v416] = v417;
+    }
+    while (1) {
+        uint32_t r418;
+        uint32_t _a419[512];
+        uint32_t *a419 = _a419;
+        bool v420;
+        uint32_t r421;
+        uint32_t _a422[512];
+        uint32_t *a422 = _a422;
+        bool v423;
+        uint32_t v425;
+        uint32_t r426;
+        uint32_t v428;
+        bool v430;
+        uint32_t r431;
+        uint32_t v433;
+        bool v434;
+        
+        r418 = 512;
+        chan_read(chan385, sizeof(*a419) * (r418 - 0), &a419[0]);
+        v420 = chan_last_read_ok(chan385);
+        if (!v420) {
+            chan_close(chan410);
+            pthread_cancel(t411);
+            pthread_join(t411, NULL);
+        }
+        r421 = 512;
+        chan_read(chan385, sizeof(*a422) * (r421 - 0), &a422[0]);
+        v423 = chan_last_read_ok(chan385);
+        if (!v423) {
+            chan_close(chan410);
+            pthread_cancel(t411);
+            pthread_join(t411, NULL);
+        }
+        
+        uint32_t _a424[r418];
+        uint32_t *a424 = _a424;
+        
+        for (v425 = 0; v425 < r418; v425++) {
+            a424[v425] = a419[v425] ^ a412[14];
+        }
+        r426 = r418 <= r421 ? r418 : r421;
+        
+        uint32_t _a427[r418 <= r421 ? r418 : r421];
+        uint32_t *a427 = _a427;
+        
+        for (v428 = 0; v428 < (r418 <= r421 ? r418 : r421); v428++) {
+            uint32_t let429;
+            
+            let429 = a424[v428];
+            a427[v428] = (((a413[let429 >> 24] + a413[(let429 >> 16 & 255) +
+                                                      256]) ^ a413[(let429 >>
+                                                                    8 & 255) +
+                                                                   512]) +
+                          a413[(let429 & 255) + 768]) ^ a422[v428];
+        }
+        v430 = chan_write(chan410, sizeof(*a427) * (r426 - 0), &a427[0]);
+        if (!v430) {
+            chan_close(chan385);
+            pthread_cancel(t411);
+            pthread_join(t411, NULL);
+        }
+        r431 = r418;
+        
+        uint32_t _a432[r418];
+        uint32_t *a432 = _a432;
+        
+        for (v433 = 0; v433 < r418; v433++) {
+            a432[v433] = a424[v433];
+        }
+        v434 = chan_write(chan410, sizeof(*a432) * (r431 - 0), &a432[0]);
+        if (!v434) {
+            chan_close(chan385);
+            pthread_cancel(t411);
+            pthread_join(t411, NULL);
+        }
+    }
+    return NULL;
+}
+chan_t chan435;
+void *thread_t436(void *unused)
+{
+    uint32_t _a437[18];
+    uint32_t *a437 = _a437;
+    uint32_t _a438[1024];
+    uint32_t *a438 = _a438;
+    uint32_t v439;
+    uint32_t v441;
+    
+    for (v439 = 0; v439 <= 17; v439++) {
+        uint32_t v440;
+        
+        v440 = a0[v439];
+        a437[v439] = v440;
+    }
+    for (v441 = 0; v441 <= 1023; v441++) {
+        uint32_t v442;
+        
+        v442 = a1[v441];
+        a438[v441] = v442;
+    }
+    while (1) {
+        uint32_t r443;
+        uint32_t _a444[512];
+        uint32_t *a444 = _a444;
+        bool v445;
+        uint32_t r446;
+        uint32_t _a447[512];
+        uint32_t *a447 = _a447;
+        bool v448;
+        uint32_t v450;
+        uint32_t let451;
+        uint32_t r452;
+        uint32_t let453;
+        uint32_t let455;
+        uint32_t v456;
+        bool v458;
+        
+        r443 = 512;
+        chan_read(chan410, sizeof(*a444) * (r443 - 0), &a444[0]);
+        v445 = chan_last_read_ok(chan410);
+        if (!v445) {
+            chan_close(chan435);
+            pthread_cancel(t436);
+            pthread_join(t436, NULL);
+        }
+        r446 = 512;
+        chan_read(chan410, sizeof(*a447) * (r446 - 0), &a447[0]);
+        v448 = chan_last_read_ok(chan410);
+        if (!v448) {
+            chan_close(chan435);
+            pthread_cancel(t436);
+            pthread_join(t436, NULL);
+        }
+        
+        uint32_t _a449[r443];
+        uint32_t *a449 = _a449;
+        
+        for (v450 = 0; v450 < r443; v450++) {
+            a449[v450] = a444[v450] ^ a437[15];
+        }
+        let451 = r443 <= r446 ? r443 : r446;
+        r452 = r443 <= let451 ? r443 : let451;
+        let453 = r443 <= r446 ? r443 : r446;
+        
+        uint64_t _a454[r443 <= let453 ? r443 : let453];
+        uint64_t *a454 = _a454;
+        
+        let455 = r443 <= r446 ? r443 : r446;
+        for (v456 = 0; v456 < (r443 <= let455 ? r443 : let455); v456++) {
+            uint32_t let457;
+            
+            let457 = a449[v456];
+            a454[v456] = (uint64_t) (let457 ^ a437[17]) << 32 |
+                (uint64_t) (((((a438[let457 >> 24] + a438[(let457 >> 16 & 255) +
+                                                          256]) ^
+                               a438[(let457 >> 8 & 255) + 512]) + a438[(let457 &
                                                                         255) +
                                                                        768]) ^
-                                                                 v388) ^
-                                                                a377[16]);
-        v391 = r390;
-        v392 = chan_write(chan375, sizeof(v391), &v391);
-        if (!v392) {
-            chan_close(chan354);
-            pthread_cancel(t376);
-            pthread_join(t376, NULL);
+                             a447[v456]) ^ a437[16]);
+        }
+        v458 = chan_write(chan435, sizeof(*a454) * (r452 - 0), &a454[0]);
+        if (!v458) {
+            chan_close(chan410);
+            pthread_cancel(t436);
+            pthread_join(t436, NULL);
         }
     }
     return NULL;
 }
-void *thread_t393(void *unused)
+void *thread_t459(void *unused)
 {
-    bool r394;
+    bool r460;
     
-    r394 = true;
+    r460 = true;
     while (1) {
-        bool v395;
-        uint64_t _a396[1];
-        uint64_t *a396 = _a396;
-        bool v397;
+        bool v461;
+        uint32_t r462;
+        uint64_t _a463[512];
+        uint64_t *a463 = _a463;
+        bool v464;
         
-        v395 = r394;
-        if (!v395)
+        v461 = r460;
+        if (!v461)
             break;
-        chan_read(chan375, sizeof(*a396) * (1 - 0), &a396[0]);
-        v397 = chan_last_read_ok(chan375);
-        if (v397) {
-            uint64_t v398;
-            bool v399;
+        r462 = 512;
+        chan_read(chan435, sizeof(*a463) * (r462 - 0), &a463[0]);
+        v464 = chan_last_read_ok(chan435);
+        if (v464) {
+            bool v465;
             
-            v398 = a396[0];
-            v399 = write_block(v398);
-            r394 = v399;
-            if (!v399) {
-                chan_close(chan375);
+            v465 = write_block(a463);
+            r460 = v465;
+            if (!v465) {
+                chan_close(chan435);
             }
         } else {
-            r394 = false;
+            r460 = false;
         }
     }
     return NULL;
@@ -1536,8 +1888,8 @@ int main()
     uint32_t v37;
     uint32_t v58;
     uint32_t v60;
-    pthread_t t393;
-    bool r400;
+    pthread_t t459;
+    bool r466;
     
     read_key(a2);
     r5 = 0;
@@ -1767,67 +2119,64 @@ int main()
         v61 = a3[v60];
         a1[v60] = v61;
     }
-    chan62 = chan_new(1 * sizeof(uint64_t));
-    chan63 = chan_new(1 * sizeof(uint32_t));
+    chan62 = chan_new(512 * sizeof(uint64_t));
+    chan63 = chan_new(512 * sizeof(uint32_t));
     pthread_create(&t64, NULL, thread_t64, NULL);
-    chan81 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t82, NULL, thread_t82, NULL);
-    chan102 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t103, NULL, thread_t103, NULL);
-    chan123 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t124, NULL, thread_t124, NULL);
-    chan144 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t145, NULL, thread_t145, NULL);
-    chan165 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t166, NULL, thread_t166, NULL);
-    chan186 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t187, NULL, thread_t187, NULL);
-    chan207 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t208, NULL, thread_t208, NULL);
-    chan228 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t229, NULL, thread_t229, NULL);
-    chan249 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t250, NULL, thread_t250, NULL);
-    chan270 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t271, NULL, thread_t271, NULL);
-    chan291 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t292, NULL, thread_t292, NULL);
-    chan312 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t313, NULL, thread_t313, NULL);
-    chan333 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t334, NULL, thread_t334, NULL);
-    chan354 = chan_new(1 * sizeof(uint32_t));
-    pthread_create(&t355, NULL, thread_t355, NULL);
-    chan375 = chan_new(1 * sizeof(uint64_t));
-    pthread_create(&t376, NULL, thread_t376, NULL);
-    pthread_create(&t393, NULL, thread_t393, NULL);
-    r400 = true;
+    chan85 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t86, NULL, thread_t86, NULL);
+    chan110 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t111, NULL, thread_t111, NULL);
+    chan135 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t136, NULL, thread_t136, NULL);
+    chan160 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t161, NULL, thread_t161, NULL);
+    chan185 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t186, NULL, thread_t186, NULL);
+    chan210 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t211, NULL, thread_t211, NULL);
+    chan235 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t236, NULL, thread_t236, NULL);
+    chan260 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t261, NULL, thread_t261, NULL);
+    chan285 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t286, NULL, thread_t286, NULL);
+    chan310 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t311, NULL, thread_t311, NULL);
+    chan335 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t336, NULL, thread_t336, NULL);
+    chan360 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t361, NULL, thread_t361, NULL);
+    chan385 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t386, NULL, thread_t386, NULL);
+    chan410 = chan_new(512 * sizeof(uint32_t));
+    pthread_create(&t411, NULL, thread_t411, NULL);
+    chan435 = chan_new(512 * sizeof(uint64_t));
+    pthread_create(&t436, NULL, thread_t436, NULL);
+    pthread_create(&t459, NULL, thread_t459, NULL);
+    r466 = true;
     while (1) {
-        bool v401;
-        uint64_t r402;
-        bool v403;
-        uint64_t v404;
+        bool v467;
+        uint64_t _a468[512];
+        uint64_t *a468 = _a468;
+        bool v469;
+        uint32_t r470;
         
-        v401 = r400;
-        if (!v401)
+        v467 = r466;
+        if (!v467)
             break;
-        v403 = read_block(&r402);
-        v404 = r402;
-        if (v403) {
-            uint64_t r405;
-            uint64_t v406;
-            bool v407;
+        v469 = read_block(a468);
+        r470 = 512;
+        if (v469) {
+            bool v471;
             
-            r405 = v404;
-            v406 = r405;
-            v407 = chan_write(chan62, sizeof(v406), &v406);
-            r400 = v407;
+            v471 = chan_write(chan62, sizeof(*a468) * (r470 - 0), &a468[0]);
+            r466 = v471;
         } else {
-            r400 = false;
+            r466 = false;
         }
     }
     chan_close(chan62);
-    pthread_join(t393, NULL);
+    pthread_join(t459, NULL);
     return 0;
 }
 

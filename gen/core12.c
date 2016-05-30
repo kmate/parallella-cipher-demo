@@ -26,44 +26,69 @@ int main()
     core_read_shared(sa0, a0, 0, 0, 17);
     core_read_shared(sa1, a1, 0, 0, 1023);
     while (1) {
-        uint32_t _a2[1] __attribute__((aligned(16)));
-        uint32_t *a2 = _a2;
-        bool v3;
-        uint32_t v4;
-        uint32_t _a5[1] __attribute__((aligned(16)));
-        uint32_t *a5 = _a5;
-        bool v6;
-        uint32_t v7;
-        uint32_t r8;
-        uint32_t r9;
-        bool v10;
-        uint32_t r11;
-        bool v12;
+        uint32_t r2;
+        uint32_t _a3[512] __attribute__((aligned(16)));
+        uint32_t *a3 = _a3;
+        bool v4;
+        uint32_t r5;
+        uint32_t _a6[512] __attribute__((aligned(16)));
+        uint32_t *a6 = _a6;
+        bool v7;
+        uint32_t v9;
+        uint32_t r10;
+        uint32_t v12;
+        bool v14;
+        uint32_t r15;
+        uint32_t v17;
+        bool v18;
         
-        v3 = core_read_c2c(la40, la38, la39, a2, 0, 1);
-        if (!v3) {
+        r2 = 512;
+        v4 = core_read_c2c(la40, la38, la39, a3, 0, r2);
+        if (!v4) {
             core_close_chan(la43, la41, la42);
             core_halt();
         }
-        v4 = a2[0];
-        v6 = core_read_c2c(la40, la38, la39, a5, 0, 1);
-        if (!v6) {
+        r5 = 512;
+        v7 = core_read_c2c(la40, la38, la39, a6, 0, r5);
+        if (!v7) {
             core_close_chan(la43, la41, la42);
             core_halt();
         }
-        v7 = a5[0];
-        r8 = v4 ^ a0[12];
-        r9 = (((a1[r8 >> 24] + a1[(r8 >> 16 & 255) + 256]) ^ a1[(r8 >> 8 &
-                                                                 255) + 512]) +
-              a1[(r8 & 255) + 768]) ^ v7;
-        v10 = core_write_c2c(la43, la41, la42, &r9, 0, 1);
-        if (!v10) {
+        
+        uint32_t _a8[r2] __attribute__((aligned(16)));
+        uint32_t *a8 = _a8;
+        
+        for (v9 = 0; v9 < r2; v9++) {
+            a8[v9] = a3[v9] ^ a0[12];
+        }
+        r10 = r2 <= r5 ? r2 : r5;
+        
+        uint32_t _a11[r2 <= r5 ? r2 : r5] __attribute__((aligned(16)));
+        uint32_t *a11 = _a11;
+        
+        for (v12 = 0; v12 < (r2 <= r5 ? r2 : r5); v12++) {
+            uint32_t let13;
+            
+            let13 = a8[v12];
+            a11[v12] = (((a1[let13 >> 24] + a1[(let13 >> 16 & 255) + 256]) ^
+                         a1[(let13 >> 8 & 255) + 512]) + a1[(let13 & 255) +
+                                                            768]) ^ a6[v12];
+        }
+        v14 = core_write_c2c(la43, la41, la42, a11, 0, r10);
+        if (!v14) {
             core_close_chan(la40, la38, la39);
             core_halt();
         }
-        r11 = r8;
-        v12 = core_write_c2c(la43, la41, la42, &r11, 0, 1);
-        if (!v12) {
+        r15 = r2;
+        
+        uint32_t _a16[r2] __attribute__((aligned(16)));
+        uint32_t *a16 = _a16;
+        
+        for (v17 = 0; v17 < r2; v17++) {
+            a16[v17] = a8[v17];
+        }
+        v18 = core_write_c2c(la43, la41, la42, a16, 0, r15);
+        if (!v18) {
             core_close_chan(la40, la38, la39);
             core_halt();
         }

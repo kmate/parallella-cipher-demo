@@ -1,4 +1,4 @@
-#include "io.h"
+#include "io-vectorized.h"
 #include <e-hal.h>
 #include <e-loader.h>
 #include <feldspar-parallella.h>
@@ -57,9 +57,9 @@ off_t la46 = 8224;
 off_t la47 = 8192;
 off_t la48 = 8208;
 off_t la49 = 8224;
-off_t la50 = 8240;
-off_t la51 = 8256;
-off_t sa52 = 16781408;
+off_t la50 = 10272;
+off_t la51 = 10288;
+off_t sa52 = 16785488;
 void *thread_t63(void *unused)
 {
     bool r64;
@@ -67,20 +67,20 @@ void *thread_t63(void *unused)
     r64 = true;
     while (1) {
         bool v65;
-        uint64_t _a66[1];
-        uint64_t *a66 = _a66;
-        bool v67;
+        uint32_t r66;
+        uint64_t _a67[512];
+        uint64_t *a67 = _a67;
+        bool v68;
         
         v65 = r64;
         if (!v65)
             break;
-        v67 = host_read_c2h(chan62, a66, 0, 1);
-        if (v67) {
-            uint64_t v68;
+        r66 = 512;
+        v68 = host_read_c2h(chan62, a67, 0, r66);
+        if (v68) {
             bool v69;
             
-            v68 = a66[0];
-            v69 = write_block(v68);
+            v69 = write_block(a67);
             r64 = v69;
             if (!v69) {
                 host_close_chan(chan62);
@@ -560,7 +560,7 @@ int main()
     }
     host_write_shared(&shm1, a5, 0, 0, 17);
     host_write_shared(&shm2, a4, 0, 0, 1023);
-    e_alloc(&shm59, sa4, 8);
+    e_alloc(&shm59, sa4, 4096);
     init_host_chan(&chan60, &group0, 0, 0, &shm59, la2, la3);
     init_core_chan(&group0, 0, 1, la5, la6);
     e_load("core0.srec", &group0, 0, 0, 1);
@@ -592,29 +592,28 @@ int main()
     e_load("core13.srec", &group0, 3, 1, 1);
     init_core_chan(&group0, 3, 3, la47, la48);
     e_load("core14.srec", &group0, 3, 2, 1);
-    e_alloc(&shm61, sa52, 8);
+    e_alloc(&shm61, sa52, 4096);
     init_host_chan(&chan62, &group0, 3, 3, &shm61, la50, la51);
     e_load("core15.srec", &group0, 3, 3, 1);
     pthread_create(&t63, NULL, thread_t63, NULL);
     r70 = true;
     while (1) {
         bool v71;
-        uint64_t r72;
+        uint64_t _a72[512];
+        uint64_t *a72 = _a72;
         bool v73;
-        uint64_t v74;
+        uint32_t r74;
         
         v71 = r70;
         if (!v71)
             break;
-        v73 = read_block(&r72);
-        v74 = r72;
+        v73 = read_block(a72);
+        r74 = 512;
         if (v73) {
-            uint64_t r75;
-            bool v76;
+            bool v75;
             
-            r75 = v74;
-            v76 = host_write_h2c(chan60, &r75, 0, 1);
-            r70 = v76;
+            v75 = host_write_h2c(chan60, a72, 0, r74);
+            r70 = v75;
         } else {
             r70 = false;
         }

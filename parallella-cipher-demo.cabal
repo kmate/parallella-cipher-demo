@@ -10,7 +10,7 @@ build-type:          Simple
 cabal-version:       >=1.10
 
 executable parallella-cipher-demo
-  main-is:             Main.hs
+  main-is:             Vectorized.hs
 
   build-depends:
     base < 5,
