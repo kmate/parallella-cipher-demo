@@ -1,9 +1,8 @@
 module Main where
 
-import Prelude as P hiding ((>=), (/=), length, round, zipWith)
+import Prelude as P hiding ((>=), length, round, zipWith)
 import qualified System.IO as S
 
-import qualified Zeldspar as Z
 import Zeldspar.Multicore hiding ((++), foldl1, map, round)
 
 
