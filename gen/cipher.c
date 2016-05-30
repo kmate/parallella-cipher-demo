@@ -1639,7 +1639,7 @@ void *thread_t459(void *unused)
         if (v464) {
             bool v465;
             
-            v465 = write_block(a463);
+            v465 = write_block(a463, &r462);
             r460 = v465;
             if (!v465) {
                 chan_close(chan435);
@@ -2156,20 +2156,19 @@ int main()
     r466 = true;
     while (1) {
         bool v467;
-        uint64_t _a468[512];
-        uint64_t *a468 = _a468;
-        bool v469;
-        uint32_t r470;
+        uint32_t r468;
+        uint64_t _a469[512];
+        uint64_t *a469 = _a469;
+        bool v470;
         
         v467 = r466;
         if (!v467)
             break;
-        v469 = read_block(a468);
-        r470 = 512;
-        if (v469) {
+        v470 = read_block(a469, &r468);
+        if (v470) {
             bool v471;
             
-            v471 = chan_write(chan62, sizeof(*a468) * (r470 - 0), &a468[0]);
+            v471 = chan_write(chan62, sizeof(*a469) * (r468 - 0), &a469[0]);
             r466 = v471;
         } else {
             r466 = false;

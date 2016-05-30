@@ -93,6 +93,8 @@ whitening pbox = do
     emit $ l ⊕ (pbox ! value 17)
     emit $ r ⊕ (pbox ! value 16)
 
+-- TODO: this is a bifunctor... create a skeleton for it?
+
 
 --------------------------------------------------------------------------------
 -- Parallel encryption and decryption on device cores
@@ -102,8 +104,8 @@ whitening pbox = do
 -- TODO: allocate cores in an S-shape!
 encrypt :: RContext -> MulticoreZ (Store Blocks) (Store Blocks) ()
 encrypt rctx = (firstRound `on` 0)
-         |>>>>| (foldl1 (|>>>>|) [ round rctx i `on` i | i <- [1..14] ])
-         |>>>>| (lastRound `on` 15)
+        |>>>>| (foldl1 (|>>>>|) [ round rctx i `on` i | i <- [1..14] ])
+        |>>>>| (lastRound `on` 15)
   where
     a |>>>>| b = a |>>vectorSize>>| b
     firstRound = loop splitBlock >>> round rctx 0
@@ -235,15 +237,15 @@ mainProgram = do
         liftHost $ addInclude "\"io-vectorized.h\""
         key <- readKey
         initContext ctx key
-    let input = do
-            arr :: Arr Word64 <- newArr $ value vectorSize
-            isOpen :: Data Bool <- liftHost $ callFun "read_block" [ arrArg arr ]
-            lenRef <- liftHost $ initRef (value vectorSize :: Data Length)
+    let input = liftHost $ do
+            lenRef <- newRef
+            arr <- newArr $ value vectorSize
+            isOpen <- callFun "read_block" [ arrArg arr, refArg lenRef ]
             let store :: Store Blocks = Store (lenRef, arr)
             return (store, isOpen)
-        output store = do
-            let (Store (_, arr)) = store :: Store Blocks
-            liftHost $ callFun "write_block" [ arrArg arr ]
+        output store = liftHost $ do
+            let (Store (lenRef, arr)) = store :: Store Blocks
+            callFun "write_block" [ arrArg arr, refArg lenRef ]
     runZ (encrypt ctx) input vectorSize output vectorSize
 
 

@@ -80,7 +80,7 @@ void *thread_t63(void *unused)
         if (v68) {
             bool v69;
             
-            v69 = write_block(a67);
+            v69 = write_block(a67, &r66);
             r64 = v69;
             if (!v69) {
                 host_close_chan(chan62);
@@ -599,20 +599,19 @@ int main()
     r70 = true;
     while (1) {
         bool v71;
-        uint64_t _a72[512];
-        uint64_t *a72 = _a72;
-        bool v73;
-        uint32_t r74;
+        uint32_t r72;
+        uint64_t _a73[512];
+        uint64_t *a73 = _a73;
+        bool v74;
         
         v71 = r70;
         if (!v71)
             break;
-        v73 = read_block(a72);
-        r74 = 512;
-        if (v73) {
+        v74 = read_block(a73, &r72);
+        if (v74) {
             bool v75;
             
-            v75 = host_write_h2c(chan60, a72, 0, r74);
+            v75 = host_write_h2c(chan60, a73, 0, r72);
             r70 = v75;
         } else {
             r70 = false;
