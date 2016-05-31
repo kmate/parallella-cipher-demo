@@ -607,7 +607,7 @@ int main()
         v71 = r70;
         if (!v71)
             break;
-        v74 = read_block(a73, &r72);
+        v74 = read_block(&a73, &r72);
         if (v74) {
             bool v75;
             

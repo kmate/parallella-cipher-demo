@@ -2164,7 +2164,7 @@ int main()
         v467 = r466;
         if (!v467)
             break;
-        v470 = read_block(a469, &r468);
+        v470 = read_block(&a469, &r468);
         if (v470) {
             bool v471;
             

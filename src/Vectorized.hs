@@ -54,6 +54,7 @@ kernel' i (pbox,sbox) = do
     l <- receive
     r <- receive
     l' <- lift $ force $ fmap (⊕ (pbox ! value i)) l
+--  let l' = fmap (⊕ (pbox ! value i)) l
     emit $ l'
     emit $ zipWith (\l r -> (f sbox l) ⊕ r) l' r
 
@@ -61,18 +62,12 @@ kernel :: MonadComp m => Index -> LContext -> Z HalfBlock HalfBlock m ()
 kernel i (pbox,sbox) = do
     l <- receive
     r <- receive
-    l' <- lift $ force (l ⊕ (pbox ! value i))
+    l' <- lift $ force $ l ⊕ (pbox ! value i)
+--  let l' = l ⊕ (pbox ! value i)
     emit $ l'
     emit $ (f sbox l') ⊕ r
 
-swap' :: MonadComp m => Z HalfBlocks HalfBlocks m ()
-swap' = do
-    l <- receive
-    r <- receive
-    emit r
-    emit l
-
-swap :: MonadComp m => Z HalfBlock HalfBlock m ()
+swap :: MonadComp m => Z a a m ()
 swap = do
     l <- receive
     r <- receive
@@ -116,7 +111,7 @@ encrypt rctx = (firstRound `on` 0)
 round :: RContext -> Index -> CoreZ HalfBlocks HalfBlocks ()
 round rctx i = do
     ctx <- lift $ fetch rctx
-    loop (kernel' i ctx >>> swap')
+    loop (kernel' i ctx >>> swap)
 
 -- | Fetch a remote shared context to the core-local memory
 fetch :: RContext -> CoreComp LContext
@@ -240,7 +235,7 @@ mainProgram = do
     let input = liftHost $ do
             lenRef <- newRef
             arr <- newArr $ value vectorSize
-            isOpen <- callFun "read_block" [ arrArg arr, refArg lenRef ]
+            isOpen <- callFun "read_block" [ addr $ arrArg arr, refArg lenRef ]
             let store :: Store Blocks = Store (lenRef, arr)
             return (store, isOpen)
         output store = liftHost $ do
