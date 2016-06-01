@@ -3,7 +3,7 @@ module Main where
 import Prelude as P hiding ((>=), length, round, zipWith)
 import qualified System.IO as S
 
-import Zeldspar.Multicore hiding ((++), foldl1, map, round)
+import Zeldspar.Multicore hiding ((++), foldl1, map, round, share)
 
 
 type Key = Dim1 (IArr Word8)
@@ -27,27 +27,49 @@ type RContext = (RPbox, RSbox)
 -- Blowfish encryption and Feistel network building blocks
 --------------------------------------------------------------------------------
 
-splitBlock :: MonadComp m => Z Blocks HalfBlocks m ()
-splitBlock = do
-    b <- receive
-    emit $ fmap (i2n . (`shiftR` 32)) b
-    emit $ fmap i2n b
+split :: Monad m => (a -> (b, b)) -> Z a b m ()
+split f = do
+    a <- receive
+    let (b1, b2) = f a
+    emit b1
+    emit b2
 
-mergeBlock :: MonadComp m => Z HalfBlocks Blocks m ()
-mergeBlock = do
-    l <- receive
-    r <- receive
-    emit $ zipWith (\l r -> (i2n l :: Block) `shiftL` 32 .|. i2n r) l r
+merge :: Monad m => (a -> a -> b) -> Z a b m ()
+merge f = do
+    a1 <- receive
+    a2 <- receive
+    emit (f a1 a2)
+
+splitBlock :: Monad m => Z Block HalfBlock m ()
+splitBlock = split halve
+
+splitBlock' :: Monad m => Z Blocks HalfBlocks m ()
+splitBlock' = split (unzipWith halve)
+
+halve :: Block -> (HalfBlock, HalfBlock)
+halve b = (i2n $ b .>>. 32, i2n b)
+
+mergeBlock :: Monad m => Z HalfBlock Block m ()
+mergeBlock = merge unhalve
+
+mergeBlock' :: Monad m => Z HalfBlocks Blocks m ()
+mergeBlock' = merge (zipWith unhalve)
+
+unzipWith :: Functor f => (ab -> (a, b)) -> f ab -> (f a, f b)
+unzipWith f v = (fmap (fst . f) v, fmap (snd . f) v)
+
+unhalve :: HalfBlock -> HalfBlock -> Block
+unhalve l r = (i2n l :: Block) .<<. 32 .|. i2n r
 
 -- See: https://upload.wikimedia.org/wikipedia/commons/2/22/BlowfishFFunction.svg
 f :: LSbox -> HalfBlock -> HalfBlock
 f sbox x = ((sboxAt 0 a + sboxAt 1 b) ⊕ sboxAt 2 c) + sboxAt 3 d
   where
-    sboxAt layer i = sbox ! (layer * 256 + i)
-    a =  x `shiftR` 24
-    b = (x `shiftR` 16) .&. 0xff
-    c = (x `shiftR` 8)  .&. 0xff
-    d =  x              .&. 0xff
+    sboxAt n i = sbox ! (n * 256 + i)
+    a =  x .>>. 24
+    b = (x .>>. 16).&. 0xff
+    c = (x .>>. 8) .&. 0xff
+    d =  x         .&. 0xff
 
 kernel' :: MonadComp m => Index -> LContext -> Z HalfBlocks HalfBlocks m ()
 kernel' i (pbox,sbox) = do
@@ -63,11 +85,11 @@ kernel i (pbox,sbox) = do
     l <- receive
     r <- receive
     l' <- lift $ force $ l ⊕ (pbox ! value i)
---  let l' = l ⊕ (pbox ! value i)
+--    let l' = l ⊕ (pbox ! value i)
     emit $ l'
     emit $ (f sbox l') ⊕ r
 
-swap :: MonadComp m => Z a a m ()
+swap :: Monad m => Z a a m ()
 swap = do
     l <- receive
     r <- receive
@@ -97,21 +119,39 @@ whitening pbox = do
 
 -- See: https://upload.wikimedia.org/wikipedia/commons/5/5e/Blowfish_diagram.png
 -- TODO: allocate cores in an S-shape!
-encrypt :: RContext -> MulticoreZ (Store Blocks) (Store Blocks) ()
-encrypt rctx = (firstRound `on` 0)
-        |>>>>| (foldl1 (|>>>>|) [ round rctx i `on` i | i <- [1..14] ])
-        |>>>>| (lastRound `on` 15)
+encryptPar' :: RContext -> MulticoreZ (Store Blocks) (Store Blocks) ()
+encryptPar' rctx = (firstRound `on` 0)
+            |>>>>| (foldl1 (|>>>>|) middleRounds)
+            |>>>>| (lastRound `on` 15)
   where
     a |>>>>| b = a |>>vectorSize>>| b
-    firstRound = loop splitBlock >>> round rctx 0
+    firstRound = loop splitBlock' >>> round' rctx 0
+    middleRounds = [ round' rctx i `on` i | i <- [1..14] ]
     lastRound = do
         ctx@(pbox,_) <- lift $ fetch rctx
-        loop (kernel' 15 ctx >>> whitening' pbox >>> mergeBlock)
+        loop (kernel' 15 ctx >>> whitening' pbox >>> mergeBlock')
 
-round :: RContext -> Index -> CoreZ HalfBlocks HalfBlocks ()
-round rctx i = do
+round' :: RContext -> Index -> CoreZ HalfBlocks HalfBlocks ()
+round' rctx i = do
     ctx <- lift $ fetch rctx
     loop (kernel' i ctx >>> swap)
+
+
+encryptPar :: RContext -> MulticoreZ Block Block ()
+encryptPar rctx = (firstRound `on` 0)
+            |>>>| (foldl1 (|>>>|) middleRounds)
+            |>>>| (lastRound `on` 15)
+  where
+    firstRound = loop splitBlock >>> round rctx 0
+    middleRounds = [ round rctx i `on` i | i <- [1..14] ]
+    lastRound = do
+        ctx@(pbox,_) <- lift $ fetch rctx
+        loop (kernel 15 ctx >>> whitening pbox >>> mergeBlock)
+
+round :: RContext -> Index -> CoreZ HalfBlock HalfBlock ()
+round rctx i = do
+    ctx <- lift $ fetch rctx
+    loop (kernel i ctx >>> swap)
 
 -- | Fetch a remote shared context to the core-local memory
 fetch :: RContext -> CoreComp LContext
@@ -132,26 +172,27 @@ fetch (rpbox,rsbox) = do
 -- Fused sequential encryption function for host
 --------------------------------------------------------------------------------
 
-encryptSeq :: LContext -> Ref Word32 -> Ref Word32 -> Host ()
-encryptSeq ctx@(pbox,_) lr rr = do
-    let round i = kernel i ctx >>> swap
-        lastRound = kernel 15 ctx >>> whitening pbox
-        rounds = map round [0..14] ++ [ lastRound ]
-        input = getRef lr >>= \l -> getRef rr >>= \r -> return (l, r)
-        output (l,r) = setRef lr l >> setRef rr r
-    translate (seqPair >>> (foldl1 (>>>) rounds) >>> unseqPair) input output
+encryptSeqOnRefs :: LContext -> (Ref Word32, Ref Word32) -> Host ()
+encryptSeqOnRefs ctx (lr, rr) = do
+    let input = getRef lr >>= \l -> getRef rr >>= \r -> return (l, r)
+        output (l, r) = setRef lr l >> setRef rr r
+    translate (encryptSeq ctx) input output
 
-seqPair :: Monad m => Z (HalfBlock, HalfBlock) HalfBlock m ()
-seqPair = do
-    (a,b) <- receive
-    emit a
-    emit b
+encryptSeq :: MonadComp m => LContext
+           -> Z (HalfBlock, HalfBlock) (HalfBlock, HalfBlock) m ()
+encryptSeq ctx@(pbox,_) = splitPair
+                      >>> foldl1 (>>>) rounds
+                      >>> mergePair
+  where
+    rounds = map round [0..14] ++ [ lastRound ]
+    round i = kernel i ctx >>> swap
+    lastRound = kernel 15 ctx >>> whitening pbox
 
-unseqPair :: Monad m => Z HalfBlock (HalfBlock, HalfBlock) m ()
-unseqPair = do
-    a <- receive
-    b <- receive
-    emit (a,b)
+splitPair :: Monad m => Z (HalfBlock, HalfBlock) HalfBlock m ()
+splitPair = split id
+
+mergePair :: Monad m => Z HalfBlock (HalfBlock, HalfBlock) m ()
+mergePair = merge (,)
 
 
 --------------------------------------------------------------------------------
@@ -191,19 +232,24 @@ initContext rctx@(rpbox,rsbox) (Dim1 keyLen key) = do
     lr <- initRef (0 :: Data Word32)
     rr <- initRef (0 :: Data Word32)
     for (0, 2, Excl 18) $ \i -> do
-        encryptSeq lctx lr rr
+        encryptSeqOnRefs lctx (lr, rr)
         l :: Data Word32 <- getRef lr
         r :: Data Word32 <- getRef rr
         setArr i       l lpbox
         setArr (i + 1) r lpbox
     -- apply encryption on S-box
     for (0, 2, Excl 1024) $ \i -> do
-        encryptSeq lctx lr rr
+        encryptSeqOnRefs lctx (lr, rr)
         l :: Data Word32 <- getRef lr
         r :: Data Word32 <- getRef rr
         setArr i       l lsbox
         setArr (i + 1) r lsbox
     -- share host-local context
+    let ctx = (lpbox, lsbox)
+    share rctx ctx
+
+-- share :: RContext -> LContext -> Host ()
+share (rpbox, rsbox) (lpbox, lsbox) = do
     writeArr rpbox (0,17)   lpbox
     writeArr rsbox (0,1023) lsbox
 
@@ -241,7 +287,7 @@ mainProgram = do
         output store = liftHost $ do
             let (Store (lenRef, arr)) = store :: Store Blocks
             callFun "write_block" [ arrArg arr, refArg lenRef ]
-    runZ (encrypt ctx) input vectorSize output vectorSize
+    runZ (encryptPar' ctx) input vectorSize output vectorSize
 
 
 main = do
