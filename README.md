@@ -28,9 +28,10 @@ or on a Parallella:
 
     ./make_epiphany.sh
 
-Encrypt a file:
+Encrypt a file (in-place):
 
-    ./run.sh this-is-my-key input-file.dat > encrypted.dat
+    cp input-file.dat encrypted.dat
+    ./run.sh this-is-my-key encrypted.dat
 
 The encrypted file could be restored like this:
 
@@ -38,5 +39,5 @@ The encrypted file could be restored like this:
 
 ## Known issues
 
-* The current implementation has a really bad performance as it does the processing wiht block-sized (64bit) chunk transfers
+* Host-device communication and one-element buffers makes it slower than is should be.
 
